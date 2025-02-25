@@ -1,4 +1,4 @@
-package fr.eni.encheres.dal;
+package fr.eni.encheres.dal.article;
 
 import java.util.List;
 import java.util.Optional;

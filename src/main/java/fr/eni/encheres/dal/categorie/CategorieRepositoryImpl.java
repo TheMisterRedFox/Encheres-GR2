@@ -1,4 +1,4 @@
-package fr.eni.encheres.dal;
+package fr.eni.encheres.dal.categorie;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

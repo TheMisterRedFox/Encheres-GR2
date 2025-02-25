@@ -1,4 +1,4 @@
-package fr.eni.encheres.bll;
+package fr.eni.encheres.bll.article;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import fr.eni.encheres.bo.ArticleVendu;
-import fr.eni.encheres.dal.ArticleRepository;
+import fr.eni.encheres.dal.article.ArticleRepository;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {

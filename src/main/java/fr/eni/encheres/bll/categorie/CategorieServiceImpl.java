@@ -1,4 +1,4 @@
-package fr.eni.encheres.bll;
+package fr.eni.encheres.bll.categorie;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import fr.eni.encheres.bo.Categorie;
-import fr.eni.encheres.dal.CategorieRepository;
+import fr.eni.encheres.dal.categorie.CategorieRepository;
 
 @Service
 public class CategorieServiceImpl implements CategorieService {

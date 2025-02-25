@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
-import fr.eni.encheres.bll.ArticleService;
-import fr.eni.encheres.bll.CategorieService;
+import fr.eni.encheres.bll.article.ArticleService;
+import fr.eni.encheres.bll.categorie.CategorieService;
 import jakarta.validation.Valid;
 
 @Controller
