@@ -21,6 +21,13 @@
 				</div>
 				
 				<div>
+				  <label for="category">Catégorie *: </label>
+				  <select id="category" name="category">
+				  <option th:each="c : ${categories}" th:value="${c.getNoCategorie()}" th:text="${c.getLibelle()}"></option>
+				  </select>
+				</div>
+				
+				<div>
 		            <label for="miseAPrix">Mise à prix *: </label>
 		        	<input type="number" th:field="*{miseAPrix}" id="miseAPrix">
 				</div>
