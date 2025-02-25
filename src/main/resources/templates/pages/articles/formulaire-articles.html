@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Insert title here</title>
+	</head>
+	<body>
+	
+		<th:block th:object="${article}">
+			 <form action="/articles/enregistrer" method="post">
+			 	<input type="hidden" th:field="*{noArticle}" id="noArticle">
+			 
+		        <div>
+		            <label for="nomArticle">Nom *: </label>
+		        	<input type="text" th:field="*{nomArticle}" id="nomArticle">
+				</div>
+				
+				<div>
+		            <label for="description">Description *: </label>
+		        	<input type="text" th:field="*{description}" id="description">
+				</div>
+				
+				<div>
+		            <label for="miseAPrix">Mise à prix *: </label>
+		        	<input type="number" th:field="*{miseAPrix}" id="miseAPrix">
+				</div>
+				
+				<div>
+		            <label for="dateDebutEncheres">Début de l'enchère *: </label>
+		        	<input type="datetime-local" th:field="*{dateDebutEncheres}" id="dateDebutEncheres">
+				</div>
+				
+				<div>
+		            <label for="dateFinEncheres">Fin de l'enchère *: </label>
+		        	<input type="datetime-local" th:field="*{dateFinEncheres}" id="dateFinEncheres">
+				</div>
+				
+				<!-- TODO - rajouter un retrait  -->
+				
+				<button type="submit">Enregistrer</button>
+				<button type="reset">Annuler</button>
+			</form>
+		</th:block>
+	
+	</body>
+</html>
