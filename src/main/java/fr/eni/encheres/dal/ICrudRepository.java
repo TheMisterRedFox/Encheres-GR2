@@ -9,7 +9,9 @@ public interface ICrudRepository<T> {
 	 
 	 Optional<T> findById(int id);
 	 
-	 void save(T t);
+	 void add (T entity);
+	 
+	 void update(T entity);
 	 
 	 void delete(int id);
 }
