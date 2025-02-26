@@ -12,7 +12,6 @@ import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bll.article.ArticleService;
 import fr.eni.encheres.bll.categorie.CategorieService;
-import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/articles")
