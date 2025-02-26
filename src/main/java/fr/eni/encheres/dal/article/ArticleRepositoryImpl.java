@@ -104,7 +104,7 @@ class ArticleRowMapper implements RowMapper<ArticleVendu> {
 		article.setDateDebutEncheres(rs.getObject("date_debut_encheres", LocalDateTime.class));
 		article.setDateFinEncheres(rs.getObject("date_fin_encheres", LocalDateTime.class));
 		article.setMiseAPrix(rs.getInt("prix_initial"));
-		article.setMiseAPrix(rs.getInt("prix_vente"));
+		article.setPrixVente(rs.getInt("prix_vente"));
 
 		Utilisateur vendeur = new Utilisateur();
 		vendeur.setNoUtilisateur(rs.getInt("no_utilisateur"));
