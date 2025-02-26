@@ -8,7 +8,7 @@ public class Retrait {
 	
 	private ArticleVendu article;
 	
-	private Retrait() {}
+	public Retrait() {}
 	
 	public Retrait(String rue, String codePostal, String ville, ArticleVendu article) {
 		this.rue = rue;
