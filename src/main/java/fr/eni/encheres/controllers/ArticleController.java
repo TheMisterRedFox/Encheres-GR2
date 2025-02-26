@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bll.article.ArticleService;
 import fr.eni.encheres.bll.categorie.CategorieService;
 import jakarta.validation.Valid;
@@ -37,13 +38,18 @@ public class ArticleController {
 	}
 	
 	@PostMapping("/enregistrer")
-	private String ajouterArticle(@ModelAttribute ArticleVendu article, @RequestParam("category") int noCategorie) {
+	private String ajouterArticle(@ModelAttribute ArticleVendu article, 
+			@RequestParam("category") int noCategorie,
+			@RequestParam ("rue") String rue,
+			@RequestParam ("codePostal") String codePostal,
+			@RequestParam ("ville") String ville) {
 		Optional<Categorie> optCategorie = categorieService.findById(noCategorie);
 		
 		if(optCategorie.isPresent()) {
 			article.setCategorie(optCategorie.get());
 		}
 		
+		article.setRetrait(new Retrait(rue, codePostal, ville));
 		articleService.save(article);
 		return "redirect:/articles";
 	}

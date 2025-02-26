@@ -7,15 +7,18 @@ import org.springframework.stereotype.Service;
 
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.dal.article.ArticleRepository;
+import fr.eni.encheres.dal.retrait.RetraitRepository;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
 	private final ArticleRepository articleRepo;
+	private final RetraitRepository retraitRepo;
 		
 	//Constructor
-	public ArticleServiceImpl(ArticleRepository articleRepo) {
+	public ArticleServiceImpl(ArticleRepository articleRepo, RetraitRepository retraitRepo) {
 		this.articleRepo = articleRepo;
+		this.retraitRepo = retraitRepo;
 	}	
 	
 	@Override
