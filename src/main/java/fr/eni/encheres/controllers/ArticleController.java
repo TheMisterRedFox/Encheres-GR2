@@ -30,11 +30,20 @@ public class ArticleController {
 		this.categorieService = categorieService;
 	}
 
+	@GetMapping(path={"/", ""})
+	private String afficherArticles(Model model){
+
+		model.addAttribute("articles", articleService.findAll());
+		model.addAttribute("body", "pages/articles/liste-articles.html");
+		return "index";
+	}
+
 	@GetMapping("/ajouter")
 	private String afficherFormArticle(Model model) {
 		model.addAttribute("article", new ArticleVendu());
 		model.addAttribute("categories", categorieService.findAll());
-		return "pages/articles/formulaire-articles";
+		model.addAttribute("body", "pages/articles/formulaire-articles");
+		return "index";
 	}
 	
 	@PostMapping("/enregistrer")

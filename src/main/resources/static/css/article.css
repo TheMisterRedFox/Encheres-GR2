@@ -1,0 +1,45 @@
+.article-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    gap: 1rem;
+}
+
+.article-card {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    padding: 1rem;
+    background-color: #EEEEE6;
+    border-radius: 1rem;
+    transition: 0.2s;
+}
+
+.article-card:hover {
+    box-shadow: 2px 2px 1px #b6b6b6;
+}
+
+.article-card p {
+    margin: 5px;
+}
+
+.article-card .article-name {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.article-card .section-name {
+    font-weight: bold;
+}
+
+.article-description {
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
+    padding-top: 5px;
+    color: #676767;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
