@@ -9,7 +9,11 @@ public interface ICrudService<T> {
 	 
 	 Optional<T> findById(int id);
 	 
-	 void save(T t);
+	 void update(T entity);
+	 
+	 void add(T entity);
+	 
+	 void save(T entity);
 	 
 	 void delete(int id);
 	 
