@@ -12,6 +12,8 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 
 import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Enchere;
+import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.retrait.RetraitRepository;
 
 @Repository
@@ -70,5 +72,27 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 	public void delete(int id) {
 
 	}
+	
+	@Override
+	public void encherir(int noArticle, Enchere enchere, int Montant) {
+		String sql = "update encheres set montant_enchere = :montantEnchere where no_article = :article)";
+		String sqlCredit = "update utilisateurs set credit = :creditDebit wherer no_utilisateur = :utilisateur";
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		params
+			  .addValue("montantEnchere", Montant)
+			  .addValue("article", noArticle);
+		MapSqlParameterSource paramsCredit = new MapSqlParameterSource();
+		paramsCredit
+			  .addValue("creditDebit", user.getCredit()-Montant)
+			  .addValue("utilisateur", user.getNoUtilisateur());
+		
+		
+		
+		if ( (Montant - user.getCredit() >=0) || Montant > article.getMeilleureOffre()) 
+		{
+			namedParameterJdbcTemplate.update(sql, params);
+			namedParameterJdbcTemplate.update(sqlCredit, paramsCredit);
+		}
 
+	}
 }

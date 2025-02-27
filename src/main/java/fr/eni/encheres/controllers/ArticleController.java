@@ -7,13 +7,16 @@ import java.util.Optional;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Retrait;
+import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.bll.article.ArticleService;
 import fr.eni.encheres.bll.categorie.CategorieService;
 import jakarta.validation.Valid;
@@ -53,4 +56,25 @@ public class ArticleController {
 		articleService.save(article);
 		return "redirect:/articles";
 	}
+	
+	@PostMapping("/{noArticle}/enchere")
+	public String Encherir(
+			@PathVariable("noArticle") int noArticle,@RequestParam("MontantEnchere") int MontantEnchere,
+			@ModelAttribute Enchere enchere) {
+	
+		articleService.encherir(noArticle,enchere,MontantEnchere);
+		return "redirect:/encheres";
+		}
+    
+/*
+ * 
+proposition - user.getCredit() >= 0
+&&
+prix >enchere.getMontantEnchere()
+then 
+enchere.setMontantEnchere(prix)
+
+if ( (enchere.getMontantEnchere() - user.getCredit() >=0) || proposition > enchere.getMontantEnchere()) { }
+
+*/
 }
