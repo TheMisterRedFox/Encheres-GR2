@@ -30,17 +30,7 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 	
 	private RetraitRepository retraitRepo;
 	
-	private final String SQL_SELECT = "SELECT AV.no_article, AV.nom_article, AV.description, AV.date_debut_encheres, AV.date_fin_encheres, AV.prix_initial, AV.prix_vente, "
-			   + "	   U.no_utilisateur, U.pseudo, U.nom, U.prenom, U.email, U.telephone, U.rue, U.code_postal, U.ville, U.mot_de_passe, U.credit, U.administrateur, "
-			   + "	   C.no_categorie, C.libelle, "
-			   + "	   R.rue AS retrait_rue, R.code_postal AS retrait_code_postal, R.ville AS retrait_ville "
-			   + "FROM ARTICLES_VENDUS AV "
-			   + "INNER JOIN UTILISATEURS U "
-			   + "	ON U.no_utilisateur = AV.no_utilisateur "
-			   + "INNER JOIN CATEGORIES C "
-			   + "	ON C.no_categorie = AV.no_categorie "
-			   + "INNER JOIN RETRAITS R "
-			   + "	ON R.no_article = AV.no_article ";
+	private final String SQL_SELECT = "SELECT * FROM vue_details_ventes ";
 		
 	public ArticleRepositoryImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate, 
 			JdbcTemplate jdbcTemplate, RetraitRepository retraitRepo) {
@@ -61,7 +51,7 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 	@Override
 	public Optional<ArticleVendu> findById(int id) {
 		
-		String sql = SQL_SELECT + "WHERE AV.no_article = ?";
+		String sql = SQL_SELECT + "WHERE no_article = ?";
 		
 		ArticleVendu article = jdbcTemplate.queryForObject(sql, new ArticleRowMapper(), id);
 		
@@ -114,6 +104,8 @@ class ArticleRowMapper implements RowMapper<ArticleVendu> {
 		article.setDateFinEncheres(rs.getObject("date_fin_encheres", LocalDateTime.class));
 		article.setMiseAPrix(rs.getInt("prix_initial"));
 		article.setPrixVente(rs.getInt("prix_vente"));
+		article.setMeilleureOffre(rs.getInt("meilleure_offre"));
+		article.setPseudoMeilleurAcheteur(rs.getString("acheteur_pseudo"));
 
 		Utilisateur vendeur = new Utilisateur();
 		vendeur.setNoUtilisateur(rs.getInt("no_utilisateur"));
