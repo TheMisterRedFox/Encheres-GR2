@@ -45,7 +45,7 @@ public class ArticleController {
 
 		model.addAttribute("articles", articles);
 		model.addAttribute("categories", categorieService.findAll());
-		model.addAttribute("body", "pages/articles/liste-articles");
+		model.addAttribute("body", "pages/ventes/liste-ventes");
 		return "index";
 	}
 
@@ -53,7 +53,7 @@ public class ArticleController {
 	private String afficherFormArticle(Model model) {
 		model.addAttribute("article", new ArticleVendu());
 		model.addAttribute("categories", categorieService.findAll());
-		model.addAttribute("body", "pages/articles/formulaire-articles");
+		model.addAttribute("body", "pages/ventes/formulaire-ventes");
 		return "index";
 	}
 
@@ -65,7 +65,8 @@ public class ArticleController {
 
 		if(optArticle.isPresent()) {
 			model.addAttribute("article", optArticle.get());
-			return "pages/ventes/details-vente";
+			model.addAttribute("body", "pages/ventes/details-vente");
+			return "index";
 		}
 		return "redirect:/articles/";
 	}
