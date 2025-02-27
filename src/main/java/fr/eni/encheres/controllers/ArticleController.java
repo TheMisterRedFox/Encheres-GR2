@@ -38,14 +38,14 @@ public class ArticleController {
 		List<ArticleVendu> articles = new ArrayList<>();
 
 		if (noCategorie != null || search != null) {
-
+			articles = articleService.findByFilter(search, noCategorie);
 		} else {
 			articles = articleService.findAll();
 		}
 
 		model.addAttribute("articles", articles);
 		model.addAttribute("categories", categorieService.findAll());
-		model.addAttribute("body", "pages/articles/liste-articles.html");
+		model.addAttribute("body", "pages/articles/liste-articles");
 		return "index";
 	}
 
@@ -95,6 +95,6 @@ public class ArticleController {
 
 		redirectAttributes.addAttribute("category", noCategorie);
 		redirectAttributes.addAttribute("search", search);
-		return "redirect:/";
+		return "redirect:/articles/";
 	}
 }
