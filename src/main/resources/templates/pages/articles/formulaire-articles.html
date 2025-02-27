@@ -1,69 +1,58 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-	<head>
-		<meta charset="ISO-8859-1">
-		<title>Ajouter un article</title>
-	</head>
-	<body>
-	
-		<th:block th:object="${article}">
-			 <form action="/articles/enregistrer" method="post">
-			 	<input type="hidden" th:field="*{noArticle}" id="noArticle">
-			 
-		        <div>
-		            <label for="nomArticle">Nom *: </label>
-		        	<input type="text" th:field="*{nomArticle}" id="nomArticle">
-				</div>
-				
-				<div>
-		            <label for="description">Description *: </label>
-		        	<input type="text" th:field="*{description}" id="description">
-				</div>
-				
-				<div>
-				  <label for="category">Catégorie *: </label>
-				  <select id="category" name="category">
-				  <option th:each="c : ${categories}" th:value="${c.getNoCategorie()}" th:text="${c.getLibelle()}"></option>
-				  </select>
-				</div>
-				
-				<div>
-		            <label for="miseAPrix">Mise à prix *: </label>
-		        	<input type="number" th:field="*{miseAPrix}" id="miseAPrix">
-				</div>
-				
-				<div>
-		            <label for="dateDebutEncheres">Début de l'enchère *: </label>
-		        	<input type="datetime-local" th:field="*{dateDebutEncheres}" id="dateDebutEncheres">
-				</div>
-				
-				<div>
-		            <label for="dateFinEncheres">Fin de l'enchère *: </label>
-		        	<input type="datetime-local" th:field="*{dateFinEncheres}" id="dateFinEncheres">
-				</div>
-				
-				<div>
-					<span>Retrait</span>
-					<div>
-			            <label for="rue">Rue *: </label>
-			        	<input type="text" name="rue" id="rue">
-					</div>
-					
-					<div>
-			            <label for="codePostal">Code Postal*: </label>
-			        	<input type="text" name="codePostal" id="codePostal">
-					</div>
-					
-					<div>
-			            <label for="ville">Ville *: </label>
-			        	<input type="text" name="ville" id="ville">
-					</div>
-				</div>
-				
-				<button type="submit">Enregistrer</button>
-				<button type="reset">Annuler</button>
-			</form>
-		</th:block>
-	
-	</body>
-</html>
+<th:block th:object="${article}">
+	 <form action="/articles/enregistrer" method="post">
+		<input type="hidden" th:field="*{noArticle}" id="noArticle">
+
+		<div>
+			<label for="nomArticle">Nom *: </label>
+			<input type="text" th:field="*{nomArticle}" id="nomArticle">
+		</div>
+
+		<div>
+			<label for="description">Description *: </label>
+			<input type="text" th:field="*{description}" id="description">
+		</div>
+
+		<div>
+		  <label for="category">Catï¿½gorie *: </label>
+		  <select id="category" name="category">
+		  	<option th:each="c : ${categories}" th:value="${c.getNoCategorie()}" th:text="${c.getLibelle()}"></option>
+		  </select>
+		</div>
+
+		<div>
+			<label for="miseAPrix">Mise ï¿½ prix *: </label>
+			<input type="number" th:field="*{miseAPrix}" id="miseAPrix">
+		</div>
+
+		<div>
+			<label for="dateDebutEncheres">Dï¿½but de l'enchï¿½re *: </label>
+			<input type="datetime-local" th:field="*{dateDebutEncheres}" id="dateDebutEncheres">
+		</div>
+
+		<div>
+			<label for="dateFinEncheres">Fin de l'enchï¿½re *: </label>
+			<input type="datetime-local" th:field="*{dateFinEncheres}" id="dateFinEncheres">
+		</div>
+
+		<div>
+			<span>Retrait</span>
+			<div>
+				<label for="rue">Rue *: </label>
+				<input type="text" name="rue" id="rue">
+			</div>
+
+			<div>
+				<label for="codePostal">Code Postal*: </label>
+				<input type="text" name="codePostal" id="codePostal">
+			</div>
+
+			<div>
+				<label for="ville">Ville *: </label>
+				<input type="text" name="ville" id="ville">
+			</div>
+		</div>
+
+		<button type="submit">Enregistrer</button>
+		<button type="reset">Annuler</button>
+	</form>
+</th:block>

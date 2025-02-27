@@ -1,6 +1,8 @@
 package fr.eni.encheres.bo;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Objects;
 
 public class ArticleVendu {
@@ -72,6 +74,10 @@ public class ArticleVendu {
 
 	public LocalDateTime getDateFinEncheres() {
 		return dateFinEncheres;
+	}
+
+	public String getDateFinEncheresToString() {
+		return dateFinEncheres.format(DateTimeFormatter.ofPattern("d/MM/yyyy 'à' HH:mm", Locale.FRENCH));
 	}
 
 	public void setDateFinEncheres(LocalDateTime dateFinEncheres) {
