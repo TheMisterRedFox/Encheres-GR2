@@ -23,7 +23,7 @@ public class ArticleVendu {
 	public ArticleVendu() {}
 	
 	public ArticleVendu(int noArticle, String nomArticle, String description, LocalDateTime dateDebutEncheres,
-			LocalDateTime dateFinEncheres, int miseAPrix, int prixVente, String etatVente, Utilisateur vendeur,
+			LocalDateTime dateFinEncheres, int miseAPrix, int prixVente, String etatVente, int meilleurOffre, String pseudoMeilleurAcheteur, Utilisateur vendeur,
 			Retrait retrait, Categorie categorie) {
 		this.noArticle = noArticle;
 		this.nomArticle = nomArticle;
@@ -33,6 +33,8 @@ public class ArticleVendu {
 		this.miseAPrix = miseAPrix;
 		this.prixVente = prixVente;
 		this.etatVente = etatVente;
+		this.meilleureOffre = meilleurOffre;
+		this.pseudoMeilleurAcheteur = pseudoMeilleurAcheteur;
 		this.vendeur = vendeur;
 		this.retrait = retrait;
 		this.categorie = categorie;
