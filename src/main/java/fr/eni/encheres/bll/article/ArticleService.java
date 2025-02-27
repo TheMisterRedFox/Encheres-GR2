@@ -3,10 +3,19 @@ package fr.eni.encheres.bll.article;
 import fr.eni.encheres.bll.ICrudService;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Enchere;
-import fr.eni.encheres.bo.Utilisateur;
+
+import java.util.List;
+import java.util.Optional;
 
 public interface ArticleService extends ICrudService<ArticleVendu> {
+    List<ArticleVendu> findByFilter(String searchWordFilter, int noCategory);
 
-	void encherir(int noArticle, Enchere enchere, int Montant, Utilisateur utilisateur);
+    List<ArticleVendu> findByCategory(int noCategory);
+
+    List<ArticleVendu> findBySearchText(String searchWordFilter);
+
+    List<ArticleVendu> findBySearchTextAndCategory(String searchWordFilter, int noCategory);
+
+    void encherir(ArticleVendu article,  int Montant/*,Utilisateur utilisateur*/); // TODO USER 
 
 }

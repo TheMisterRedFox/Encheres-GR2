@@ -1,6 +1,8 @@
 package fr.eni.encheres.bo;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Objects;
 
 public class ArticleVendu {
@@ -13,7 +15,8 @@ public class ArticleVendu {
 	private int miseAPrix;
 	private int prixVente;
 	private String etatVente;
-
+	private int meilleureOffre;
+	private String pseudoMeilleurAcheteur;
 	private Utilisateur vendeur;
 	private Retrait retrait;
 	private Categorie categorie;
@@ -21,7 +24,7 @@ public class ArticleVendu {
 	public ArticleVendu() {}
 	
 	public ArticleVendu(int noArticle, String nomArticle, String description, LocalDateTime dateDebutEncheres,
-			LocalDateTime dateFinEncheres, int miseAPrix, int prixVente, String etatVente, Utilisateur vendeur,
+			LocalDateTime dateFinEncheres, int miseAPrix, int prixVente, String etatVente, int meilleurOffre, String pseudoMeilleurAcheteur, Utilisateur vendeur,
 			Retrait retrait, Categorie categorie) {
 		this.noArticle = noArticle;
 		this.nomArticle = nomArticle;
@@ -31,6 +34,8 @@ public class ArticleVendu {
 		this.miseAPrix = miseAPrix;
 		this.prixVente = prixVente;
 		this.etatVente = etatVente;
+		this.meilleureOffre = meilleurOffre;
+		this.pseudoMeilleurAcheteur = pseudoMeilleurAcheteur;
 		this.vendeur = vendeur;
 		this.retrait = retrait;
 		this.categorie = categorie;
@@ -72,6 +77,10 @@ public class ArticleVendu {
 		return dateFinEncheres;
 	}
 
+	public String getDateFinEncheresToString() {
+		return dateFinEncheres.format(DateTimeFormatter.ofPattern("d/MM/yyyy 'à' HH:mm", Locale.FRENCH));
+	}
+
 	public void setDateFinEncheres(LocalDateTime dateFinEncheres) {
 		this.dateFinEncheres = dateFinEncheres;
 	}
@@ -98,6 +107,22 @@ public class ArticleVendu {
 
 	public void setEtatVente(String etatVente) {
 		this.etatVente = etatVente;
+	}
+
+	public int getMeilleureOffre() {
+		return meilleureOffre;
+	}
+
+	public void setMeilleureOffre(int meilleureOffre) {
+		this.meilleureOffre = meilleureOffre;
+	}
+
+	public String getPseudoMeilleurAcheteur() {
+		return pseudoMeilleurAcheteur;
+	}
+
+	public void setPseudoMeilleurAcheteur(String pseudoMeilleurAcheteur) {
+		this.pseudoMeilleurAcheteur = pseudoMeilleurAcheteur;
 	}
 
 	public Utilisateur getVendeur() {
@@ -139,6 +164,15 @@ public class ArticleVendu {
 			return false;
 		ArticleVendu other = (ArticleVendu) obj;
 		return noArticle == other.noArticle;
+	}
+
+	@Override
+	public String toString() {
+		return "ArticleVendu [noArticle=" + noArticle + ", nomArticle=" + nomArticle + ", description=" + description
+				+ ", dateDebutEncheres=" + dateDebutEncheres + ", dateFinEncheres=" + dateFinEncheres + ", miseAPrix="
+				+ miseAPrix + ", prixVente=" + prixVente + ", etatVente=" + etatVente + ", meilleureOffre="
+				+ meilleureOffre + ", pseudoMeilleurAcheteur=" + pseudoMeilleurAcheteur + ", vendeur=" + vendeur
+				+ ", retrait=" + retrait + ", categorie=" + categorie + "]";
 	}
 	
 	

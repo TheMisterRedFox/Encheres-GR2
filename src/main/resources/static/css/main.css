@@ -1,0 +1,56 @@
+/**
+    Fichier css de base (reset des styles css classique/styles globaux à l'application)
+ */
+
+/* Import de la font 'Roboto' */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import "article.css";
+
+body {
+    font-family: 'Roboto', serif;
+}
+
+h1.title {
+    text-align: center;
+}
+
+a, a:hover, a:focus, a:active, a:visited {
+    text-decoration: none;
+    color: inherit;
+    outline: none;
+}
+
+input {
+    border: 1px solid #C2C5CA;
+    height: 2rem;
+    background-color: #F9FAFB;
+    box-shadow: 0 1px 1px #C2C5CA;
+    padding: 0.25rem 0.75rem;
+    font-size: 1rem;
+    font-family: 'Roboto', serif;
+    border-radius: 10px;
+    transition: 0.2s;
+}
+
+input:focus {
+    border: 1px solid #0B57D0;
+    box-shadow: 0 1px 1px #0B57D0;
+    outline: none;
+}
+
+select {
+    border: 1px solid #C2C5CA;
+    height: 2rem;
+    background-color: #F9FAFB;
+    box-shadow: 0 1px 1px #C2C5CA;
+    padding: 0.25rem 0.25rem;
+    font-size: 1rem;
+    font-family: 'Roboto', serif;
+    transition: 0.1s;
+    width: max-content;
+}
+
+select:focus {
+    border: 1px solid #0B57D0;
+    box-shadow: 0 1px 1px #0B57D0;
+}

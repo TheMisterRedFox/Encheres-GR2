@@ -8,7 +8,7 @@ public class Retrait {
 	
 	private ArticleVendu article;
 	
-	private Retrait() {}
+	public Retrait() {}
 	
 	public Retrait(String rue, String codePostal, String ville, ArticleVendu article) {
 		this.rue = rue;
@@ -54,8 +54,11 @@ public class Retrait {
 	public void setArticle(ArticleVendu article) {
 		this.article = article;
 	}
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return rue + " - " + ville + " " + codePostal ;
+	}
+		
 	
 }
