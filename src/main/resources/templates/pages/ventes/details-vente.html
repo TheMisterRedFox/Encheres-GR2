@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
     <head>
         <title>Détail Vente</title>
@@ -8,13 +9,22 @@
         <p><strong>Description :</strong> <span th:text="${article.getDescription()}"></span></p>
         <p><strong>Catégorie :</strong> <span th:text="${article.getCategorie().getLibelle()}"></span></p>
         <p><strong>Mise à prix :</strong> <span th:text="${article.getMiseAPrix()}"></span></p>
-        <p><strong>Meilleure offre :</strong>1600</p> <!-- TODO rendre dynamique ceci -->
+
+        <p><strong>Meilleure offre :</strong>
+            <span th:if="${article.getMeilleureOffre() == article.getMiseAPrix()}">Pas d'offre</span>
+            <span th:unless="${article.getMeilleureOffre() == article.getMiseAPrix()}">
+                <span th:text="${article.getMeilleureOffre()}"></span>
+                <span>pts par</span>
+                <span th:text="${article.getPseudoMeilleurAcheteur()}"></span>
+            </span>
+        </p>
+
         <p><strong>Fin de l'enchère :</strong> <span th:text="${article.getDateFinEncheres()}"></span></p>
         <p><strong>Retrait :</strong> <span th:text="${article.getRetrait().toString()}"></span></p>
-        <!-- TODO - afficher le nom du vendeur, quand SpringSecurity sera configuré -->
+        <p><strong>Nom vendeur: </strong> <span th:text="${article.getVendeur().getPseudo()}"></span></p>
+        <!-- TODO - rajouter une div avec une condition pour vérifier si l'utilisateur connecté est le vendeur de l'article -->
         <p><strong>Ma proposition :</strong> <input type="number" id="montantEnchere" name="montantEnchere"></p>
         <button type="submit">Enchérir</button>
     </body>
 </html>
-<!DOCTYPE html>
 <!-- Page 11 de la maquette -->
