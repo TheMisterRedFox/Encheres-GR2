@@ -1,13 +1,11 @@
-package fr.eni.encheres.bll.article;
+package fr.eni.encheres.dal.vente;
 
-import fr.eni.encheres.bll.ICrudService;
 import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.dal.ICrudRepository;
 
 import java.util.List;
 
-public interface ArticleService extends ICrudService<ArticleVendu> {
-    List<ArticleVendu> findByFilter(String searchWordFilter, int noCategory);
-
+public interface VenteRepository extends ICrudRepository<ArticleVendu> {
     List<ArticleVendu> findByCategory(int noCategory);
 
     List<ArticleVendu> findBySearchText(String searchWordFilter);
