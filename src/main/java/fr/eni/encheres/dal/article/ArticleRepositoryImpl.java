@@ -10,7 +10,6 @@ import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.Utilisateur;
 
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -59,6 +58,33 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 	}
 
 	@Override
+	public List<ArticleVendu> findByCategory(int noCategory) {
+		String sql = SQL_SELECT + "WHERE no_categorie = ?";
+
+		List<ArticleVendu> articles = jdbcTemplate.query(sql, new ArticleRowMapper(), noCategory);
+
+		return articles;
+	}
+
+	@Override
+	public List<ArticleVendu> findBySearchText(String searchWordFilter) {
+		String sql = SQL_SELECT + "WHERE LOWER(nom_article) = LOWER(?)";
+
+		List<ArticleVendu> articles = jdbcTemplate.query(sql, new ArticleRowMapper(), searchWordFilter);
+
+		return articles;
+	}
+
+	@Override
+	public List<ArticleVendu> findBySearchTextAndCategory(String searchWordFilter, int noCategory) {
+		String sql = SQL_SELECT + "WHERE LOWER(nom_article) = LOWER(?) AND no_categorie = ?";
+
+		List<ArticleVendu> articles = jdbcTemplate.query(sql, new ArticleRowMapper(), searchWordFilter, noCategory);
+
+		return articles;
+	}
+
+	@Override
 	public void add(ArticleVendu newArticle) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		String sql = "insert into articles_vendus (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial,"
@@ -89,7 +115,6 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 	public void delete(int id) {
 
 	}
-
 }
 
 class ArticleRowMapper implements RowMapper<ArticleVendu> {

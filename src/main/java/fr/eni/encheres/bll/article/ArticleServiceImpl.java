@@ -53,5 +53,35 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 
+	@Override
+	public List<ArticleVendu> findByFilter(String searchWordFilter, int noCategory) {
+		if(searchWordFilter.isEmpty() && noCategory == -1){
+			// Cas ou on recherche sans avoir rempli le champ de saisie et qu'on a mis "Toutes" dans les catégories
+			return this.findAll();
+		} else if(searchWordFilter.isEmpty()){
+			// Cas ou on recherche sans avoir rempli le champ de saisie et qu'on a mis autre chose que "Toutes" dans les catégories
+			return this.findByCategory(noCategory);
+		} else if(noCategory == -1){
+			// Cas ou on recherche en ayant rempli le champ de saisie et qu'on a mis "Toutes" dans les catégories
+			return this.findBySearchText(searchWordFilter);
+		} else {
+			// Cas ou on recherche en ayant rempli le champ de saisie et qu'on a mis autre chose que "Toutes" dans les catégories
+			return this.findBySearchTextAndCategory(searchWordFilter, noCategory);
+		}
+	}
 
+	@Override
+	public List<ArticleVendu> findByCategory(int noCategory) {
+		return articleRepo.findByCategory(noCategory);
+	}
+
+	@Override
+	public List<ArticleVendu> findBySearchText(String searchWordFilter) {
+		return articleRepo.findBySearchText(searchWordFilter);
+	}
+
+	@Override
+	public List<ArticleVendu> findBySearchTextAndCategory(String searchWordFilter, int noCategory) {
+		return articleRepo.findBySearchTextAndCategory(searchWordFilter, noCategory);
+	}
 }
