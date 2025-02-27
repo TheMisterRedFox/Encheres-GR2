@@ -7,11 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
@@ -33,6 +29,7 @@ public class ArticleController {
 		this.categorieService = categorieService;
 	}
 
+	// Affiche le formulaire de création d'un article
 	@GetMapping(path={"/", ""})
 	private String afficherArticles(@RequestParam(value = "category", required = false) Integer noCategorie,
 									@RequestParam(value = "search", required = false) String search,
@@ -59,7 +56,21 @@ public class ArticleController {
 		model.addAttribute("body", "pages/articles/formulaire-articles");
 		return "index";
 	}
-	
+
+	// Affiche les details d'une vente
+	@GetMapping("/{noArticle}")
+	public String getVenteDetails(@PathVariable("noArticle") int noArticle, Model model) {
+
+		Optional<ArticleVendu> optArticle = articleService.findById(noArticle);
+
+		if(optArticle.isPresent()) {
+			model.addAttribute("article", optArticle.get());
+			return "pages/ventes/details-vente";
+		}
+		return "redirect:/articles/";
+	}
+
+	// Gère la redirection après un enregistrement
 	@PostMapping("/enregistrer")
 	private String ajouterArticle(@ModelAttribute ArticleVendu article, 
 			@RequestParam("category") int noCategorie,

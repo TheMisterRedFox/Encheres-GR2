@@ -13,24 +13,24 @@
 		</div>
 
 		<div>
-		  <label for="category">Catégorie *: </label>
+		  <label for="category">Catï¿½gorie *: </label>
 		  <select id="category" name="category">
 		  	<option th:each="c : ${categories}" th:value="${c.getNoCategorie()}" th:text="${c.getLibelle()}"></option>
 		  </select>
 		</div>
 
 		<div>
-			<label for="miseAPrix">Mise à prix *: </label>
+			<label for="miseAPrix">Mise ï¿½ prix *: </label>
 			<input type="number" th:field="*{miseAPrix}" id="miseAPrix">
 		</div>
 
 		<div>
-			<label for="dateDebutEncheres">Début de l'enchère *: </label>
+			<label for="dateDebutEncheres">Dï¿½but de l'enchï¿½re *: </label>
 			<input type="datetime-local" th:field="*{dateDebutEncheres}" id="dateDebutEncheres">
 		</div>
 
 		<div>
-			<label for="dateFinEncheres">Fin de l'enchère *: </label>
+			<label for="dateFinEncheres">Fin de l'enchï¿½re *: </label>
 			<input type="datetime-local" th:field="*{dateFinEncheres}" id="dateFinEncheres">
 		</div>
 
