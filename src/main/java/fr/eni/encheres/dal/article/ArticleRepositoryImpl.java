@@ -91,6 +91,20 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 
 	}
 
+	@Override
+	public List<ArticleVendu> findByCategory(int noCategory) {
+		return List.of();
+	}
+
+	@Override
+	public List<ArticleVendu> findBySearchText(String searchWordFilter) {
+		return List.of();
+	}
+
+	@Override
+	public List<ArticleVendu> findBySearchTextAndCategory(String searchWordFilter, int noCategory) {
+		return List.of();
+	}
 }
 
 class ArticleRowMapper implements RowMapper<ArticleVendu> {

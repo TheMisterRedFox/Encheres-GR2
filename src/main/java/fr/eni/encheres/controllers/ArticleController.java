@@ -2,6 +2,8 @@ package fr.eni.encheres.controllers;
 
 import org.springframework.ui.Model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,7 @@ import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bll.article.ArticleService;
 import fr.eni.encheres.bll.categorie.CategorieService;
 import jakarta.validation.Valid;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/articles")
@@ -31,9 +34,20 @@ public class ArticleController {
 	}
 
 	@GetMapping(path={"/", ""})
-	private String afficherArticles(Model model){
+	private String afficherArticles(@RequestParam(value = "category", required = false) Integer noCategorie,
+									@RequestParam(value = "search", required = false) String search,
+									Model model){
 
-		model.addAttribute("articles", articleService.findAll());
+		List<ArticleVendu> articles = new ArrayList<>();
+
+		if (noCategorie != null || search != null) {
+
+		} else {
+			articles = articleService.findAll();
+		}
+
+		model.addAttribute("articles", articles);
+		model.addAttribute("categories", categorieService.findAll());
 		model.addAttribute("body", "pages/articles/liste-articles.html");
 		return "index";
 	}
@@ -61,5 +75,15 @@ public class ArticleController {
 		article.setRetrait(new Retrait(rue, codePostal, ville));
 		articleService.save(article);
 		return "redirect:/articles";
+	}
+
+	@PostMapping("/filtrer")
+	private String filtrerVentes(@RequestParam("category") int noCategorie,
+								 @RequestParam ("search") String search,
+								 RedirectAttributes redirectAttributes) {
+
+		redirectAttributes.addAttribute("category", noCategorie);
+		redirectAttributes.addAttribute("search", search);
+		return "redirect:/";
 	}
 }
