@@ -54,8 +54,11 @@ public class Retrait {
 	public void setArticle(ArticleVendu article) {
 		this.article = article;
 	}
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return rue + " - " + ville + " " + codePostal ;
+	}
+		
 	
 }

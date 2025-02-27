@@ -13,6 +13,8 @@ public class ArticleVendu {
 	private int miseAPrix;
 	private int prixVente;
 	private String etatVente;
+	private int meilleureOffre;
+	private String pseudoMeilleurAcheteur;
 
 	private Utilisateur vendeur;
 	private Retrait retrait;
@@ -98,6 +100,22 @@ public class ArticleVendu {
 
 	public void setEtatVente(String etatVente) {
 		this.etatVente = etatVente;
+	}
+
+	public int getMeilleureOffre() {
+		return meilleureOffre;
+	}
+
+	public void setMeilleureOffre(int meilleureOffre) {
+		this.meilleureOffre = meilleureOffre;
+	}
+
+	public String getPseudoMeilleurAcheteur() {
+		return pseudoMeilleurAcheteur;
+	}
+
+	public void setPseudoMeilleurAcheteur(String pseudoMeilleurAcheteur) {
+		this.pseudoMeilleurAcheteur = pseudoMeilleurAcheteur;
 	}
 
 	public Utilisateur getVendeur() {
