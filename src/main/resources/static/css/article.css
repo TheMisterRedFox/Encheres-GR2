@@ -1,3 +1,6 @@
+/*
+    Liste de vente + carte de vente
+ */
 .article-list {
     display: flex;
     flex-wrap: wrap;
@@ -42,4 +45,32 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+/*
+    Formulaire de recherche/filtre des ventes
+ */
+
+.filter-form {
+    width: 75%;
+    margin: 0 auto 1rem auto;
+}
+
+.filter-form form .main-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.filter-form .filter-and-category {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex: 2;
+}
+
+.filter-form button {
+    flex: 1;
+    height: 100%;
 }

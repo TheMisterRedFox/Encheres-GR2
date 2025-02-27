@@ -1,5 +1,28 @@
 <main>
-    <h1 class="title">Liste des enchères</h1>
+    <h1 class="title">Liste des ventes</h1>
+
+    <div class="filter-form">
+        <form action="/articles/filtrer" method="post">
+            <p>Filtres :</p>
+            <div class="main-section">
+                <div class="filter-and-category">
+                    <input type="text" name="search" id="search" placeholder="Le nom de l'article contient">
+
+                    <div>
+                        <label for="category">Catégorie : </label>
+                        <select id="category" name="category">
+                            <option value="-1">Toutes</option>
+                            <option th:each="c : ${categories}" th:value="${c.getNoCategorie()}" th:text="${c.getLibelle()}"></option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit">Rechercher</button>
+            </div>
+
+
+        </form>
+    </div>
 
         <div class="article-list">
             <a th:href="@{/articles/{id}(id=${article.getNoArticle()})}" th:each="article : ${articles}" class="article-card">

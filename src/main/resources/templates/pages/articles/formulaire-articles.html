@@ -15,7 +15,7 @@
 		<div>
 		  <label for="category">Catégorie *: </label>
 		  <select id="category" name="category">
-		  <option th:each="c : ${categories}" th:value="${c.getNoCategorie()}" th:text="${c.getLibelle()}"></option>
+		  	<option th:each="c : ${categories}" th:value="${c.getNoCategorie()}" th:text="${c.getLibelle()}"></option>
 		  </select>
 		</div>
 
