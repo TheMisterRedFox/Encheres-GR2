@@ -145,13 +145,7 @@ public class VenteRepositoryImpl implements VenteRepository {
             namedParameterJdbcTemplate.update(sql, params);
             namedParameterJdbcTemplate.update(sqlReCredit, paramsReCredit);
             namedParameterJdbcTemplate.update(sqlDebit, paramsDebit);
-        }
-        System.out.println(article);
-    	System.out.println(Montant);
-    	System.out.println(article.getMeilleureOffre());
-    	System.out.println(Montant > article.getMeilleureOffre());
-    	System.out.println(( (5000-Montant) >0 && (Montant > article.getMeilleureOffre())));
-
+		}
     }
 
 class VenteRowMapper implements RowMapper<ArticleVendu> {
