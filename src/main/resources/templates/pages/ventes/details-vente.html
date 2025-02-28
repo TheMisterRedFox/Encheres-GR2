@@ -1,38 +1,31 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-    <head>
-        <title>Détail Vente</title>
-    </head>
+    <head></head>
     <body> 
-	    <form action="/articles/enchere" method="post">
-	   		<input type="hidden" name="noArticle" th:value="${article.getNoArticle()}" />
-	        <h1>Détail vente</h1>
-	        
-	        <p><strong>Nom :</strong> <span th:text="${article.getNomArticle()}"></span></p>
-	        <p><strong>Description :</strong> <span th:text="${article.getDescription()}"></span></p>
-	        <p><strong>Catégorie :</strong> <span th:text="${article.getCategorie().getLibelle()}"></span></p>
-	        <p><strong>Mise à prix :</strong> <span th:text="${article.getMiseAPrix()}"></span></p>
-	
-	        <p><strong>Meilleure offre :</strong>
-	            <span th:if="${article.getMeilleureOffre() == article.getMiseAPrix()}">Pas d'offre</span>
-	            <span th:unless="${article.getMeilleureOffre() == article.getMiseAPrix()}">
-	                <span th:text="${article.getMeilleureOffre()}"></span>
-	                <span>pts par</span>
-	                <span th:text="${article.getPseudoMeilleurAcheteur()}"></span>
-	            </span>
-	        </p>
+
+	<form action="/articles/enchere" method="post">
+		<input type="hidden" name="noArticle" th:value="${vente.getNoArticle()}" />
+		<h1>Détail vente</h1>
+			<p><strong>Nom :</strong> <span th:text="${vente.getNomArticle()}"></span></p>
+			<p><strong>Description :</strong> <span th:text="${vente.getDescription()}"></span></p>
+			<p><strong>Catégorie :</strong> <span th:text="${vente.getCategorie().getLibelle()}"></span></p>
+			<p><strong>Mise à prix :</strong> <span th:text="${vente.getMiseAPrix()}"></span></p>
 			
-			
-	        <p><strong>Fin de l'enchère :</strong> <span th:text="${article.getDateFinEncheres()}"></span></p>
-	        <p><strong>Retrait :</strong> <span th:text="${article.getRetrait().toString()}"></span></p>
-	        <p><strong>Nom vendeur: </strong> <span th:text="${article.getVendeur().getPseudo()}"></span></p>
-	        <!-- TODO - rajouter une div avec une condition pour vérifier si l'utilisateur connecté est le vendeur de l'article -->
-	       
-	        <p><strong>Ma proposition :</strong> <input type="number" id="montantEnchere" name="montantEnchere"></p>
-	    
-	    
-        <button type="submit">Enchérir</button>
-        </form>
-    </body>
-</html>
-<!-- Page 11 de la maquette -->
+			<p><strong>Meilleure offre :</strong>
+			    <span th:if="${vente.getMeilleureOffre() == vente.getMiseAPrix()}">Pas d'offre</span>
+			    <span th:unless="${vente.getMeilleureOffre() == vente.getMiseAPrix()}">
+			        <span th:text="${vente.getMeilleureOffre()}"></span>
+			        <span>pts par</span>
+			        <span th:text="${vente.getPseudoMeilleurAcheteur()}"></span>
+			    </span>
+			</p>
+
+			<p><strong>Fin de l'enchère :</strong> <span th:text="${vente.getDateFinEncheres()}"></span></p>
+			<p><strong>Retrait :</strong> <span th:text="${vente.getRetrait().toString()}"></span></p>
+			<p><strong>Nom vendeur: </strong> <span th:text="${vente.getVendeur().getPseudo()}"></span></p>
+			<!-- TODO - rajouter une div avec une condition pour vérifier si l'utilisateur connecté est le vendeur de l'article -->
+			<p><strong>Ma proposition :</strong> <input type="number" id="montantEnchere" name="montantEnchere"></p>
+		<button type="submit">Enchérir</button>
+	</form>
+

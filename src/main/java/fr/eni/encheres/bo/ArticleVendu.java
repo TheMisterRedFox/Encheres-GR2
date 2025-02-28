@@ -78,7 +78,7 @@ public class ArticleVendu {
 	}
 
 	public String getDateFinEncheresToString() {
-		return dateFinEncheres.format(DateTimeFormatter.ofPattern("d/MM/yyyy 'à' HH:mm", Locale.FRENCH));
+		return dateFinEncheres.format(DateTimeFormatter.ofPattern("dd/MM/yyyy 'à' HH:mm", Locale.FRENCH));
 	}
 
 	public void setDateFinEncheres(LocalDateTime dateFinEncheres) {

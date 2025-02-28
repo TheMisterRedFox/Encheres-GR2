@@ -1,56 +1,52 @@
-package fr.eni.encheres.bll.article;
+package fr.eni.encheres.bll.vente;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-
 import fr.eni.encheres.bo.ArticleVendu;
-import fr.eni.encheres.bo.Enchere;
-import fr.eni.encheres.dal.article.ArticleRepository;
+import fr.eni.encheres.dal.vente.VenteRepository;
 import fr.eni.encheres.dal.retrait.RetraitRepository;
 
 @Service
-public class ArticleServiceImpl implements ArticleService {
+public class VenteServiceImpl implements VenteService {
 
-	private final ArticleRepository articleRepo;
-	private final RetraitRepository retraitRepo;
-		
-	//Constructor
-	public ArticleServiceImpl(ArticleRepository articleRepo, RetraitRepository retraitRepo) {
-		this.articleRepo = articleRepo;
-		this.retraitRepo = retraitRepo;
-	}	
+	private final VenteRepository venteRepo;
+
+    //Constructor
+	public VenteServiceImpl(VenteRepository venteRepo, RetraitRepository retraitRepo) {
+		this.venteRepo = venteRepo;
+    }
 	
 	@Override
 	public void update(ArticleVendu entity) {
-		articleRepo.update(entity);
+		venteRepo.update(entity);
 	}
 
 	@Override
 	public void add(ArticleVendu entity) {
-		articleRepo.add(entity);
+		venteRepo.add(entity);
 	}
 	
 	@Override
 	public void delete(int noArticle) {
-		articleRepo.delete(noArticle);
+		venteRepo.delete(noArticle);
 	}
 	
 	@Override
-	public void save(ArticleVendu article) {
-		//TODO condition
-		this.add(article);
+	public void save(ArticleVendu vente) {
+		//TODO condition sur l'ajout ou la modification
+		this.add(vente);
 	}
 	
 	@Override
 	public List<ArticleVendu> findAll() {
-		return articleRepo.findAll();
+		return venteRepo.findAll();
 	}
 
 	@Override
 	public Optional<ArticleVendu> findById(int noArticle) {
-		return articleRepo.findById(noArticle);
+		return venteRepo.findById(noArticle);
 	}
 	
 	@Override
@@ -72,23 +68,23 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public List<ArticleVendu> findByCategory(int noCategory) {
-		return articleRepo.findByCategory(noCategory);
+		return venteRepo.findByCategory(noCategory);
 	}
 
 	@Override
 	public List<ArticleVendu> findBySearchText(String searchWordFilter) {
-		return articleRepo.findBySearchText(searchWordFilter);
+		return venteRepo.findBySearchText(searchWordFilter);
 	}
 
 	@Override
 	public List<ArticleVendu> findBySearchTextAndCategory(String searchWordFilter, int noCategory) {
-		return articleRepo.findBySearchTextAndCategory(searchWordFilter, noCategory);
+		return venteRepo.findBySearchTextAndCategory(searchWordFilter, noCategory);
 	}
 
 
 	@Override
 	public void encherir(ArticleVendu article, int Montant/*,Utilisateur utilisateur*/) { // TODO USER
-		articleRepo.encherir(article, Montant);
+		venteRepo.encherir(article, Montant);
 		
 	}
 }
