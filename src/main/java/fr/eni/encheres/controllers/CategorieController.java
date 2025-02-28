@@ -90,9 +90,14 @@ public class CategorieController {
     }
 
     @GetMapping("/{noCategorie}/supprimer")
-    private String supprimerCategorie(@PathVariable("noCategorie") int noCategorie){
+    private String supprimerCategorie(@PathVariable("noCategorie") int noCategorie, RedirectAttributes redirectAttr){
+        try{
+            categorieService.delete(noCategorie);
+        } catch (CategoryAlreadyExistsException ex) {
+            redirectAttr.addFlashAttribute("erreur", "Impossible de supprimer cette catégorie, elle est associée à des ventes.");
+            return "redirect:/categories/" + noCategorie;
+        }
 
-        categorieService.delete(noCategorie);
         return "redirect:/categories/";
     }
 

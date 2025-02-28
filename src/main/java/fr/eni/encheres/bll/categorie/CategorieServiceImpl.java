@@ -3,6 +3,7 @@ package fr.eni.encheres.bll.categorie;
 import java.util.List;
 import java.util.Optional;
 
+import fr.eni.encheres.bll.vente.VenteService;
 import fr.eni.encheres.exceptions.CategoryAlreadyExistsException;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +14,11 @@ import fr.eni.encheres.dal.categorie.CategorieRepository;
 public class CategorieServiceImpl implements CategorieService {
 
 	private CategorieRepository categorieRepo;
+	private VenteService venteService;
 		
-	public CategorieServiceImpl(CategorieRepository categorieRepo) {
+	public CategorieServiceImpl(CategorieRepository categorieRepo, VenteService venteService) {
 		this.categorieRepo = categorieRepo;
+		this.venteService = venteService;
 	}
 
 	@Override
@@ -51,8 +54,14 @@ public class CategorieServiceImpl implements CategorieService {
 	}
 
 	@Override
-	public void delete(int id) {
-		categorieRepo.delete(id);
+	public void delete(int id) throws CategoryAlreadyExistsException {
+
+		if(venteService.findByCategory(id).isEmpty()){
+			categorieRepo.delete(id);
+		} else {
+			throw new CategoryAlreadyExistsException();
+		}
+
 	}
 
 	private void checkIfCategoryAlreadyExist(Categorie categorie) throws CategoryAlreadyExistsException {

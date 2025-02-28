@@ -82,4 +82,6 @@ public class VenteServiceImpl implements VenteService {
 	public List<ArticleVendu> findBySearchTextAndCategory(String searchWordFilter, int noCategory) {
 		return venteRepo.findBySearchTextAndCategory(searchWordFilter, noCategory);
 	}
+
+
 }
