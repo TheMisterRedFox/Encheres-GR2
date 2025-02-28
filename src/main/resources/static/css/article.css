@@ -14,13 +14,15 @@
     flex-direction: column;
     width: 300px;
     padding: 1rem;
-    background-color: #EEEEE6;
+    background-color: white;
     border-radius: 1rem;
     transition: 0.2s;
+    border: 1px solid #C2C5CA;
+    box-shadow: 0 2px 0 #C2C5CA;
 }
 
 .article-card:hover {
-    box-shadow: 2px 2px 1px #b6b6b6;
+    box-shadow: 3px 4px 0 #C2C5CA;
 }
 
 .article-card p {
