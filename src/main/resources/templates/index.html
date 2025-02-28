@@ -6,6 +6,7 @@
 </head>
 <link rel="stylesheet" th:href="@{/css/main.css}">
 <body>
+    <div th:replace="pages/menu/menu :: nav"></div>
     <th:block th:insert="~{${body}}"></th:block>
 </body>
 </html>

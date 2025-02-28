@@ -1,4 +1,4 @@
-package fr.eni.encheres.dal.article;
+package fr.eni.encheres.dal.vente;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,7 +22,7 @@ import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.dal.retrait.RetraitRepository;
 
 @Repository
-public class ArticleRepositoryImpl implements ArticleRepository {
+public class VenteRepositoryImpl implements VenteRepository {
 
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	private JdbcTemplate jdbcTemplate;
@@ -31,8 +31,8 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 	
 	private final String SQL_SELECT = "SELECT * FROM vue_details_ventes ";
 		
-	public ArticleRepositoryImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate, 
-			JdbcTemplate jdbcTemplate, RetraitRepository retraitRepo) {
+	public VenteRepositoryImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate,
+							   JdbcTemplate jdbcTemplate, RetraitRepository retraitRepo) {
 		this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
 		this.jdbcTemplate = jdbcTemplate;
 		this.retraitRepo = retraitRepo;
@@ -42,9 +42,9 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 	public List<ArticleVendu> findAll() {
 		String sql = SQL_SELECT;
 
-		List<ArticleVendu> articles = jdbcTemplate.query(sql, new ArticleRowMapper());
+		List<ArticleVendu> ventes = jdbcTemplate.query(sql, new VenteRowMapper());
 
-		return articles;
+		return ventes;
 	}
 
 	@Override
@@ -52,16 +52,16 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 		
 		String sql = SQL_SELECT + "WHERE no_article = ?";
 		
-		ArticleVendu article = jdbcTemplate.queryForObject(sql, new ArticleRowMapper(), id);
+		ArticleVendu vente = jdbcTemplate.queryForObject(sql, new VenteRowMapper(), id);
 		
-		return Optional.ofNullable(article);
+		return Optional.ofNullable(vente);
 	}
 
 	@Override
 	public List<ArticleVendu> findByCategory(int noCategory) {
 		String sql = SQL_SELECT + "WHERE no_categorie = ?";
 
-		List<ArticleVendu> articles = jdbcTemplate.query(sql, new ArticleRowMapper(), noCategory);
+		List<ArticleVendu> articles = jdbcTemplate.query(sql, new VenteRowMapper(), noCategory);
 
 		return articles;
 	}
@@ -70,7 +70,7 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 	public List<ArticleVendu> findBySearchText(String searchWordFilter) {
 		String sql = SQL_SELECT + "WHERE LOWER(nom_article) = LOWER(?)";
 
-		List<ArticleVendu> articles = jdbcTemplate.query(sql, new ArticleRowMapper(), searchWordFilter);
+		List<ArticleVendu> articles = jdbcTemplate.query(sql, new VenteRowMapper(), searchWordFilter);
 
 		return articles;
 	}
@@ -79,7 +79,7 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 	public List<ArticleVendu> findBySearchTextAndCategory(String searchWordFilter, int noCategory) {
 		String sql = SQL_SELECT + "WHERE LOWER(nom_article) = LOWER(?) AND no_categorie = ?";
 
-		List<ArticleVendu> articles = jdbcTemplate.query(sql, new ArticleRowMapper(), searchWordFilter, noCategory);
+		List<ArticleVendu> articles = jdbcTemplate.query(sql, new VenteRowMapper(), searchWordFilter, noCategory);
 
 		return articles;
 	}
@@ -98,7 +98,7 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 		      .addValue("dateFinEncheres", newArticle.getDateFinEncheres())
 		      .addValue("miseAPrix", newArticle.getMiseAPrix())
 		      .addValue("noUtilisateur", 1) //TODO CHANGER LES 1 PAR LES ID
-		      .addValue("noCategorie", newArticle.getCategorie().getNoCategorie()); 
+		      .addValue("noCategorie", newArticle.getCategorie().getNoCategorie());
 		
 		namedParameterJdbcTemplate.update(sql, params, keyHolder, new String[]{"no_article"});
 		newArticle.setNoArticle(keyHolder.getKeyAs(Integer.class));
@@ -117,7 +117,7 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 	}
 }
 
-class ArticleRowMapper implements RowMapper<ArticleVendu> {
+class VenteRowMapper implements RowMapper<ArticleVendu> {
 	@Override
 	public ArticleVendu mapRow(ResultSet rs, int rowNum) throws SQLException {
 		ArticleVendu article = new ArticleVendu();
