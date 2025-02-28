@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bll.vente.VenteService;
 import fr.eni.encheres.bll.categorie.CategorieService;
@@ -98,4 +99,15 @@ public class VenteController {
 		redirectAttributes.addAttribute("search", search);
 		return "redirect:/ventes/";
 	}
+
+    @PostMapping("/enchere")
+    public String Encherir(@ModelAttribute ArticleVendu article,@RequestParam("montantEnchere") int MontantEnchere){	
+    		Optional<ArticleVendu> optArticle = venteService.findById(article.getNoArticle());
+    		if (optArticle.isPresent()) {
+
+				venteService.encherir(optArticle.get(),MontantEnchere);
+    		}
+          
+        return "redirect:/ventes/";
+    }
 }

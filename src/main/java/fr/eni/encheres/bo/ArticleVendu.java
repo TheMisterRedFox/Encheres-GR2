@@ -17,7 +17,6 @@ public class ArticleVendu {
 	private String etatVente;
 	private int meilleureOffre;
 	private String pseudoMeilleurAcheteur;
-
 	private Utilisateur vendeur;
 	private Retrait retrait;
 	private Categorie categorie;
@@ -25,7 +24,7 @@ public class ArticleVendu {
 	public ArticleVendu() {}
 	
 	public ArticleVendu(int noArticle, String nomArticle, String description, LocalDateTime dateDebutEncheres,
-			LocalDateTime dateFinEncheres, int miseAPrix, int prixVente, String etatVente, Utilisateur vendeur,
+			LocalDateTime dateFinEncheres, int miseAPrix, int prixVente, String etatVente, int meilleurOffre, String pseudoMeilleurAcheteur, Utilisateur vendeur,
 			Retrait retrait, Categorie categorie) {
 		this.noArticle = noArticle;
 		this.nomArticle = nomArticle;
@@ -35,6 +34,8 @@ public class ArticleVendu {
 		this.miseAPrix = miseAPrix;
 		this.prixVente = prixVente;
 		this.etatVente = etatVente;
+		this.meilleureOffre = meilleurOffre;
+		this.pseudoMeilleurAcheteur = pseudoMeilleurAcheteur;
 		this.vendeur = vendeur;
 		this.retrait = retrait;
 		this.categorie = categorie;
@@ -163,6 +164,15 @@ public class ArticleVendu {
 			return false;
 		ArticleVendu other = (ArticleVendu) obj;
 		return noArticle == other.noArticle;
+	}
+
+	@Override
+	public String toString() {
+		return "ArticleVendu [noArticle=" + noArticle + ", nomArticle=" + nomArticle + ", description=" + description
+				+ ", dateDebutEncheres=" + dateDebutEncheres + ", dateFinEncheres=" + dateFinEncheres + ", miseAPrix="
+				+ miseAPrix + ", prixVente=" + prixVente + ", etatVente=" + etatVente + ", meilleureOffre="
+				+ meilleureOffre + ", pseudoMeilleurAcheteur=" + pseudoMeilleurAcheteur + ", vendeur=" + vendeur
+				+ ", retrait=" + retrait + ", categorie=" + categorie + "]";
 	}
 	
 	
