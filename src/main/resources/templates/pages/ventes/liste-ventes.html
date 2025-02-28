@@ -2,7 +2,7 @@
     <h1 class="title">Liste des ventes</h1>
 
     <div class="filter-form">
-        <form action="/articles/filtrer" method="post">
+        <form action="/ventes/filtrer" method="post">
             <p>Filtres :</p>
             <div class="main-form-section">
                 <div class="filter-and-category">
@@ -16,21 +16,18 @@
                         </select>
                     </div>
                 </div>
-
                 <button type="submit">Rechercher</button>
             </div>
-
-
         </form>
     </div>
 
-        <div class="article-list">
-            <a th:href="@{/articles/{id}(id=${article.getNoArticle()})}" th:each="article : ${articles}" class="article-card">
-                <p th:text="${article.getNomArticle()}" class="article-name">Nom de l'article</p>
-                <p><span class="section-name">Prix :</span> <span th:text="${article.getMiseAPrix()}">0</span> points</p>
-                <p><span class="section-name">Fin de l'enchère :</span> <span th:text="${article.getDateFinEncheresToString()}"></span></p>
-                <p><span class="section-name">Vendeur :</span> <span th:text="${article.getVendeur().getPseudo()}"></span></p>
-                <p th:text="${article.getDescription()}" class="article-description" th:title="${article.getDescription()}">Description de l'article</p>
-            </a>
-        </div>
+    <div class="article-list">
+        <a th:href="@{/ventes/{id}(id=${article.getNoArticle()})}" th:each="article : ${articles}" class="article-card">
+            <p th:text="${article.getNomArticle()}" class="article-name">Nom de l'article</p>
+            <p><span class="section-name">Prix :</span> <span th:text="${article.getMiseAPrix()}">0</span> points</p>
+            <p><span class="section-name">Fin de l'enchère :</span> <span th:text="${article.getDateFinEncheresToString()}"></span></p>
+            <p><span class="section-name">Vendeur :</span> <span th:text="${article.getVendeur().getPseudo()}"></span></p>
+            <p th:text="${article.getDescription()}" class="article-description" th:title="${article.getDescription()}">Description de l'article</p>
+        </a>
+    </div>
 </main>
