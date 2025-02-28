@@ -102,12 +102,12 @@ public class VenteController {
 
     @PostMapping("/enchere")
     public String Encherir(@ModelAttribute ArticleVendu article,@RequestParam("montantEnchere") int MontantEnchere){	
-    		Optional<ArticleVendu> optArticle = articleService.findById(article.getNoArticle());
+    		Optional<ArticleVendu> optArticle = venteService.findById(article.getNoArticle());
     		if (optArticle.isPresent()) {
-    			
-    			articleService.encherir(optArticle.get(),MontantEnchere);
+
+				venteService.encherir(optArticle.get(),MontantEnchere);
     		}
           
-        return "redirect:/articles/";
+        return "redirect:/ventes/";
     }
 }
