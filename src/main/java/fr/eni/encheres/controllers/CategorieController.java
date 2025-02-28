@@ -2,8 +2,12 @@ package fr.eni.encheres.controllers;
 
 import fr.eni.encheres.bll.categorie.CategorieService;
 import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.exceptions.CategoryAlreadyExistsException;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -78,7 +82,6 @@ public class CategorieController {
 
     @GetMapping(path="/{noCategorie}")
     private String afficherDetailCategorie(@PathVariable("noCategorie") int noCategorie, Model model){
-
         Optional<Categorie> categorie = categorieService.findById(noCategorie);
         if(categorie.isPresent()){
             model.addAttribute("categorie", categorie.get());

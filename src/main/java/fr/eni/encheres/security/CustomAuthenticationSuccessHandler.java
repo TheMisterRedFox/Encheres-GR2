@@ -13,31 +13,28 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 
 import java.io.IOException;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
 public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private UtilisateurService utilisateurService;
+    private final UtilisateurService utilisateurService;
+
+    @Autowired
+    public CustomAuthenticationSuccessHandler(UtilisateurService utilisateurService) {
+        this.utilisateurService = utilisateurService;
+    }
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
         HttpSession session = request.getSession();
         User userDetails = (User) authentication.getPrincipal();
-        Utilisateur utilisateur = ServiceProvider.getUserService().findByPseudo(userDetails.getUsername())
+        Utilisateur utilisateur = utilisateurService.findByPseudo(userDetails.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         session.setAttribute("user", utilisateur);
         super.onAuthenticationSuccess(request, response, authentication);
-    }
-
-    private class ServiceProvider {
-        private static UtilisateurService userService;
-
-        public static void setUserService(UtilisateurService service) {
-            ServiceProvider.userService = service;
-        }
-
-        public static UtilisateurService getUserService() {
-            return userService;
-        }
     }
 }
 
