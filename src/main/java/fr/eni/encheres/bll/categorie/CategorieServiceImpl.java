@@ -3,6 +3,8 @@ package fr.eni.encheres.bll.categorie;
 import java.util.List;
 import java.util.Optional;
 
+import fr.eni.encheres.bll.vente.VenteService;
+import fr.eni.encheres.exceptions.CategoryAlreadyExistsException;
 import org.springframework.stereotype.Service;
 
 import fr.eni.encheres.bo.Categorie;
@@ -12,9 +14,11 @@ import fr.eni.encheres.dal.categorie.CategorieRepository;
 public class CategorieServiceImpl implements CategorieService {
 
 	private CategorieRepository categorieRepo;
+	private VenteService venteService;
 		
-	public CategorieServiceImpl(CategorieRepository categorieRepo) {
+	public CategorieServiceImpl(CategorieRepository categorieRepo, VenteService venteService) {
 		this.categorieRepo = categorieRepo;
+		this.venteService = venteService;
 	}
 
 	@Override
@@ -28,24 +32,42 @@ public class CategorieServiceImpl implements CategorieService {
 	}
 
 	@Override
-	public void update(Categorie entity) {
-		categorieRepo.update(entity);
+	public void update(Categorie categorie) {
+		categorieRepo.update(categorie);
 	}
 
 	@Override
-	public void add(Categorie entity) {
-		categorieRepo.add(entity);
+	public void add(Categorie categorie) {
+		categorieRepo.add(categorie);
 	}
 
 	@Override
-	public void save(Categorie entity) {
-		//TODO faire conditions
-		this.add(entity);
+	public void save(Categorie categorie) throws CategoryAlreadyExistsException {
+
+		this.checkIfCategoryAlreadyExist(categorie);
+
+		if(categorie.getNoCategorie() != 0){
+			this.update(categorie);
+		} else {
+			this.add(categorie);
+		}
 	}
 
 	@Override
-	public void delete(int id) {
-		categorieRepo.delete(id);
+	public void delete(int id) throws CategoryAlreadyExistsException {
+
+		if(venteService.findByCategory(id).isEmpty()){
+			categorieRepo.delete(id);
+		} else {
+			throw new CategoryAlreadyExistsException();
+		}
+
 	}
 
+	private void checkIfCategoryAlreadyExist(Categorie categorie) throws CategoryAlreadyExistsException {
+		Optional<Categorie> categoryToCompare = categorieRepo.findByLibelle(categorie.getLibelle());
+		if(categoryToCompare.isPresent() && categoryToCompare.get().getNoCategorie() != categorie.getNoCategorie()){
+			throw new CategoryAlreadyExistsException();
+		}
+	}
 }

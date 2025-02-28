@@ -42,20 +42,30 @@ public class CategorieRepositoryImpl implements CategorieRepository {
 	}
 
 	@Override
-	public void add(Categorie entity) {
-
+	public void add(Categorie categorie) {
+		String sql = "INSERT INTO categories (libelle) VALUES (?)";
+		jdbcTemplate.update(sql, categorie.getLibelle());
 	}
 
 	@Override
 	public void update(Categorie entity) {
-
+		String sql = "UPDATE categories SET libelle = ? WHERE no_categorie = ?";
+		jdbcTemplate.update(sql, entity.getLibelle(), entity.getNoCategorie());
 	}
 
 	@Override
 	public void delete(int id) {
-
+		String sql = "DELETE FROM categories WHERE no_categorie = ?";
+		jdbcTemplate.update(sql, id);
 	}
 
+	@Override
+	public Optional<Categorie> findByLibelle(String libelle) {
+		String sql = "select libelle, no_categorie from categories where libelle = ?";
+		Categorie categorie = jdbcTemplate.queryForObject(sql, new CategorieRowMapper(), libelle);
+
+		return Optional.ofNullable(categorie);
+	}
 }
 
 class CategorieRowMapper implements RowMapper<Categorie> {
