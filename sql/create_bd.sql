@@ -22,7 +22,7 @@ CREATE TABLE UTILISATEURS (
     rue VARCHAR(250) NOT NULL,
     code_postal VARCHAR(10) NOT NULL,
     ville VARCHAR(250) NOT NULL,
-    mot_de_passe VARCHAR(50) NOT NULL,
+    mot_de_passe VARCHAR(2000) NOT NULL,
     credit INTEGER NOT NULL,
     administrateur BOOLEAN NOT NULL
 );

@@ -47,4 +47,8 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 		utilisateurRepo.delete(id);
 	}
 
+	@Override
+	public Optional<Utilisateur> findByPseudo(String pseudo) {
+		return utilisateurRepo.findByPseudo(pseudo);
+	}
 }
