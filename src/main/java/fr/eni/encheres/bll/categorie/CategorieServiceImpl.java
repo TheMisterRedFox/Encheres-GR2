@@ -3,6 +3,7 @@ package fr.eni.encheres.bll.categorie;
 import java.util.List;
 import java.util.Optional;
 
+import fr.eni.encheres.exceptions.CategoryAlreadyExistsException;
 import org.springframework.stereotype.Service;
 
 import fr.eni.encheres.bo.Categorie;
@@ -28,19 +29,25 @@ public class CategorieServiceImpl implements CategorieService {
 	}
 
 	@Override
-	public void update(Categorie entity) {
-		categorieRepo.update(entity);
+	public void update(Categorie categorie) {
+		categorieRepo.update(categorie);
 	}
 
 	@Override
-	public void add(Categorie entity) {
-		categorieRepo.add(entity);
+	public void add(Categorie categorie) {
+		categorieRepo.add(categorie);
 	}
 
 	@Override
-	public void save(Categorie entity) {
-		//TODO faire conditions
-		this.add(entity);
+	public void save(Categorie categorie) throws CategoryAlreadyExistsException {
+
+		this.checkIfCategoryAlreadyExist(categorie);
+
+		if(categorie.getNoCategorie() != 0){
+			this.update(categorie);
+		} else {
+			this.add(categorie);
+		}
 	}
 
 	@Override
@@ -48,4 +55,10 @@ public class CategorieServiceImpl implements CategorieService {
 		categorieRepo.delete(id);
 	}
 
+	private void checkIfCategoryAlreadyExist(Categorie categorie) throws CategoryAlreadyExistsException {
+		Optional<Categorie> categoryToCompare = categorieRepo.findByLibelle(categorie.getLibelle());
+		if(categoryToCompare.isPresent() && categoryToCompare.get().getNoCategorie() != categorie.getNoCategorie()){
+			throw new CategoryAlreadyExistsException();
+		}
+	}
 }

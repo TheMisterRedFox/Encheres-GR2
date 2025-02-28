@@ -1,0 +1,5 @@
+<section class="main-section">
+    <h1 th:text="${categorie.getLibelle()}">Nom de la catégorie</h1>
+    <a th:href="@{/categories/{noCategorie}/supprimer(noCategorie=${categorie.getNoCategorie()})}"><button class="remove-btn">Supprimer</button></a>
+    <a th:href="@{/categories/{noCategorie}/modifier(noCategorie=${categorie.getNoCategorie()})}"><button>Modifier</button></a>
+</section>

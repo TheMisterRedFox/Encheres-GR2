@@ -1,0 +1,18 @@
+<section class="main-section">
+    <h1 class="title">Liste des catégories</h1>
+    <table>
+        <tr>
+            <th scope="col">Libellé</th>
+        </tr>
+        <tr th:each="categorie: ${categories}">
+            <td th:text="${categorie.getLibelle()}" />
+            <td>
+                <a th:href="@{/categories/{noCategorie}(noCategorie=${categorie.getNoCategorie()})}"><button class="primary-btn">Consulter</button></a>
+                <!-- TODO RAJOUTER AVEC SPRING SECURITY sec:authorize="hasRole('ROLE_ADMIN')" -->
+                <a th:href="@{/categories/{noCategorie}/supprimer(noCategorie=${categorie.getNoCategorie()})}"><button class="remove-btn">Supprimer</button></a>
+                <a th:href="@{/categories/{noCategorie}/modifier(noCategorie=${categorie.getNoCategorie()})}"><button>Modifier</button></a>
+            </td>
+        </tr>
+    </table>
+    <a href="/categories/ajouter"><button class="add-btn">Ajouter une catégorie</button></a>
+</section>

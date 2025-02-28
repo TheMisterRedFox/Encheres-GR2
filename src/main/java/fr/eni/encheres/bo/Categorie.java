@@ -1,10 +1,16 @@
 package fr.eni.encheres.bo;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 import java.util.Objects;
 
 public class Categorie {
 
 	private int noCategorie;
+
+	@Size(max = 30, message = "Le libellé ne doit pas dépasser 30 caractères")
+	@NotBlank
 	private String libelle;
 	
 	public Categorie() {}
