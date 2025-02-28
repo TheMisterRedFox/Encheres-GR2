@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.dal.vente.VenteRepository;
 import fr.eni.encheres.dal.retrait.RetraitRepository;
@@ -49,8 +48,7 @@ public class VenteServiceImpl implements VenteService {
 	public Optional<ArticleVendu> findById(int noArticle) {
 		return venteRepo.findById(noArticle);
 	}
-
-
+	
 	@Override
 	public List<ArticleVendu> findByFilter(String searchWordFilter, int noCategory) {
 		if(searchWordFilter.isEmpty() && noCategory == -1){
@@ -81,5 +79,12 @@ public class VenteServiceImpl implements VenteService {
 	@Override
 	public List<ArticleVendu> findBySearchTextAndCategory(String searchWordFilter, int noCategory) {
 		return venteRepo.findBySearchTextAndCategory(searchWordFilter, noCategory);
+	}
+
+
+	@Override
+	public void encherir(ArticleVendu article, int Montant/*,Utilisateur utilisateur*/) { // TODO USER
+		venteRepo.encherir(article, Montant);
+		
 	}
 }
