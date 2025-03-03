@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 
 import fr.eni.encheres.dal.retrait.RetraitRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class VenteRepositoryImpl implements VenteRepository {
@@ -81,6 +82,7 @@ public class VenteRepositoryImpl implements VenteRepository {
 	}
 
 	@Override
+	@Transactional // TODO PROCEDURE STOCKÉ
 	public void add(ArticleVendu newArticle) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		String sql = "insert into articles_vendus (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial,"

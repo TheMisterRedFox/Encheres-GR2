@@ -2,6 +2,7 @@ package fr.eni.encheres.controllers;
 
 import fr.eni.encheres.bo.*;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.ui.Model;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import fr.eni.encheres.bll.vente.VenteService;
@@ -96,25 +98,43 @@ public class VenteController {
 
 	// Gère la redirection après un enregistrement
 	@PostMapping("/enregistrer")
-	private String enregistrerVente(@ModelAttribute ArticleVendu article,
+	private String enregistrerVente(@Valid @ModelAttribute("vente") ArticleVendu article,
+			BindingResult resultat,
 			@RequestParam("category") int noCategorie,
-			@RequestParam ("rue") String rue,
-			@RequestParam ("codePostal") String codePostal,
-			@RequestParam ("ville") String ville, HttpSession session) {
+			@RequestParam("rue") String rue,
+			@RequestParam("codePostal") String codePostal,
+			@RequestParam("ville") String ville,
+			HttpSession session,
+			RedirectAttributes redirectAttr,
+			Model model) {
+
+		if (resultat.hasErrors()) {
+			model.addAttribute("categories", categorieService.findAll());
+			model.addAttribute("body", "pages/ventes/formulaire-ventes");
+			return "index";
+		}
+
 		Optional<Categorie> optCategorie = categorieService.findById(noCategorie);
-		
-		if(optCategorie.isPresent()) {
+		if (optCategorie.isPresent()) {
 			article.setCategorie(optCategorie.get());
 		}
 
-		if(session.getAttribute("user") != null) {
+		if (session.getAttribute("user") != null) {
 			Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
-			if(utilisateur != null) {
+			if (utilisateur != null) {
 				article.setVendeur(utilisateur);
 			}
 		}
+
 		article.setRetrait(new Retrait(rue, codePostal, ville));
-		venteService.save(article);
+
+		try {
+			venteService.save(article);
+		} catch (Exception ex) {
+			redirectAttr.addFlashAttribute("erreur", "Une erreur est survenue lors de l'enregistrement.");
+			return "redirect:/ventes/ajouter";
+		}
+
 		return "redirect:/ventes";
 	}
 
@@ -136,7 +156,8 @@ public class VenteController {
 
 				venteService.encherir(optArticle.get(),MontantEnchere);
     		}
-          
+
         return "redirect:/ventes/";
     }
+	// TODO faire des tests unitaire
 }
