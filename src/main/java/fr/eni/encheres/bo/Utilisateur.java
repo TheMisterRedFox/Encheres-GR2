@@ -1,20 +1,54 @@
 package fr.eni.encheres.bo;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.util.Objects;
 
 public class Utilisateur {
 
 	private int noUtilisateur;
+
+	@Size(max = 30, message = "Le pseudo ne doit pas dépasser 30 caractères")
+	@NotBlank
 	private String pseudo;
+
+	@Size(max = 30, message = "Le nom ne doit pas dépasser 30 caractères")
+	@NotBlank
 	private String nom;
+
+	@Size(max = 30, message = "Le prenom ne doit pas dépasser 30 caractères")
+	@NotBlank
 	private String prenom;
+
+	@Size(max = 50, message = "L'email ne doit pas dépasser 50 caractères")
+	@NotBlank
 	private String email;
+
+	@Size(max = 50, message = "Le numéro de téléphone ne doit pas dépasser 50 caractères")
+	@NotBlank
 	private String telephone;
+
+	@Size(max = 250, message = "Le nom de la rue ne doit pas dépasser 250 caractères")
+	@NotBlank
 	private String rue;
+
+	@Size(max = 15, message = "Le code postal ne doit pas dépasser 15 caractères")
+	@NotBlank
 	private String codePostal;
+
+	@Size(max = 250, message = "Le nom de la ville ne doit pas dépasser 250 caractères")
+	@NotBlank
 	private String ville;
+
+	@Size(max = 50, message = "Le mot de passe ne doit pas dépasser 50 caractères")
+	@NotBlank
 	private String motDePasse;
+
+	@NotNull
 	private int credit;
+	@NotNull
 	private boolean administrateur;
 	
 	public Utilisateur() {}
@@ -147,7 +181,4 @@ public class Utilisateur {
 		Utilisateur other = (Utilisateur) obj;
 		return noUtilisateur == other.noUtilisateur;
 	}
-		
-	
-	
 }
