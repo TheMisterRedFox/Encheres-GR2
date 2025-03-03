@@ -17,9 +17,9 @@ public class HomeControlleur {
         return "redirect:/ventes";
     }
 
-    @GetMapping("/chiffrer")
+    /*@GetMapping("/chiffrer")
     public String chiffrer(@RequestParam("mot") String mot) {
         System.out.println("[" + passwordEncoder.encode(mot) + "]");
         return "redirect:/";
-    }
+    }*/
 }
