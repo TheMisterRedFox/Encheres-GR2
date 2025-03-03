@@ -103,8 +103,14 @@ public class VenteRepositoryImpl implements VenteRepository {
 	}
 	
 	@Override
-	public void update(ArticleVendu entity) {
-		
+	public void update(ArticleVendu articleModifie) {
+		String sql = "UPDATE articles_vendus SET nom_article = ?, description = ?, date_debut_encheres = ?, date_fin_encheres = ?, " +
+				"prix_initial = ?, prix_vente = ?, no_categorie = ? WHERE no_article = ?";
+
+		jdbcTemplate.update(sql, articleModifie.getNomArticle(), articleModifie.getDescription(),
+			articleModifie.getDateDebutEncheres(), articleModifie.getDateFinEncheres(), articleModifie.getMiseAPrix(),
+			articleModifie.getPrixVente(), articleModifie.getCategorie().getNoCategorie(), articleModifie.getNoArticle()
+		);
 	}
 
 	@Override
@@ -145,13 +151,7 @@ public class VenteRepositoryImpl implements VenteRepository {
             namedParameterJdbcTemplate.update(sql, params);
             namedParameterJdbcTemplate.update(sqlReCredit, paramsReCredit);
             namedParameterJdbcTemplate.update(sqlDebit, paramsDebit);
-        }
-        System.out.println(article);
-    	System.out.println(Montant);
-    	System.out.println(article.getMeilleureOffre());
-    	System.out.println(Montant > article.getMeilleureOffre());
-    	System.out.println(( (5000-Montant) >0 && (Montant > article.getMeilleureOffre())));
-
+		}
     }
 
 class VenteRowMapper implements RowMapper<ArticleVendu> {
