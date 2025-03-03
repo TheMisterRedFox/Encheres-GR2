@@ -1,7 +1,7 @@
 package fr.eni.encheres.bo;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.util.Objects;
@@ -10,45 +10,42 @@ public class Utilisateur {
 
 	private int noUtilisateur;
 
-	@Size(max = 30, message = "Le pseudo ne doit pas dépasser 30 caractères")
 	@NotBlank
+	@Size(min = 3, max = 30, message = "Le pseudo doit comporter entre 3 et 30 caractères")
 	private String pseudo;
 
-	@Size(max = 30, message = "Le nom ne doit pas dépasser 30 caractères")
 	@NotBlank
+	@Size(max = 30, message = "Le nom ne doit pas dépasser 30 caractères")
 	private String nom;
 
-	@Size(max = 30, message = "Le prenom ne doit pas dépasser 30 caractères")
 	@NotBlank
+	@Size(max = 30, message = "Le prénom ne doit pas dépasser 30 caractères")
 	private String prenom;
 
-	@Size(max = 50, message = "L'email ne doit pas dépasser 50 caractères")
 	@NotBlank
+	@Email
+	@Size(min = 3, max = 50, message = "L'email doit comporter entre 3 et 50 caractères")
 	private String email;
 
-	@Size(max = 50, message = "Le numéro de téléphone ne doit pas dépasser 50 caractères")
-	@NotBlank
+	@Size(max = 15, message = "Le téléphone ne doit pas dépasser 15 caractères")
 	private String telephone;
 
-	@Size(max = 250, message = "Le nom de la rue ne doit pas dépasser 250 caractères")
 	@NotBlank
+	@Size(max = 250, message = "La rue ne doit pas dépasser 250 caractères")
 	private String rue;
 
-	@Size(max = 15, message = "Le code postal ne doit pas dépasser 15 caractères")
 	@NotBlank
+	@Size(max = 10, message = "Le code postal ne doit pas dépasser 10 caractères")
 	private String codePostal;
 
-	@Size(max = 250, message = "Le nom de la ville ne doit pas dépasser 250 caractères")
 	@NotBlank
+	@Size(max = 250, message = "La ville ne doit pas dépasser 250 caractères")
 	private String ville;
 
-	@Size(max = 50, message = "Le mot de passe ne doit pas dépasser 50 caractères")
 	@NotBlank
+	@Size(min = 5,max = 100, message = "Le mot de passe doit comporter entre 5 et 100 caractères")
 	private String motDePasse;
-
-	@NotNull
 	private int credit;
-	@NotNull
 	private boolean administrateur;
 	
 	public Utilisateur() {}
@@ -181,4 +178,7 @@ public class Utilisateur {
 		Utilisateur other = (Utilisateur) obj;
 		return noUtilisateur == other.noUtilisateur;
 	}
+		
+	
+	
 }

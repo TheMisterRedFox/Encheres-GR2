@@ -93,7 +93,7 @@ public class VenteRepositoryImpl implements VenteRepository {
 		      .addValue("dateDebutEncheres", newArticle.getDateDebutEncheres())
 		      .addValue("dateFinEncheres", newArticle.getDateFinEncheres())
 		      .addValue("miseAPrix", newArticle.getMiseAPrix())
-		      .addValue("noUtilisateur", 1) //TODO CHANGER LES 1 PAR LES ID
+		      .addValue("noUtilisateur", newArticle.getVendeur().getNoUtilisateur())
 		      .addValue("noCategorie", newArticle.getCategorie().getNoCategorie());
 		
 		namedParameterJdbcTemplate.update(sql, params, keyHolder, new String[]{"no_article"});

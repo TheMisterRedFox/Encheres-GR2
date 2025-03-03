@@ -32,20 +32,20 @@ VALUES (1, 'Électronique'),
 -- Insertion des utilisateurs
 INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit,
                           administrateur)
-VALUES ('jdoe', 'Doe', 'John', 'jdoe@example.com', '0123456789', '10 rue de Paris', '75001', 'Paris', 'pass123', 100,
+VALUES ('jdoe', 'Doe', 'John', 'jdoe@example.com', '0123456789', '10 rue de Paris', '75001', 'Paris', '{bcrypt}$2a$10$rtqeU.ZF0V.1Cg.gpELOK.XWG3Bvtl409nfRhrUCFtiEJXR1f0tIe', 100,
         FALSE),
-       ('asmith', 'Smith', 'Alice', 'asmith@example.com', '0987654321', '15 av. de Lyon', '69000', 'Lyon', 'pass123',
+       ('asmith', 'Smith', 'Alice', 'asmith@example.com', '0987654321', '15 av. de Lyon', '69000', 'Lyon', '{bcrypt}$2a$10$TBc7gWbm0vVJaUY5Vn6PxePFoteuAekQFL65FqICsIij.3XjUi3Q.',
         200, TRUE),
-       ('bmartin', 'Martin', 'Bob', 'bmartin@example.com', '0678901234', '20 bd de Lille', '59000', 'Lille', 'pass123',
+       ('bmartin', 'Martin', 'Bob', 'bmartin@example.com', '0678901234', '20 bd de Lille', '59000', 'Lille', '{bcrypt}$2a$10$rtqeU.ZF0V.1Cg.gpELOK.XWG3Bvtl409nfRhrUCFtiEJXR1f0tIe',
         50, FALSE),
        ('cmiller', 'Miller', 'Chris', 'cmiller@example.com', '0612345678', '5 rue de Nantes', '44000', 'Nantes',
-        'pass123', 150, FALSE),
+        '{bcrypt}$2a$10$/q.yk/7nNGbyIIFK3ZypJebWrQ8/2CFpFeSWdi4XMaCAP6Fb2Kw5m', 150, FALSE),
        ('lgarcia', 'Garcia', 'Laura', 'lgarcia@example.com', '0623456789', '25 place de Toulouse', '31000', 'Toulouse',
-        'pass123', 300, FALSE),
+        '{bcrypt}$2a$10$VTs45Y0K.2mbaHod1BB7I.fs9CcmH/cA.WXq4GecAAZ.KyQ3oGNG2', 300, FALSE),
        ('ddupont', 'Dupont', 'David', 'ddupont@example.com', '0634567890', '12 rue de Bordeaux', '33000', 'Bordeaux',
         'pass123', 250, TRUE),
-       ('mleblanc', 'Leblanc', 'Marie', 'mleblanc@example.com', '0645678901', '8 rue de Marseille', '13000',
-        'Marseille', 'pass123', 180, FALSE);
+       ('{bcrypt}$2a$10$/q.yk/7nNGbyIIFK3ZypJebWrQ8/2CFpFeSWdi4XMaCAP6Fb2Kw5m', 'Leblanc', 'Marie', 'mleblanc@example.com', '0645678901', '8 rue de Marseille', '13000',
+        'Marseille', '{bcrypt}$2a$10$/q.yk/7nNGbyIIFK3ZypJebWrQ8/2CFpFeSWdi4XMaCAP6Fb2Kw5m', 180, FALSE);
 
 -- Insertion des articles (avec plus de données)
 INSERT INTO ARTICLES_VENDUS (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente,

@@ -1,21 +1,24 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
     <body>
         <nav style="width: 100%; display: flex; flex-direction: column;">
             <div style="display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
                 <div style="display: flex; flex-direction: row; justify-content: start; align-items: center">
                     <a th:href="@{/}">
-                        <img th:src="@{/logo.png}" alt="Logo" height="40" style="margin-right: 10px">
+                        <img th:src="@{/images/logo.png}" alt="Logo" height="40" style="margin-right: 10px">
                     </a>
                     <span>Les Enchères - by GR2</span>
                 </div>
-                <button type="submit">S'inscrire - Se connecter</button>
+                <a th:href="@{/login}" sec:authorize="!isAuthenticated()"><button type="submit">Se connecter / S'inscrire</button></a>
+                <a sec:authorize="isAuthenticated()"><form th:action="@{/logout}" method="post">
+                    <button type="submit" class="remove-btn">Se déconnecter</button>
+                </form></a>
             </div>
             <div style="display: flex; flex-direction: row; justify-content: space-evenly">
                 <span><a th:href="@{/ventes}">Ventes</a></span>
                 <span><a th:href="@{/ventes/ajouter}">Vendre un article</a></span>
-                <span><a th:href="@{/categories}">Catégories</a></span>
-                <span><a th:href="@{/utilisateurs}">Utilisateurs</a></span>
+                <span sec:authorize="hasAnyRole('ADMIN')"><a th:href="@{/categories}">Catégories</a></span>
+                <span sec:authorize="hasAnyRole('ADMIN')"><a th:href="@{/utilisateurs}">Utilisateurs</a></span>
             </div>
         </nav>
     </body>

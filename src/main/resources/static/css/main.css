@@ -29,6 +29,14 @@ a, a:hover, a:focus, a:active, a:visited {
     margin: 2rem auto;
 }
 
+a.link {
+    color: #0B57D0;
+    transition: color 0.2s;
+}
+a.link:hover {
+    color: #3677c1;
+}
+
 /*
     Style des boutons
  */

@@ -60,6 +60,9 @@
 
 		<button type="submit">Enregistrer</button>
 		<button type="reset">Réinitialiser</button>
+		 <input type="hidden"
+				th:name="${_csrf.parameterName}"
+				th:value="${_csrf.token}"/>
 	</form>
 	<a th:href="@{/ventes}"><button>Annuler</button></a>
 </th:block>

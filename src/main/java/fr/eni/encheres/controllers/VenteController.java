@@ -1,5 +1,7 @@
 package fr.eni.encheres.controllers;
 
+import fr.eni.encheres.bo.*;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 
 import java.util.ArrayList;
@@ -9,10 +11,6 @@ import java.util.Optional;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import fr.eni.encheres.bo.ArticleVendu;
-import fr.eni.encheres.bo.Categorie;
-import fr.eni.encheres.bo.Enchere;
-import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bll.vente.VenteService;
 import fr.eni.encheres.bll.categorie.CategorieService;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -102,13 +100,19 @@ public class VenteController {
 			@RequestParam("category") int noCategorie,
 			@RequestParam ("rue") String rue,
 			@RequestParam ("codePostal") String codePostal,
-			@RequestParam ("ville") String ville) {
+			@RequestParam ("ville") String ville, HttpSession session) {
 		Optional<Categorie> optCategorie = categorieService.findById(noCategorie);
 		
 		if(optCategorie.isPresent()) {
 			article.setCategorie(optCategorie.get());
 		}
-		
+
+		if(session.getAttribute("user") != null) {
+			Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+			if(utilisateur != null) {
+				article.setVendeur(utilisateur);
+			}
+		}
 		article.setRetrait(new Retrait(rue, codePostal, ville));
 		venteService.save(article);
 		return "redirect:/ventes";
