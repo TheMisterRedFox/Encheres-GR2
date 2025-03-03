@@ -1,0 +1,72 @@
+:root {
+    --navbar-height: 70px;
+    --navbar-shrink-height: 60px;
+}
+
+body:has(.navbar){
+    margin-top: var(--navbar-height);
+    padding-top: 1px;
+}
+
+.navbar {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #24252A;
+    color: white;
+    height: var(--navbar-height);
+    position: fixed;
+    top: 0;
+    transition: 0.2s;
+}
+
+.navbar.navbar-shrink {
+    height: var(--navbar-shrink-height);
+    opacity: 0.75;
+}
+
+.navbar.navbar-shrink:hover {
+    height: var(--navbar-height);
+    opacity: 1;
+}
+
+.navbar .logo-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    margin-left: 2rem;
+}
+
+.navbar .logo-section img {
+    margin-right: 10px;
+    height: 50px;
+    filter: brightness(0) invert(1);
+}
+
+.navbar .links-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: 2rem;
+    color: white;
+}
+
+.navbar .links-section a:hover {
+    color: #38a8ed;
+    transition: color 0.2s;
+}
+
+.navbar .user-section {
+    margin-right: 2rem;
+}
+
+.navbar .user-section button {
+    margin: 0;
+}
+
+.navbar button {
+    border-radius: 25px;
+}
