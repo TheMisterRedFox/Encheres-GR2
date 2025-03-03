@@ -12,7 +12,6 @@ import fr.eni.encheres.dal.retrait.RetraitRepository;
 @Service
 public class VenteServiceImpl implements VenteService {
 
-	ArticleVendu article;
 	private final VenteRepository venteRepo;
 
     //Constructor
