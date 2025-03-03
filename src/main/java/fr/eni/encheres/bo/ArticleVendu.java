@@ -1,24 +1,38 @@
 package fr.eni.encheres.bo;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Objects;
 
 public class ArticleVendu {
-	
+
 	private int noArticle;
+
+	@Size(max = 100, message = "Le nom de l'article ne doit pas dépasser 100 caractères")
+	@NotBlank
 	private String nomArticle;
+
+	@Size(max = 300, message = "La description de l'article ne doit pas dépasser 300 caractères")
+	@NotBlank
 	private String description;
+	@NotNull
 	private LocalDateTime dateDebutEncheres;
+	@NotNull
 	private LocalDateTime dateFinEncheres;
 	private int miseAPrix;
 	private int prixVente;
 	private String etatVente;
 	private int meilleureOffre;
 	private String pseudoMeilleurAcheteur;
+	@NotNull
 	private Utilisateur vendeur;
 	private Retrait retrait;
+	@NotNull
 	private Categorie categorie;
 	
 	public ArticleVendu() {}

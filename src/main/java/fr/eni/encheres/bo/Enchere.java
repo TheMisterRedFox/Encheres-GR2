@@ -1,13 +1,18 @@
 package fr.eni.encheres.bo;
 
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDateTime;
 
 public class Enchere {
-	
+
+	@NotNull
 	private LocalDateTime dateEnchere;
+	@NotNull
 	private int montantEnchere;
-	
+	@NotNull
 	private ArticleVendu article;
+	@NotNull
 	private Utilisateur encherisseur;
 	
 	private Enchere() {}

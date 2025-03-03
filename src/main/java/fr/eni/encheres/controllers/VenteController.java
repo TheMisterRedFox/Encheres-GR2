@@ -83,6 +83,17 @@ public class VenteController {
 		return "redirect:/ventes/";
 	}
 
+	// Gère la suppression d'un article
+	@GetMapping("/supprimer/{noArticle}")
+	public String supprimerVente(@PathVariable("noArticle") int noArticle) {
+		Optional<ArticleVendu> optArticle = venteService.findById(noArticle);
+
+		if(optArticle.isPresent()) {
+			venteService.delete(noArticle);
+		}
+		return "redirect:/ventes/";
+	}
+
 	// Gère la redirection après un enregistrement
 	@PostMapping("/enregistrer")
 	private String enregistrerVente(@ModelAttribute ArticleVendu article,
