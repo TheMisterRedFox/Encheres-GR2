@@ -43,8 +43,8 @@ VALUES ('jdoe', 'Doe', 'John', 'jdoe@example.com', '0123456789', '10 rue de Pari
        ('lgarcia', 'Garcia', 'Laura', 'lgarcia@example.com', '0623456789', '25 place de Toulouse', '31000', 'Toulouse',
         '{bcrypt}$2a$10$VTs45Y0K.2mbaHod1BB7I.fs9CcmH/cA.WXq4GecAAZ.KyQ3oGNG2', 300, FALSE),
        ('ddupont', 'Dupont', 'David', 'ddupont@example.com', '0634567890', '12 rue de Bordeaux', '33000', 'Bordeaux',
-        'pass123', 250, TRUE),
-       ('{bcrypt}$2a$10$/q.yk/7nNGbyIIFK3ZypJebWrQ8/2CFpFeSWdi4XMaCAP6Fb2Kw5m', 'Leblanc', 'Marie', 'mleblanc@example.com', '0645678901', '8 rue de Marseille', '13000',
+        '{bcrypt}$2a$10$/q.yk/7nNGbyIIFK3ZypJebWrQ8/2CFpFeSWdi4XMaCAP6Fb2Kw5m', 250, TRUE),
+       ('mleblanc', 'Leblanc', 'Marie', 'mleblanc@example.com', '0645678901', '8 rue de Marseille', '13000',
         'Marseille', '{bcrypt}$2a$10$/q.yk/7nNGbyIIFK3ZypJebWrQ8/2CFpFeSWdi4XMaCAP6Fb2Kw5m', 180, FALSE);
 
 -- Insertion des articles (avec plus de données)
@@ -125,15 +125,3 @@ VALUES ('2025-02-02 14:30:00', 520, 1, 2),
        ('2025-02-18 09:00:00', 650, 10, 3),
        ('2025-02-19 12:30:00', 680, 10, 7),
        ('2025-02-20 14:15:00', 700, 10, 2);
-
-
-SELECT *
-FROM CATEGORIES;
-SELECT *
-FROM UTILISATEURS;
-SELECT *
-FROM ARTICLES_VENDUS;
-SELECT *
-FROM RETRAITS;
-SELECT *
-FROM ENCHERES;
