@@ -1,0 +1,18 @@
+<h1><span th:text="${vente.getPseudoMeilleurAcheteur()}"></span> a remporté l'enchere </h1>
+	<p><strong>Nom :</strong> <span th:text="${vente.getNomArticle()}"></span></p>
+	<p><strong>Description :</strong> <span th:text="${vente.getDescription()}"></span></p>
+	<p><strong>Meilleure offre :</strong>
+	    <span th:if="${vente.getMeilleureOffre() == vente.getMiseAPrix()}">Pas d'offre</span>
+	    <span th:unless="${vente.getMeilleureOffre() == vente.getMiseAPrix()}">
+	        <span th:text="${vente.getMeilleureOffre()}"></span>
+	        <span>pts par</span>
+	        <span th:text="${vente.getPseudoMeilleurAcheteur()}"></span>
+	    </span>
+	</p>
+	<p><strong>Mise à prix :</strong> <span th:text="${vente.getMiseAPrix()}"></span></p>
+	<p><strong>Fin de l'enchère :</strong> <span th:text="${vente.getDateFinEncheres()}"></span></p>
+	<p><strong>Retrait :</strong> <span th:text="${vente.getRetrait().toString()}"></span></p>
+	<p><strong>Nom vendeur: </strong> <span th:text="${vente.getVendeur().getPseudo()}"></span></p>
+<button type="submit">Retrait effectué</button>
+
+

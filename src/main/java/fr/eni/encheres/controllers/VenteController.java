@@ -2,6 +2,7 @@ package fr.eni.encheres.controllers;
 
 import org.springframework.ui.Model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,9 +14,14 @@ import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Retrait;
+import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.bll.vente.VenteService;
 import fr.eni.encheres.bll.categorie.CategorieService;
+import fr.eni.encheres.bll.utilisateur.UtilisateurService;
+
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 
 @Controller
 @RequestMapping("/ventes")
@@ -23,10 +29,12 @@ public class VenteController {
 
 	private final VenteService venteService;
 	private final CategorieService categorieService;
+	private final UtilisateurService utilisateurService;
 	
-	public VenteController(VenteService venteService, CategorieService categorieService) {
+	public VenteController(VenteService venteService, CategorieService categorieService, UtilisateurService utilisateurService) {
 		this.venteService = venteService;
 		this.categorieService = categorieService;
+		this.utilisateurService = utilisateurService;
 	}
 
 	// Affiche le formulaire de création d'un article
@@ -62,12 +70,26 @@ public class VenteController {
 	public String getVenteDetails(@PathVariable("noArticle") int noArticle, Model model) {
 
 		Optional<ArticleVendu> optArticle = venteService.findById(noArticle);
-
+		Optional<Utilisateur> optUser = utilisateurService.findById(1);
+		
 		if(optArticle.isPresent()) {
+			if (optArticle.get().getDateFinEncheres().isBefore(LocalDateTime.now())||optArticle.get().getDateFinEncheres().isEqual(LocalDateTime.now())){
+				System.out.println(optArticle.get().getDateFinEncheres().isBefore(LocalDateTime.now()));
+				System.out.println(optArticle.get().getDateFinEncheres().isEqual(LocalDateTime.now()));
+				System.out.println(optArticle.get().getDateFinEncheres().isBefore(LocalDateTime.now())||optArticle.get().getDateFinEncheres().isEqual(LocalDateTime.now()));
+				System.out.println("utilisateur");
+				System.out.println(utilisateurService.findById(1));
+				System.out.println("return");
+				System.out.println(venteService.finEnchere(optArticle.get(),optUser.get()));
+				System.out.println("error");
+					model.addAttribute("body",venteService.finEnchere(optArticle.get(), optUser.get()));
+			}else {
 			model.addAttribute("vente", optArticle.get());
 			model.addAttribute("body", "pages/ventes/details-vente");
 			return "index";
+			}
 		}
+		
 		return "redirect:/ventes/";
 	}
 
@@ -110,4 +132,6 @@ public class VenteController {
           
         return "redirect:/ventes/";
     }
+    
+
 }

@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.vente.VenteRepository;
 import fr.eni.encheres.dal.retrait.RetraitRepository;
 
@@ -85,6 +86,10 @@ public class VenteServiceImpl implements VenteService {
 	@Override
 	public void encherir(ArticleVendu article, int Montant/*,Utilisateur utilisateur*/) { // TODO USER
 		venteRepo.encherir(article, Montant);
-
+	}
+	
+	@Override
+	public String finEnchere(ArticleVendu article,Utilisateur user) { // TODO USER
+		return venteRepo.finEnchere(article,user);
 	}
 }

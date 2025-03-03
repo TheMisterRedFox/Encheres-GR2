@@ -8,6 +8,8 @@ import java.util.Optional;
 
 import fr.eni.encheres.bo.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -20,6 +22,7 @@ import fr.eni.encheres.dal.retrait.RetraitRepository;
 
 @Repository
 public class VenteRepositoryImpl implements VenteRepository {
+	Logger logger = LoggerFactory.getLogger(VenteRepositoryImpl.class);
 
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	private JdbcTemplate jdbcTemplate;
@@ -82,6 +85,7 @@ public class VenteRepositoryImpl implements VenteRepository {
 
 	@Override
 	public void add(ArticleVendu newArticle) {
+		logger.debug("avant insert articles_vendus");
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		String sql = "insert into articles_vendus (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial,"
 				+ "no_utilisateur, no_categorie) values (:nomArticle, :description, :dateDebutEncheres, :dateFinEncheres, :miseAPrix,"
@@ -100,6 +104,8 @@ public class VenteRepositoryImpl implements VenteRepository {
 		newArticle.setNoArticle(keyHolder.getKeyAs(Integer.class));
 		newArticle.getRetrait().setArticle(newArticle);
 		retraitRepo.add(newArticle.getRetrait());
+
+		logger.debug("après insert articles_vendus");
 	}
 	
 	@Override
@@ -114,7 +120,8 @@ public class VenteRepositoryImpl implements VenteRepository {
 
     @Override
     public void encherir(ArticleVendu article, int Montant) { // TODO USER 
-        
+
+		
     	// Création de la ligne enchere
     	String sql = "INSERT INTO ENCHERES (date_enchere, montant_enchere, no_article, no_utilisateur) "
         		   + "VALUES (NOW(), :montantEnchere,:article, :utilisateur)"; 
@@ -142,16 +149,48 @@ public class VenteRepositoryImpl implements VenteRepository {
         
         if ( (/*AJOUTER CREDIT UTILISATEUR */5000-Montant) >0 && (Montant > article.getMiseAPrix())&&(Montant > article.getMeilleureOffre()))
         {
+        	logger.debug("avant insert encheres");
             namedParameterJdbcTemplate.update(sql, params);
+    		logger.debug("après insert encheres");
+    		logger.debug("avant update Utilisateur (ancien acheteur)");
             namedParameterJdbcTemplate.update(sqlReCredit, paramsReCredit);
+    		logger.debug("après update Utilisateur (ancien acheteur)");
+    		logger.debug("avant update Utilisateur (acheteur)");
             namedParameterJdbcTemplate.update(sqlDebit, paramsDebit);
+    		logger.debug("après update Utilisateur (acheteur)");
         }
-        System.out.println(article);
-    	System.out.println(Montant);
-    	System.out.println(article.getMeilleureOffre());
-    	System.out.println(Montant > article.getMeilleureOffre());
-    	System.out.println(( (5000-Montant) >0 && (Montant > article.getMeilleureOffre())));
+    }
+    
+    public String finEnchere(ArticleVendu article, Utilisateur user) {
 
+    	String vendeur="pages/ventes/fin-ventes";
+    	String acheteur="pages/ventes/winner-ventes";
+    	String visiteur="pages/ventes/viewer-ventes";
+    	
+		logger.debug("avant update articles_vendus (prix_vente)");    	
+    	String sql = "update articles_vendus set prix_vente = :offre where no_article = :article";
+    	 MapSqlParameterSource params = new MapSqlParameterSource();
+         params
+                 .addValue("offre",article.getMeilleureOffre())
+                 .addValue("article",article.getNoArticle());
+
+         namedParameterJdbcTemplate.update(sql, params);
+ 		logger.debug("après update articles_vendus (prix_vente)");
+
+ 		logger.debug("avant redirection user"); 
+    	if (article.getVendeur() == user) {
+    		logger.debug("redirection vendeur"); 
+    		return vendeur;
+    	}else if (article.getPseudoMeilleurAcheteur() == user.getPseudo()){
+    		logger.debug("redirection acheteur"); 
+    		return acheteur;
+    	} else {
+    		logger.debug("redirection visiteur"); 
+    		return visiteur;
+    	}
+    	
+    	
+    	
     }
 
 class VenteRowMapper implements RowMapper<ArticleVendu> {
