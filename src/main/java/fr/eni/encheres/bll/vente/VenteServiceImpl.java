@@ -1,5 +1,6 @@
 package fr.eni.encheres.bll.vente;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +12,7 @@ import fr.eni.encheres.dal.retrait.RetraitRepository;
 @Service
 public class VenteServiceImpl implements VenteService {
 
+	ArticleVendu article;
 	private final VenteRepository venteRepo;
 
     //Constructor
@@ -19,8 +21,8 @@ public class VenteServiceImpl implements VenteService {
     }
 	
 	@Override
-	public void update(ArticleVendu entity) {
-		venteRepo.update(entity);
+	public void update(ArticleVendu articleModifie) {
+		venteRepo.update(articleModifie);
 	}
 
 	@Override
@@ -35,8 +37,12 @@ public class VenteServiceImpl implements VenteService {
 	
 	@Override
 	public void save(ArticleVendu vente) {
-		//TODO condition sur l'ajout ou la modification
-		this.add(vente);
+
+		if(vente.getNoArticle() != 0){
+			this.update(vente);
+		} else {
+			this.add(vente);
+		}
 	}
 	
 	@Override

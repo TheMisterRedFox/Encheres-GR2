@@ -57,6 +57,20 @@ public class VenteController {
 		return "index";
 	}
 
+	@GetMapping("/modifier/{id}")
+	public String afficherFormulaireModification(@PathVariable int id, Model model) {
+		Optional<ArticleVendu> article = venteService.findById(id);
+
+		if (article.isEmpty()) {
+			return "redirect:/ventes";
+		}
+
+		model.addAttribute("vente", article.get());
+		model.addAttribute("categories", categorieService.findAll());
+		model.addAttribute("body", "pages/ventes/formulaire-ventes");
+		return "index";
+	}
+
 	// Affiche les details d'une vente
 	@GetMapping("/{noArticle}")
 	public String getVenteDetails(@PathVariable("noArticle") int noArticle, Model model) {

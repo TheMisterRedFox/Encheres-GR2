@@ -13,24 +13,27 @@
 		</div>
 
 		<div>
-		  <label for="category">Cat�gorie *: </label>
+		  <label for="category">Catégorie *: </label>
 		  <select id="category" name="category">
-		  	<option th:each="c : ${categories}" th:value="${c.getNoCategorie()}" th:text="${c.getLibelle()}"></option>
+		  	<option th:each="c : ${categories}"
+					th:value="${c.getNoCategorie()}"
+					th:text="${c.getLibelle()}"
+					th:selected="${vente.getCategorie() != null && vente.getCategorie().getNoCategorie() == c.getNoCategorie()}"></option>
 		  </select>
 		</div>
 
 		<div>
-			<label for="miseAPrix">Mise � prix *: </label>
+			<label for="miseAPrix">Mise à prix *: </label>
 			<input type="number" th:field="*{miseAPrix}" id="miseAPrix">
 		</div>
 
 		<div>
-			<label for="dateDebutEncheres">D�but de l'ench�re *: </label>
+			<label for="dateDebutEncheres">Début de l'enchère *: </label>
 			<input type="datetime-local" th:field="*{dateDebutEncheres}" id="dateDebutEncheres">
 		</div>
 
 		<div>
-			<label for="dateFinEncheres">Fin de l'ench�re *: </label>
+			<label for="dateFinEncheres">Fin de l'enchère *: </label>
 			<input type="datetime-local" th:field="*{dateFinEncheres}" id="dateFinEncheres">
 		</div>
 
@@ -38,21 +41,25 @@
 			<span>Retrait</span>
 			<div>
 				<label for="rue">Rue *: </label>
-				<input type="text" name="rue" id="rue">
+				<input type="text" name="rue" id="rue"
+					   th:value="${vente.getRetrait() != null ? vente.getRetrait().getRue() : ''}">
 			</div>
 
 			<div>
 				<label for="codePostal">Code Postal*: </label>
-				<input type="text" name="codePostal" id="codePostal">
+				<input type="text" name="codePostal" id="codePostal"
+					   th:value="${vente.getRetrait() != null ? vente.getRetrait().getCodePostal() : ''}">
 			</div>
 
 			<div>
 				<label for="ville">Ville *: </label>
-				<input type="text" name="ville" id="ville">
+				<input type="text" name="ville" id="ville"
+					   th:value="${vente.getRetrait() != null ? vente.getRetrait().getVille() : ''}">
 			</div>
 		</div>
 
 		<button type="submit">Enregistrer</button>
-		<button type="reset">Annuler</button>
+		<button type="reset">Réinitialiser</button>
 	</form>
+	<a th:href="@{/ventes}"><button>Annuler</button></a>
 </th:block>

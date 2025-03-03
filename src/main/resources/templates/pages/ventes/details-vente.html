@@ -15,11 +15,12 @@
 			    </span>
 			</p>
 
-			<p><strong>Fin de l'enchère :</strong> <span th:text="${vente.getDateFinEncheres()}"></span></p>
+			<p><strong>Fin de l'enchère :</strong> <span th:text="${vente.getDateFinEncheresToString()}"></span></p>
 			<p><strong>Retrait :</strong> <span th:text="${vente.getRetrait().toString()}"></span></p>
 			<p><strong>Nom vendeur: </strong> <span th:text="${vente.getVendeur().getPseudo()}"></span></p>
 			<!-- TODO - rajouter une div avec une condition pour vérifier si l'utilisateur connecté est le vendeur de l'article -->
 			<p><strong>Ma proposition :</strong> <input type="number" id="montantEnchere" name="montantEnchere"></p>
 		<button type="submit">Enchérir</button>
 	</form>
+	<a th:href="@{/ventes/modifier/{noArticle}(noArticle=${vente.getNoArticle()})}"><button>Modifier</button></a>
 
