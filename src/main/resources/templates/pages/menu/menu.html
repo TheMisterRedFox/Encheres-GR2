@@ -10,13 +10,15 @@
                     <span>Les Enchères - by GR2</span>
                 </div>
                 <a th:href="@{/login}" sec:authorize="!isAuthenticated()"><button type="submit">Se connecter / S'inscrire</button></a>
-                <a th:href="@{/profile}" sec:authorize="isAuthenticated()"><button type="submit">Mon profil</button></a>
+                <a sec:authorize="isAuthenticated()"><form th:action="@{/logout}" method="post">
+                    <button type="submit" class="remove-btn">Se déconnecter</button>
+                </form></a>
             </div>
             <div style="display: flex; flex-direction: row; justify-content: space-evenly">
                 <span><a th:href="@{/ventes}">Ventes</a></span>
                 <span><a th:href="@{/ventes/ajouter}">Vendre un article</a></span>
-                <span><a th:href="@{/categories}">Catégories</a></span>
-                <span><a th:href="@{/utilisateurs}">Utilisateurs</a></span>
+                <span sec:authorize="hasAnyRole('ADMIN')"><a th:href="@{/categories}">Catégories</a></span>
+                <span sec:authorize="hasAnyRole('ADMIN')"><a th:href="@{/utilisateurs}">Utilisateurs</a></span>
             </div>
         </nav>
     </body>
