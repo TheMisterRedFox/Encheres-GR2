@@ -115,7 +115,8 @@ public class VenteRepositoryImpl implements VenteRepository {
 
 	@Override
 	public void delete(int id) {
-
+		String sql = "DELETE FROM retraits WHERE no_article = ?; DELETE FROM encheres WHERE no_article = ?; DELETE FROM articles_vendus WHERE no_article = ?";
+		jdbcTemplate.update(sql, id, id, id);
 	}
 
     @Override

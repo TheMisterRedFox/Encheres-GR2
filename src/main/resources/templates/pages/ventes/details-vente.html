@@ -22,5 +22,15 @@
 			<p><strong>Ma proposition :</strong> <input type="number" id="montantEnchere" name="montantEnchere"></p>
 		<button type="submit">Enchérir</button>
 	</form>
-	<a th:href="@{/ventes/modifier/{noArticle}(noArticle=${vente.getNoArticle()})}"><button>Modifier</button></a>
+	<!-- Bouton de modification d'une vente -->
+	<a th:href="@{/ventes/modifier/{noArticle}(noArticle=${vente.getNoArticle()})}">
+		<button>Modifier</button>
+	</a>
+	<!-- Condition pour afficher le bouton d'annulation si la date de début de l'enchère est dans le futur -->
+	<p th:if="${vente.getDateDebutEncheres() != null && vente.getDateDebutEncheres().isAfter(T(java.time.LocalDateTime).now())}">
+		<a th:href="@{/ventes/supprimer/{noArticle}(noArticle=${vente.getNoArticle()})}">
+			<button>Annuler la vente</button>
+		</a>
+	</p>
+
 
