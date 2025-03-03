@@ -1,40 +1,75 @@
 <th:block th:object="${vente}">
-	 <form action="/ventes/enregistrer" method="post">
+	<form action="/ventes/enregistrer" method="post">
+
+		<div th:if="${erreur != null}" style="color: red;">
+			<p th:text="${erreur}"></p>
+		</div>
+
 		<input type="hidden" th:field="*{noArticle}" id="noArticle">
 
 		<div>
 			<label for="nomArticle">Nom *: </label>
-			<input type="text" th:field="*{nomArticle}" id="nomArticle">
+			<input type="text" th:field="*{nomArticle}" id="nomArticle"
+				   th:attr="class=${#fields.hasErrors('nomArticle') ? 'input-error' : ''}">
+			<span style="color: red;" th:if="${#fields.hasErrors('nomArticle')}">
+                <ul>
+                    <li th:each="erreur : ${#fields.errors('nomArticle')}" th:text="${erreur}"></li>
+                </ul>
+            </span>
 		</div>
 
 		<div>
 			<label for="description">Description *: </label>
-			<input type="text" th:field="*{description}" id="description">
+			<input type="text" th:field="*{description}" id="description"
+				   th:attr="class=${#fields.hasErrors('description') ? 'input-error' : ''}">
+			<span style="color: red;" th:if="${#fields.hasErrors('description')}">
+                <ul>
+                    <li th:each="erreur : ${#fields.errors('description')}" th:text="${erreur}"></li>
+                </ul>
+            </span>
 		</div>
 
 		<div>
-		  <label for="category">Catégorie *: </label>
-		  <select id="category" name="category">
-		  	<option th:each="c : ${categories}"
-					th:value="${c.getNoCategorie()}"
-					th:text="${c.getLibelle()}"
-					th:selected="${vente.getCategorie() != null && vente.getCategorie().getNoCategorie() == c.getNoCategorie()}"></option>
-		  </select>
+			<label for="category">Catégorie *: </label>
+			<select id="category" name="category">
+				<option th:each="c : ${categories}"
+						th:value="${c.getNoCategorie()}"
+						th:text="${c.getLibelle()}"
+						th:selected="${vente.getCategorie() != null && vente.getCategorie().getNoCategorie() == c.getNoCategorie()}"></option>
+			</select>
 		</div>
 
 		<div>
 			<label for="miseAPrix">Mise à prix *: </label>
-			<input type="number" th:field="*{miseAPrix}" id="miseAPrix">
+			<input type="number" th:field="*{miseAPrix}" id="miseAPrix"
+				   th:attr="class=${#fields.hasErrors('miseAPrix') ? 'input-error' : ''}">
+			<span style="color: red;" th:if="${#fields.hasErrors('miseAPrix')}">
+                <ul>
+                    <li th:each="erreur : ${#fields.errors('miseAPrix')}" th:text="${erreur}"></li>
+                </ul>
+            </span>
 		</div>
 
 		<div>
 			<label for="dateDebutEncheres">Début de l'enchère *: </label>
-			<input type="datetime-local" th:field="*{dateDebutEncheres}" id="dateDebutEncheres">
+			<input type="datetime-local" th:field="*{dateDebutEncheres}" id="dateDebutEncheres"
+				   th:attr="class=${#fields.hasErrors('dateDebutEncheres') ? 'input-error' : ''}">
+			<span style="color: red;" th:if="${#fields.hasErrors('dateDebutEncheres')}">
+                <ul>
+                    <li th:each="erreur : ${#fields.errors('dateDebutEncheres')}" th:text="${erreur}"></li>
+                </ul>
+            </span>
 		</div>
 
 		<div>
 			<label for="dateFinEncheres">Fin de l'enchère *: </label>
-			<input type="datetime-local" th:field="*{dateFinEncheres}" id="dateFinEncheres">
+			<input type="datetime-local" th:field="*{dateFinEncheres}" id="dateFinEncheres"
+				   th:attr="class=${#fields.hasErrors('dateFinEncheres') ? 'input-error' : ''}">
+			<span style="color: red;" th:if="${#fields.hasErrors('dateFinEncheres')}">
+                <ul>
+                    <li th:each="erreur : ${#fields.errors('dateFinEncheres')}" th:text="${erreur}"></li>
+                </ul>
+            </span>
 		</div>
 
 		<div>
@@ -58,11 +93,11 @@
 			</div>
 		</div>
 
-		<button type="submit">Enregistrer</button>
+		<button type="submit" class="add-btn">Enregistrer</button>
 		<button type="reset">Réinitialiser</button>
-		 <input type="hidden"
-				th:name="${_csrf.parameterName}"
-				th:value="${_csrf.token}"/>
+		<input type="hidden"
+			   th:name="${_csrf.parameterName}"
+			   th:value="${_csrf.token}"/>
 	</form>
 	<a th:href="@{/ventes}"><button>Annuler</button></a>
 </th:block>
