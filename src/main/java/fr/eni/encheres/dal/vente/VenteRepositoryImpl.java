@@ -38,9 +38,8 @@ public class VenteRepositoryImpl implements VenteRepository {
 
 	@Override
 	public List<ArticleVendu> findAll() {
-		String sql = SQL_SELECT;
 
-		List<ArticleVendu> ventes = jdbcTemplate.query(sql, new VenteRowMapper());
+		List<ArticleVendu> ventes = jdbcTemplate.query(SQL_SELECT, new VenteRowMapper());
 
 		return ventes;
 	}
@@ -156,6 +155,7 @@ public class VenteRepositoryImpl implements VenteRepository {
             namedParameterJdbcTemplate.update(sqlDebit, paramsDebit);
 		}
     }
+}
 
 class VenteRowMapper implements RowMapper<ArticleVendu> {
 	@Override
@@ -201,4 +201,4 @@ class VenteRowMapper implements RowMapper<ArticleVendu> {
 
 		return article;
 	}
-}}
+}

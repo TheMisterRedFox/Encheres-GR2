@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+
+import fr.eni.encheres.bo.ArticleVendu;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -19,6 +21,8 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	private JdbcTemplate jdbcTemplate;
 
+	private final String SQL_SELECT = "SELECT * FROM utilisateurs ";
+
 	public UtilisateurRepositoryImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate, JdbcTemplate jdbcTemplate) {
 		this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
 		this.jdbcTemplate = jdbcTemplate;
@@ -26,13 +30,17 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 	
 	@Override
 	public List<Utilisateur> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+
+		List<Utilisateur> utilisateurs = jdbcTemplate.query(SQL_SELECT, new UtilisateurRowMapper());
+
+		return utilisateurs;
 	}
 	@Override
-	public Optional<Utilisateur> findById(int id) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+	public Optional<Utilisateur> findById(int noUtilisateur) {
+		String sql = SQL_SELECT + "where no_utilisateur = ?";
+		Utilisateur user = jdbcTemplate.queryForObject(sql, new UtilisateurRowMapper(), noUtilisateur);
+
+		return Optional.ofNullable(user);
 	}
 
 	@Override
@@ -71,7 +79,7 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 
 	@Override
 	public Optional<Utilisateur> findByPseudo(String pseudo) {
-		String sql = "select * from utilisateurs where pseudo = ?";
+		String sql = SQL_SELECT + "where pseudo = ?";
 		List<Utilisateur> utilisateurs = jdbcTemplate.query(sql, new UtilisateurRowMapper(), pseudo);
 
 		if (utilisateurs.isEmpty()) {

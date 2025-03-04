@@ -29,7 +29,7 @@ public class VenteController {
 		this.categorieService = categorieService;
 	}
 
-	// Affiche le formulaire de création d'un article
+	// Affiche la listes des ventes en cours
 	@GetMapping(path={"/", ""})
 	private String afficherVentes(@RequestParam(value = "category", required = false) Integer noCategorie,
 									@RequestParam(value = "search", required = false) String search,
@@ -49,6 +49,7 @@ public class VenteController {
 		return "index";
 	}
 
+	// Affiche le formulaire de création d'un article
 	@GetMapping("/ajouter")
 	private String afficherFormVente(Model model) {
 		model.addAttribute("vente", new ArticleVendu());

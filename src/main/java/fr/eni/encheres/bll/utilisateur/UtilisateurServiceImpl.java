@@ -23,8 +23,8 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 	}
 
 	@Override
-	public Optional<Utilisateur> findById(int id) {
-		return utilisateurRepo.findById(id);
+	public Optional<Utilisateur> findById(int noUtilisateur) {
+		return utilisateurRepo.findById(noUtilisateur);
 	}
 
 	@Override
