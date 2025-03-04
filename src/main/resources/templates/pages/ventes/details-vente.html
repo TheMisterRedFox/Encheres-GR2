@@ -22,9 +22,8 @@
             <!-- Si l'utilisateur est le vendeur de l'article, il ne peut pas enchérir -->
             <span th:if="${session.user != null and (session.user.noUtilisateur != vente.getVendeur().getNoUtilisateur())}">
                 <p><strong>Ma proposition :</strong> <input type="number" id="montantEnchere" name="montantEnchere"></p>
+       			 <button type="submit">Enchérir</button>
              </span>
-
-        <button type="submit">Enchérir</button>
 
 	</form>
 
