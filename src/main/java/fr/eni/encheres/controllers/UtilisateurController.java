@@ -24,6 +24,7 @@ public class UtilisateurController {
 		this.utilisateurService = utilisateurService;
 	}
 
+	// Affiche la liste des utilisateurs
 	@GetMapping(path={"/", ""})
 	public String afficherUtilisateurs(Model model){
 
