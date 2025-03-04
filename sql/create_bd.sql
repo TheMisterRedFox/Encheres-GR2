@@ -35,6 +35,7 @@ CREATE TABLE ARTICLES_VENDUS (
     date_fin_encheres TIMESTAMP NOT NULL,
     prix_initial INTEGER,
     prix_vente INTEGER,
+    archivage BOOLEAN DEFAULT FALSE,
     no_utilisateur INTEGER NOT NULL,
     no_categorie INTEGER NOT NULL,
     CONSTRAINT articles_vendus_categories_fk FOREIGN KEY (no_categorie) REFERENCES CATEGORIES (no_categorie) ON DELETE NO ACTION ON UPDATE NO ACTION,
