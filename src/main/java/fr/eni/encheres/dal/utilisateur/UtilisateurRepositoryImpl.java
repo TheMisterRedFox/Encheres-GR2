@@ -69,9 +69,14 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 		utilisateur.setNoUtilisateur(keyHolder.getKeyAs(Integer.class));
 	}
 	@Override
-	public void update(Utilisateur entity) {
-		// TODO Auto-generated method stub
-		
+	public void update(Utilisateur utilisateurModifie) {
+		String sql = "UPDATE utilisateurs SET pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ?, rue = ?, " +
+				"code_postal = ?, ville = ?, mot_de_passe = ?, credit = ? WHERE no_utilisateur = ?";
+
+		jdbcTemplate.update(sql, utilisateurModifie.getPseudo(), utilisateurModifie.getNom(), utilisateurModifie.getPrenom(),
+				utilisateurModifie.getEmail(), utilisateurModifie.getTelephone(), utilisateurModifie.getRue(),
+				utilisateurModifie.getCodePostal(), utilisateurModifie.getVille(), utilisateurModifie.getMotDePasse(),
+				utilisateurModifie.getCredit(), utilisateurModifie.getNoUtilisateur());
 	}
 	@Override
 	public void delete(int id) {
