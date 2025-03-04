@@ -1,0 +1,28 @@
+<section class="main-section">
+<h1 class="title">Liste des utilisateurs</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th scope="col">Pseudo</th>
+        <th scope="col">Nom</th>
+        <th scope="col">Prénom</th>
+        <th scope="col">Email</th>
+        <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${utilisateurs}">
+        <td th:text="${user.pseudo}"></td>
+        <td th:text="${user.nom}"></td>
+        <td th:text="${user.prenom}"></td>
+        <td th:text="${user.email}"></td>
+        <td>
+            <a th:href="@{/utilisateurs/{id}(id=${user.noUtilisateur})}"><button class="primary-btn">Consulter</button></a>
+            <a th:href="@{/utilisateurs/{id}/supprimer(id=${user.noUtilisateur})}"><button class="remove-btn">Supprimer</button></a>
+            <a th:href="@{/utilisateurs/{id}/modifier(id=${user.noUtilisateur})}"><button>Modifier</button></a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</section>

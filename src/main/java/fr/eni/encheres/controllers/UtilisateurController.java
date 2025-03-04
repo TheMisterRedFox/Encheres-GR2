@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import fr.eni.encheres.bll.utilisateur.UtilisateurService;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -20,6 +22,16 @@ public class UtilisateurController {
 
 	public UtilisateurController(UtilisateurService utilisateurService) {
 		this.utilisateurService = utilisateurService;
+	}
+
+	@GetMapping(path={"/", ""})
+	public String afficherUtilisateurs(Model model){
+
+		List<Utilisateur> utilisateurs = utilisateurService.findAll();
+
+		model.addAttribute("utilisateurs", utilisateurs);
+		model.addAttribute("body", "pages/utilisateurs/liste-utilisateurs");
+		return "index";
 	}
 
 	// Affiche le profil d'un utilisateur
