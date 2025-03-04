@@ -20,7 +20,7 @@
         <td>
             <a th:href="@{/utilisateurs/{id}(id=${user.noUtilisateur})}"><button class="primary-btn">Consulter</button></a>
             <a th:href="@{/utilisateurs/{id}/supprimer(id=${user.noUtilisateur})}"><button class="remove-btn">Supprimer</button></a>
-            <a th:href="@{/utilisateurs/{id}/modifier(id=${user.noUtilisateur})}"><button>Modifier</button></a>
+            <a th:href="@{/utilisateurs/modifier/{id}(id=${user.noUtilisateur})}"><button>Modifier</button></a>
         </td>
     </tr>
     </tbody>

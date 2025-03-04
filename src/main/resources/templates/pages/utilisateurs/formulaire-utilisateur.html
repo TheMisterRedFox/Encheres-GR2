@@ -1,4 +1,4 @@
-<th:object th:object="${utilisateur}" th:fragment="formulaire_utilisateur" >
+<th:block th:object="${utilisateur}" th:fragment="formulaire_utilisateur" >
     <main class="main-section s">
         <h1 class="title" th:text="${h1Title}">Titre</h1>
         <form class="form-section" th:action="${formRedirectPath}" method="post" >
@@ -101,7 +101,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="add-btn" th:text="${submitButtonLabel}">Ajouter</button>
+            <button type="submit" class="add-btn" th:text="${submitButtonLabel}">Enregistrer</button>
         </form>
     </main>
-</th:object>
+</th:block>
