@@ -22,7 +22,7 @@
     </div>
 
     <div class="article-list">
-        <a th:href="@{/ventes/{id}(id=${article.getNoArticle()})}" th:each="article : ${articles}" class="article-card">
+        <a th:href="@{/ventes/{id}(id=${article.getNoArticle()})}" th:each="article : ${articles}" class="article-card" th:if="${article.isArchivage == false}">
             <p th:text="${article.getNomArticle()}" class="article-name">Nom de l'article</p>
             <p><span class="section-name">Prix :</span> <span th:text="${article.getMiseAPrix()}">0</span> points</p>
             <p><span class="section-name">Fin de l'enchère :</span> <span th:text="${article.getDateFinEncheresToString()}"></span></p>

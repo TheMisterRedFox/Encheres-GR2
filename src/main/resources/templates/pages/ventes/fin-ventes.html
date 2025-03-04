@@ -1,4 +1,4 @@
- <form th:action="@{/ventes/archiver}" method="post">
+
  <span th:if="${vente.getPseudoMeilleurAcheteur()== utilisateur.getPseudo()}">
  	<h1>Vous avez remporté la vente</h1>
  </span>
@@ -6,7 +6,7 @@
  <span th:unless="${vente.getPseudoMeilleurAcheteur()== utilisateur.getPseudo()}">
  	<h1><span th:text="${vente.getPseudoMeilleurAcheteur()}"></span> a remporté l'enchere </h1>
  </span>
- 	<input type="hidden" name="noArticle" th:value="${vente.getNoArticle()}" />
+ 	
 	<p><strong>Nom :</strong> <span th:text="${vente.getNomArticle()}"></span></p>
 	<p><strong>Description :</strong> <span th:text="${vente.getDescription()}"></span></p>
 	<p><strong>Meilleure offre :</strong>
@@ -27,9 +27,11 @@
 	<span th:if="${vente.isArchivage() == true or vente.getVendeur().getNoUtilisateur() != utilisateur.getNoUtilisateur() }">
 		<a th:href="@{/ventes}"><button>Retour</button></a>
 	</span>
-	<span th:if="${vente.isArchivage() == false and vente.getVendeur().getNoUtilisateur() == utilisateur.getNoUtilisateur()}">			
-    	<button type="submit">Retrait effectué</button>
-	</span>
+	<form th:action="@{/ventes/archiver}" method="post">
+		<input type="hidden" name="noArticle" th:value="${vente.getNoArticle()}" />
+		<span th:if="${vente.isArchivage() == false and vente.getVendeur().getNoUtilisateur() == utilisateur.getNoUtilisateur()}">			
+	    	<button type="submit">Retrait effectué</button>
+		</span>
 	</form>
 
 
