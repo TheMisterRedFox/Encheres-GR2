@@ -15,12 +15,17 @@
 			    </span>
 			</p>
 
-			<p><strong>Fin de l'enchère :</strong> <span th:text="${vente.getDateFinEncheresToString()}"></span></p>
-			<p><strong>Retrait :</strong> <span th:text="${vente.getRetrait().toString()}"></span></p>
-			<p><strong>Nom vendeur: </strong> <span th:text="${vente.getVendeur().getPseudo()}"></span></p>
-			<!-- TODO - rajouter une div avec une condition pour vérifier si l'utilisateur connecté est le vendeur de l'article -->
-			<p><strong>Ma proposition :</strong> <input type="number" id="montantEnchere" name="montantEnchere"></p>
-		<button type="submit">Enchérir</button>
+            <p><strong>Fin de l'enchère :</strong> <span th:text="${vente.getDateFinEncheresToString()}"></span></p>
+            <p><strong>Retrait :</strong> <span th:text="${vente.getRetrait().toString()}"></span></p>
+            <p><strong>Nom vendeur: </strong> <span th:text="${vente.getVendeur().getPseudo()}"></span></p>
+
+            <!-- Si l'utilisateur est le vendeur de l'article, il ne peut pas enchérir -->
+            <span th:if="${session.user != null and (session.user.noUtilisateur != vente.getVendeur().getNoUtilisateur())}">
+                <p><strong>Ma proposition :</strong> <input type="number" id="montantEnchere" name="montantEnchere"></p>
+             </span>
+
+        <button type="submit">Enchérir</button>
+
 	</form>
 
 		<!-- Bouton de modification d'une vente -->

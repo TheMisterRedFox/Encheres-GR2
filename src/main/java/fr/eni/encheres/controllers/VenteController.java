@@ -2,6 +2,7 @@ package fr.eni.encheres.controllers;
 
 import fr.eni.encheres.bo.*;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.ui.Model;
 
 import java.time.LocalDateTime;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import fr.eni.encheres.bll.vente.VenteService;
@@ -32,7 +34,7 @@ public class VenteController {
 		this.utilisateurService = utilisateurService;
 	}
 
-	// Affiche le formulaire de création d'un article
+	// Affiche la listes des ventes en cours
 	@GetMapping(path={"/", ""})
 	private String afficherVentes(@RequestParam(value = "category", required = false) Integer noCategorie,
 									@RequestParam(value = "search", required = false) String search,
@@ -52,6 +54,7 @@ public class VenteController {
 		return "index";
 	}
 
+	// Affiche le formulaire de création d'un article
 	@GetMapping("/ajouter")
 	private String afficherFormVente(Model model) {
 		model.addAttribute("vente", new ArticleVendu());
@@ -81,7 +84,7 @@ public class VenteController {
 		Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
 		if(optArticle.isPresent()&& utilisateur != null) {
 			if (optArticle.get().getDateFinEncheres().isBefore(LocalDateTime.now())||optArticle.get().getDateFinEncheres().isEqual(LocalDateTime.now())){
-				
+
 				model.addAttribute("vente", optArticle.get());
 				model.addAttribute("utilisateur", utilisateur);
 				model.addAttribute("body",venteService.finEnchere(optArticle.get(), utilisateur));
@@ -110,25 +113,43 @@ public class VenteController {
 
 	// Gère la redirection après un enregistrement
 	@PostMapping("/enregistrer")
-	private String enregistrerVente(@ModelAttribute ArticleVendu article,
+	private String enregistrerVente(@Valid @ModelAttribute("vente") ArticleVendu article,
+			BindingResult resultat,
 			@RequestParam("category") int noCategorie,
-			@RequestParam ("rue") String rue,
-			@RequestParam ("codePostal") String codePostal,
-			@RequestParam ("ville") String ville, HttpSession session) {
+			@RequestParam("rue") String rue,
+			@RequestParam("codePostal") String codePostal,
+			@RequestParam("ville") String ville,
+			HttpSession session,
+			RedirectAttributes redirectAttr,
+			Model model) {
+
+		if (resultat.hasErrors()) {
+			model.addAttribute("categories", categorieService.findAll());
+			model.addAttribute("body", "pages/ventes/formulaire-ventes");
+			return "index";
+		}
+
 		Optional<Categorie> optCategorie = categorieService.findById(noCategorie);
-		
-		if(optCategorie.isPresent()) {
+		if (optCategorie.isPresent()) {
 			article.setCategorie(optCategorie.get());
 		}
 
-		if(session.getAttribute("user") != null) {
+		if (session.getAttribute("user") != null) {
 			Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
-			if(utilisateur != null) {
+			if (utilisateur != null) {
 				article.setVendeur(utilisateur);
 			}
 		}
+
 		article.setRetrait(new Retrait(rue, codePostal, ville));
-		venteService.save(article);
+
+		try {
+			venteService.save(article);
+		} catch (Exception ex) {
+			redirectAttr.addFlashAttribute("erreur", "Une erreur est survenue lors de l'enregistrement.");
+			return "redirect:/ventes/ajouter";
+		}
+
 		return "redirect:/ventes";
 	}
 
@@ -148,23 +169,22 @@ public class VenteController {
     		Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
     		Optional<ArticleVendu> optArticle = venteService.findById(article.getNoArticle());
     		if (optArticle.isPresent() && utilisateur != null) {
-    			
+
 				venteService.encherir(optArticle.get(),utilisateur,MontantEnchere);
     		}
-          
+
         return "redirect:/ventes/";
     }
-    
+
     @PostMapping("/archiver")
     public String Archiver(@ModelAttribute ArticleVendu article,@RequestParam("noArticle") int no_article) {
 		Optional<ArticleVendu> optArticle = venteService.findById(article.getNoArticle());
 		System.out.println(optArticle.get());
 		if (optArticle.isPresent()) {
-			
+
 			venteService.archiver(optArticle.get());
 		}
 		return "redirect:/ventes/";
     }
-
-
+	// TODO faire des tests unitaire
 }
