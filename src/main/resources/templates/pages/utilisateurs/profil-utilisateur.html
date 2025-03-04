@@ -1,0 +1,19 @@
+<div class="container" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <h1>ENI-Enchères</h1>
+
+    <p><strong>Pseudo :</strong> <span th:text="${user.pseudo}"></span></p>
+    <p><strong>Nom :</strong> <span th:text="${user.nom}"></span></p>
+    <p><strong>Prénom :</strong> <span th:text="${user.prenom}"></span></p>
+    <p><strong>Email :</strong> <span th:text="${user.email}"></span></p>
+
+    <!-- Cette div s'affiche uniquement si c'est le profil de l'utilisateur connecté ou si l'utilisateur est un administrateur -->
+    <div th:if="${session.user != null and (session.user.noUtilisateur == user.noUtilisateur or session.user.administrateur)}">
+        <p><strong>Téléphone :</strong> <span th:text="${user.telephone}"></span></p>
+        <p><strong>Rue :</strong> <span th:text="${user.rue}"></span></p>
+        <p><strong>Code Postal :</strong> <span th:text="${user.codePostal}"></span></p>
+        <p><strong>Ville :</strong> <span th:text="${user.ville}"></span></p>
+
+        <a href="/utilisateurs/modifier" class="btn">Modifier</a>
+    </div>
+
+</div>

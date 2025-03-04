@@ -1,36 +1,35 @@
-	<form th:action="@{/ventes/enchere}" method="post">
-		<input type="hidden" name="noArticle" th:value="${vente.getNoArticle()}" />
-		<h1>Détail vente</h1>
-			<p><strong>Nom :</strong> <span th:text="${vente.getNomArticle()}"></span></p>
-			<p><strong>Description :</strong> <span th:text="${vente.getDescription()}"></span></p>
-			<p><strong>Catégorie :</strong> <span th:text="${vente.getCategorie().getLibelle()}"></span></p>
-			<p><strong>Mise à prix :</strong> <span th:text="${vente.getMiseAPrix()}"></span></p>
-			
-			<p><strong>Meilleure offre :</strong>
-			    <span th:if="${vente.getMeilleureOffre() == vente.getMiseAPrix()}">Pas d'offre</span>
-			    <span th:unless="${vente.getMeilleureOffre() == vente.getMiseAPrix()}">
-			        <span th:text="${vente.getMeilleureOffre()}"></span>
-			        <span>pts par</span>
-			        <span th:text="${vente.getPseudoMeilleurAcheteur()}"></span>
-			    </span>
-			</p>
+<form th:action="@{/ventes/enchere}" method="post">
+	<input type="hidden" name="noArticle" th:value="${vente.getNoArticle()}" />
+	<h1>Détail vente</h1>
+		<p><strong>Nom :</strong> <span th:text="${vente.getNomArticle()}"></span></p>
+		<p><strong>Description :</strong> <span th:text="${vente.getDescription()}"></span></p>
+		<p><strong>Catégorie :</strong> <span th:text="${vente.getCategorie().getLibelle()}"></span></p>
+		<p><strong>Mise à prix :</strong> <span th:text="${vente.getMiseAPrix()}"></span></p>
 
-			<p><strong>Fin de l'enchère :</strong> <span th:text="${vente.getDateFinEncheresToString()}"></span></p>
-			<p><strong>Retrait :</strong> <span th:text="${vente.getRetrait().toString()}"></span></p>
-			<p><strong>Nom vendeur: </strong> <span th:text="${vente.getVendeur().getPseudo()}"></span></p>
-			<!-- TODO - rajouter une div avec une condition pour vérifier si l'utilisateur connecté est le vendeur de l'article -->
-			<p><strong>Ma proposition :</strong> <input type="number" id="montantEnchere" name="montantEnchere"></p>
-		<button type="submit">Enchérir</button>
-	</form>
-	<!-- Bouton de modification d'une vente -->
-	<a th:href="@{/ventes/modifier/{noArticle}(noArticle=${vente.getNoArticle()})}">
-		<button>Modifier</button>
+		<p><strong>Meilleure offre :</strong>
+			<span th:if="${vente.getMeilleureOffre() == vente.getMiseAPrix()}">Pas d'offre</span>
+			<span th:unless="${vente.getMeilleureOffre() == vente.getMiseAPrix()}">
+				<span th:text="${vente.getMeilleureOffre()}"></span>
+				<span>pts par</span>
+				<span th:text="${vente.getPseudoMeilleurAcheteur()}"></span>
+			</span>
+		</p>
+
+		<p><strong>Fin de l'enchère :</strong> <span th:text="${vente.getDateFinEncheresToString()}"></span></p>
+		<p><strong>Retrait :</strong> <span th:text="${vente.getRetrait().toString()}"></span></p>
+		<p><strong>Nom vendeur: </strong> <span th:text="${vente.getVendeur().getPseudo()}"></span></p>
+		<!-- TODO - rajouter une div avec une condition pour vérifier si l'utilisateur connecté est le vendeur de l'article -->
+		<p><strong>Ma proposition :</strong> <input type="number" id="montantEnchere" name="montantEnchere"></p>
+	<button type="submit">Enchérir</button>
+</form>
+
+<!-- Bouton de modification d'une vente -->
+<a th:href="@{/ventes/modifier/{noArticle}(noArticle=${vente.getNoArticle()})}">
+	<button>Modifier</button>
+</a>
+<!-- Condition pour afficher le bouton d'annulation si la date de début de l'enchère est dans le futur -->
+<p th:if="${vente.getDateDebutEncheres() != null && vente.getDateDebutEncheres().isAfter(T(java.time.LocalDateTime).now())}">
+	<a th:href="@{/ventes/supprimer/{noArticle}(noArticle=${vente.getNoArticle()})}">
+		<button>Annuler la vente</button>
 	</a>
-	<!-- Condition pour afficher le bouton d'annulation si la date de début de l'enchère est dans le futur -->
-	<p th:if="${vente.getDateDebutEncheres() != null && vente.getDateDebutEncheres().isAfter(T(java.time.LocalDateTime).now())}">
-		<a th:href="@{/ventes/supprimer/{noArticle}(noArticle=${vente.getNoArticle()})}">
-			<button>Annuler la vente</button>
-		</a>
-	</p>
-
-
+</p>

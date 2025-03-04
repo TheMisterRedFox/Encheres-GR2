@@ -156,6 +156,7 @@ public class VenteRepositoryImpl implements VenteRepository {
             namedParameterJdbcTemplate.update(sqlDebit, paramsDebit);
 		}
     }
+}
 
 class VenteRowMapper implements RowMapper<ArticleVendu> {
 	@Override
@@ -201,4 +202,4 @@ class VenteRowMapper implements RowMapper<ArticleVendu> {
 
 		return article;
 	}
-}}
+}
