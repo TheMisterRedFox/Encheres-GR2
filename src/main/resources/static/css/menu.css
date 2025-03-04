@@ -6,6 +6,11 @@
 body:has(.navbar){
     margin-top: var(--navbar-height);
     padding-top: 1px;
+    height: calc(100vh - 1px - var(--navbar-height))
+}
+
+body:has(.navbar) main {
+    min-height: calc(100% - var(--navbar-height) / 2 + 3px);
 }
 
 .navbar {
@@ -32,7 +37,7 @@ body:has(.navbar){
     opacity: 1;
 }
 
-.navbar .logo-section {
+.navbar .logo-section a {
     display: flex;
     flex-direction: row;
     justify-content: start;

@@ -6,8 +6,7 @@
     <title>S'inscrire</title>
     <link rel="stylesheet" th:href="@{/css/main.css}">
   </head>
-  <body>
-  <h1>S'inscire</h1>
+  <body class="single-page-centered">
   <th:block th:object="${utilisateur}" th:include="pages/utilisateurs/formulaire-utilisateur :: formulaire_utilisateur"></th:block>
   </body>
 </html>

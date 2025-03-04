@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
-<title>ENI - Enchères</title>
+<meta charset="UTF-8">
+<title>ENI - EnchÃ¨res</title>
 </head>
 <link rel="stylesheet" th:href="@{/css/main.css}">
 <script th:src="@{/js/main.js}"></script>
 <body>
     <div th:replace="pages/menu/menu :: nav"></div>
-    <th:block th:insert="~{${body}}"></th:block>
+    <main>
+        <th:block th:insert="~{${body}}"></th:block>
+    </main>
 </body>
 </html>

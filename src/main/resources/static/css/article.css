@@ -61,7 +61,6 @@
 .filter-form form .main-form-section {
     display: flex;
     justify-content: center;
-    align-items: center;
     gap: 1rem;
 }
 
@@ -74,5 +73,6 @@
 
 .filter-form button {
     flex: 1;
-    height: 100%;
+    margin-top: 0;
+    height: 42px;
 }

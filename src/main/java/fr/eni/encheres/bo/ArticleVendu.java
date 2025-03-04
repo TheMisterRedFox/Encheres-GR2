@@ -29,10 +29,8 @@ public class ArticleVendu {
 	private String etatVente;
 	private int meilleureOffre;
 	private String pseudoMeilleurAcheteur;
-	@NotNull
 	private Utilisateur vendeur;
 	private Retrait retrait;
-	@NotNull
 	private Categorie categorie;
 	
 	public ArticleVendu() {}
