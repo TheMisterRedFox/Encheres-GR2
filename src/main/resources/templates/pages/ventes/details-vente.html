@@ -1,5 +1,5 @@
-<section class="main-section fit-content">
-	<form th:action="@{/ventes/enchere}" method="post">
+<main class="main-section fit-content">
+	<form th:action="@{/ventes/encherir}" method="post">
 		<input type="hidden" name="noArticle" th:value="${vente.getNoArticle()}" />
 		<h1 class="title">Détail vente</h1>
 		<p><strong>Nom :</strong> <span th:text="${vente.getNomArticle()}"></span></p>
@@ -16,30 +16,29 @@
 			    </span>
 		</p>
 
-		<p><strong>Fin de l'enchère :</strong> <span th:text="${vente.getDateFinEncheresToString()}"></span></p>
-		<p><strong>Retrait :</strong> <span th:text="${vente.getRetrait().toString()}"></span></p>
-		<p><strong>Nom vendeur : </strong> <span th:text="${vente.getVendeur().getPseudo()}"></span></p>
-		<!-- TODO - rajouter une div avec une condition pour vérifier si l'utilisateur connecté est le vendeur de l'article -->
-		<div class="encherir-section">
-			<label for="montantEnchere">Ma proposition :</label>
-			<div class="input-section">
-				<input type="number" id="montantEnchere" name="montantEnchere">
-				<button class="add-btn" type="submit">Enchérir</button></div>
+			<p><strong>Fin de l'enchère :</strong> <span th:text="${vente.getDateFinEncheresToString()}"></span></p>
+			<p><strong>Retrait :</strong> <span th:text="${vente.getRetrait().toString()}"></span></p>
+			<p><strong>Nom vendeur: </strong> <span th:text="${vente.getVendeur().getPseudo()}"></span></p>
+			<!-- Si l'utilisateur est le vendeur de l'article, il ne peut pas enchérir -->
+			<div class="encherir-section" th:if="${session.user != null and (session.user.noUtilisateur != vente.getVendeur().getNoUtilisateur())}">
+				<label for="montantEnchere">Ma proposition :</label>
+				<div class="input-section">
+					<input type="number" id="montantEnchere" name="montantEnchere">
+					<button class="add-btn" type="submit">Enchérir</button>
+				</div>
 			</div>
-		<div class="button-section">
-			<a th:href="@{/ventes/modifier/{noArticle}(noArticle=${vente.getNoArticle()})}">
-				<button class="primary-btn">Modifier</button>
-			</a>
-		</div>
 	</form>
-
+	<!-- Bouton de modification d'une vente -->
+	<div class="button-section">
+		<a th:href="@{/ventes/modifier/{noArticle}(noArticle=${vente.getNoArticle()})}" th:if="${vente.getVendeur().getNoUtilisateur() == utilisateur.getNoUtilisateur()}">
+			<button class="primary-btn">Modifier</button>
+		</a>
+	</div>
 	<!-- Condition pour afficher le bouton d'annulation si la date de début de l'enchère est dans le futur -->
 	<p th:if="${vente.getDateDebutEncheres() != null && vente.getDateDebutEncheres().isAfter(T(java.time.LocalDateTime).now())}">
 		<a th:href="@{/ventes/supprimer/{noArticle}(noArticle=${vente.getNoArticle()})}">
 			<button>Annuler la vente</button>
 		</a>
 	</p>
-</section>
-
-
+</main>
 

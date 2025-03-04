@@ -31,7 +31,9 @@ public class SecurityController {
 
     @GetMapping("/register")
     public String register(Model model) {
-        model.addAttribute("utilisateur", new Utilisateur());
+        if(!model.containsAttribute("utilisateur")) {
+            model.addAttribute("utilisateur", new Utilisateur());
+        }
         // Variables du model lié à la page register
         model.addAttribute("formRedirectPath", "/register");
         model.addAttribute("h1Title", "S'inscrire");

@@ -66,6 +66,8 @@ body:has(.navbar) main {
 
 .navbar .user-section {
     margin-right: 2rem;
+    display: flex;
+    gap: 0.5rem;
 }
 
 .navbar .user-section button {

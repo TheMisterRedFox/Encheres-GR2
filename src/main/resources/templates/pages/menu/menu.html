@@ -15,9 +15,16 @@
 
     <div class="user-section">
         <a th:href="@{/login}" sec:authorize="!isAuthenticated()"><button type="submit" class="primary-btn">Se connecter / S'inscrire</button></a>
+        <!-- Afficher le profil de l'utilisateur -->
+        <a sec:authorize="isAuthenticated()" th:if="${session.user != null}"
+           th:href="@{/utilisateurs/{noUtilisateur}(noUtilisateur=${session.user.noUtilisateur})}">
+            <button type="submit">Mon Profil</button>
+        </a>
         <a sec:authorize="isAuthenticated()"><form th:action="@{/logout}" method="post">
             <button type="submit" class="remove-btn">Se déconnecter</button>
         </form></a>
+
+
     </div>
 
 </nav>

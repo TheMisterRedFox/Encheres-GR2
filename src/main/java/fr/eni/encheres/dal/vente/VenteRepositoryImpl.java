@@ -8,6 +8,8 @@ import java.util.Optional;
 
 import fr.eni.encheres.bo.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -17,30 +19,34 @@ import org.springframework.stereotype.Repository;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 
 import fr.eni.encheres.dal.retrait.RetraitRepository;
+import fr.eni.encheres.dal.utilisateur.UtilisateurRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class VenteRepositoryImpl implements VenteRepository {
+	Logger logger = LoggerFactory.getLogger(VenteRepositoryImpl.class);
 
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	private JdbcTemplate jdbcTemplate;
 	
 	private RetraitRepository retraitRepo;
+	private UtilisateurRepository userRepo;
 
 	private final String SQL_SELECT = "SELECT * FROM vue_details_ventes ";
 		
 	public VenteRepositoryImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate,
-							   JdbcTemplate jdbcTemplate, RetraitRepository retraitRepo) {
+							   JdbcTemplate jdbcTemplate, RetraitRepository retraitRepo,
+							   UtilisateurRepository userRepo) {
 		this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
 		this.jdbcTemplate = jdbcTemplate;
 		this.retraitRepo = retraitRepo;
+		this.userRepo = userRepo ;
 	}
 
 	@Override
 	public List<ArticleVendu> findAll() {
-		String sql = SQL_SELECT;
 
-		List<ArticleVendu> ventes = jdbcTemplate.query(sql, new VenteRowMapper());
+		List<ArticleVendu> ventes = jdbcTemplate.query(SQL_SELECT, new VenteRowMapper());
 
 		return ventes;
 	}
@@ -84,6 +90,7 @@ public class VenteRepositoryImpl implements VenteRepository {
 	@Override
 	@Transactional // TODO PROCEDURE STOCKÉ
 	public void add(ArticleVendu newArticle) {
+		logger.debug("avant insert articles_vendus");
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		String sql = "insert into articles_vendus (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial,"
 				+ "no_utilisateur, no_categorie) values (:nomArticle, :description, :dateDebutEncheres, :dateFinEncheres, :miseAPrix,"
@@ -102,6 +109,8 @@ public class VenteRepositoryImpl implements VenteRepository {
 		newArticle.setNoArticle(keyHolder.getKeyAs(Integer.class));
 		newArticle.getRetrait().setArticle(newArticle);
 		retraitRepo.add(newArticle.getRetrait());
+
+		logger.debug("après insert articles_vendus");
 	}
 	
 	@Override
@@ -122,8 +131,15 @@ public class VenteRepositoryImpl implements VenteRepository {
 	}
 
     @Override
-    public void encherir(ArticleVendu article, int Montant) { // TODO USER 
-        
+    public void encherir(ArticleVendu article, Utilisateur user, int Montant) {
+
+    	// Récupération ancien acheteur
+    	Optional<Utilisateur> AncienUser = userRepo.findByPseudo(article.getPseudoMeilleurAcheteur());
+    	logger.debug("Ancien acheteur");
+    	logger.debug(AncienUser.toString());
+    	logger.debug("nouveau acheteur");
+    	logger.debug(user.toString());
+
     	// Création de la ligne enchere
     	String sql = "INSERT INTO ENCHERES (date_enchere, montant_enchere, no_article, no_utilisateur) "
         		   + "VALUES (NOW(), :montantEnchere,:article, :utilisateur)"; 
@@ -131,13 +147,13 @@ public class VenteRepositoryImpl implements VenteRepository {
         params
                 .addValue("montantEnchere", Montant)
                 .addValue("article", article.getNoArticle() )
-        		.addValue("utilisateur", 2);
+        		.addValue("utilisateur", user.getNoUtilisateur());
         
         // Recrédite l'ancien acheteur
         String sqlReCredit = "update utilisateurs set credit = :meilleureOffre where pseudo = :utilisateur";
         MapSqlParameterSource paramsReCredit = new MapSqlParameterSource();
         paramsReCredit
-                .addValue("meilleureOffre", /*AJOUTER CREDIT UTILISATEUR */article.getMeilleureOffre())
+                .addValue("meilleureOffre", (AncienUser.get().getCredit() + article.getMeilleureOffre()))
                 .addValue("utilisateur", (article.getPseudoMeilleurAcheteur()));
 
         
@@ -145,17 +161,71 @@ public class VenteRepositoryImpl implements VenteRepository {
         String sqlDebit = "update utilisateurs set credit = :creditDebit where no_utilisateur = :utilisateur";
         MapSqlParameterSource paramsDebit = new MapSqlParameterSource();
         paramsDebit
-                .addValue("creditDebit", /*AJOUTER CREDIT UTILISATEUR */5000-Montant)
-                .addValue("utilisateur", 2);
+                .addValue("creditDebit", user.getCredit()-Montant)
+                .addValue("utilisateur", user.getNoUtilisateur());
+
         
-        
-        if ( (/*AJOUTER CREDIT UTILISATEUR */5000-Montant) >0 && (Montant > article.getMiseAPrix())&&(Montant > article.getMeilleureOffre()))
+        if ( (user.getCredit()-Montant) >0 && (Montant > article.getMiseAPrix())&&(Montant > article.getMeilleureOffre()))
         {
+        	logger.debug("avant insert encheres");
             namedParameterJdbcTemplate.update(sql, params);
+    		logger.debug("après insert encheres");
+    		logger.debug("avant update Utilisateur (ancien acheteur)");
             namedParameterJdbcTemplate.update(sqlReCredit, paramsReCredit);
+    		logger.debug("après update Utilisateur (ancien acheteur)");
+    		logger.debug("avant update Utilisateur (acheteur)");
             namedParameterJdbcTemplate.update(sqlDebit, paramsDebit);
-		}
+    		logger.debug("après update Utilisateur (acheteur)");
+        }
     }
+
+    public String finEnchere(ArticleVendu article, Utilisateur user) {
+
+		logger.debug("avant update articles_vendus (prix_vente)");
+		 // Modifie les données articles
+    	 String sql = "update articles_vendus set prix_vente = :offre where no_article = :article";
+    	 MapSqlParameterSource params = new MapSqlParameterSource();
+         params
+                 .addValue("offre",article.getMeilleureOffre())
+                 .addValue("article",article.getNoArticle());
+
+
+
+        namedParameterJdbcTemplate.update(sql, params);
+ 		logger.debug("après update articles_vendus (prix_vente)");
+
+ 		logger.debug("avant redirection user");
+    		return "pages/ventes/fin-ventes";
+    	}
+
+	@Override
+	public void archiver(ArticleVendu article) {
+
+
+		// Archivage de l'artilce
+		String sqlArchivage = "update articles_vendus set archivage = true where no_article = :article";
+		MapSqlParameterSource paramsArchivage = new MapSqlParameterSource();
+		paramsArchivage
+                .addValue("article", article.getNoArticle());
+
+		// Crédite le vendeur
+        String sqlVente = "update utilisateurs set credit = :creditDebit where no_utilisateur = :utilisateur";
+        MapSqlParameterSource paramsVentes = new MapSqlParameterSource();
+        paramsVentes
+                .addValue("creditDebit", article.getVendeur().getCredit()+article.getMeilleureOffre())
+                .addValue("utilisateur", article.getVendeur().getNoUtilisateur());
+
+
+        logger.debug("avant archivage");
+        namedParameterJdbcTemplate.update(sqlArchivage, paramsArchivage);
+        logger.debug("après archivage");
+
+		logger.debug("avant ventes");
+        namedParameterJdbcTemplate.update(sqlVente, paramsVentes);
+		logger.debug("après ventes");
+	}
+}
+
 
 class VenteRowMapper implements RowMapper<ArticleVendu> {
 	@Override
@@ -171,6 +241,7 @@ class VenteRowMapper implements RowMapper<ArticleVendu> {
 		article.setPrixVente(rs.getInt("prix_vente"));
 		article.setMeilleureOffre(rs.getInt("meilleure_offre"));
 		article.setPseudoMeilleurAcheteur(rs.getString("acheteur_pseudo"));
+		article.setArchivage(rs.getBoolean("archivage"));
 
 		Utilisateur vendeur = new Utilisateur();
 		vendeur.setNoUtilisateur(rs.getInt("no_utilisateur"));
@@ -201,4 +272,4 @@ class VenteRowMapper implements RowMapper<ArticleVendu> {
 
 		return article;
 	}
-}}
+}

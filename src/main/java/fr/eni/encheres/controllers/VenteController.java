@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.ui.Model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import fr.eni.encheres.bll.vente.VenteService;
 import fr.eni.encheres.bll.categorie.CategorieService;
+import fr.eni.encheres.bll.utilisateur.UtilisateurService;
+
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -23,13 +26,15 @@ public class VenteController {
 
 	private final VenteService venteService;
 	private final CategorieService categorieService;
-	
-	public VenteController(VenteService venteService, CategorieService categorieService) {
+	private final UtilisateurService utilisateurService;
+
+	public VenteController(VenteService venteService, CategorieService categorieService, UtilisateurService utilisateurService) {
 		this.venteService = venteService;
 		this.categorieService = categorieService;
+		this.utilisateurService = utilisateurService;
 	}
 
-	// Affiche le formulaire de création d'un article
+	// Affiche la listes des ventes en cours
 	@GetMapping(path={"/", ""})
 	private String afficherVentes(@RequestParam(value = "category", required = false) Integer noCategorie,
 									@RequestParam(value = "search", required = false) String search,
@@ -49,6 +54,7 @@ public class VenteController {
 		return "index";
 	}
 
+	// Affiche le formulaire de création d'un article
 	@GetMapping("/ajouter")
 	private String afficherFormVente(Model model) {
 		model.addAttribute("vente", new ArticleVendu());
@@ -64,7 +70,6 @@ public class VenteController {
 		if (article.isEmpty()) {
 			return "redirect:/ventes";
 		}
-
 		model.addAttribute("vente", article.get());
 		model.addAttribute("categories", categorieService.findAll());
 		model.addAttribute("body", "pages/ventes/formulaire-ventes");
@@ -73,15 +78,25 @@ public class VenteController {
 
 	// Affiche les details d'une vente
 	@GetMapping("/{noArticle}")
-	public String getVenteDetails(@PathVariable("noArticle") int noArticle, Model model) {
+	public String getVenteDetails(@PathVariable("noArticle") int noArticle, Model model,HttpSession session) {
 
 		Optional<ArticleVendu> optArticle = venteService.findById(noArticle);
+		Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+		if(optArticle.isPresent() && utilisateur != null) {
+			if (optArticle.get().getDateFinEncheres().isBefore(LocalDateTime.now())||optArticle.get().getDateFinEncheres().isEqual(LocalDateTime.now())){
 
-		if(optArticle.isPresent()) {
-			model.addAttribute("vente", optArticle.get());
-			model.addAttribute("body", "pages/ventes/details-vente");
-			return "index";
+				model.addAttribute("vente", optArticle.get());
+				model.addAttribute("utilisateur", utilisateur);
+				model.addAttribute("body",venteService.finEnchere(optArticle.get(), utilisateur));
+				return "index";
+			}else {
+				model.addAttribute("vente", optArticle.get());
+				model.addAttribute("utilisateur", utilisateur);
+				model.addAttribute("body", "pages/ventes/details-vente");
+				return "index";
+			}
 		}
+
 		return "redirect:/ventes/";
 	}
 
@@ -149,15 +164,27 @@ public class VenteController {
 		return "redirect:/ventes/";
 	}
 
-    @PostMapping("/enchere")
-    public String Encherir(@ModelAttribute ArticleVendu article,@RequestParam("montantEnchere") int MontantEnchere){	
+    @PostMapping("/encherir")
+    public String Encherir(@ModelAttribute ArticleVendu article,@RequestParam("montantEnchere") int MontantEnchere, HttpSession session){
+    		Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
     		Optional<ArticleVendu> optArticle = venteService.findById(article.getNoArticle());
-    		if (optArticle.isPresent()) {
+    		if (optArticle.isPresent() && utilisateur != null) {
 
-				venteService.encherir(optArticle.get(),MontantEnchere);
+				venteService.encherir(optArticle.get(),utilisateur,MontantEnchere);
     		}
 
         return "redirect:/ventes/";
+    }
+
+    @PostMapping("/archiver")
+    public String Archiver(@ModelAttribute ArticleVendu article,@RequestParam("noArticle") int no_article) {
+		Optional<ArticleVendu> optArticle = venteService.findById(article.getNoArticle());
+		System.out.println(optArticle.get());
+		if (optArticle.isPresent()) {
+
+			venteService.archiver(optArticle.get());
+		}
+		return "redirect:/ventes/";
     }
 	// TODO faire des tests unitaire
 }
