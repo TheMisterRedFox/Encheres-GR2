@@ -1,103 +1,116 @@
 <th:block th:object="${vente}">
-	<form action="/ventes/enregistrer" method="post">
+	<main class="main-section s">
+		<h1 class="title" th:if="${vente.getNoArticle() == 0}">Vendre un article</h1>
+		<h1 class="title" th:if="${vente.getNoArticle() != 0}">Modifier un article</h1>
+		<form th:action="@{/ventes/enregistrer}" method="post" class="form-section">
 
-		<div th:if="${erreur != null}" style="color: red;">
-			<p th:text="${erreur}"></p>
-		</div>
-
-		<input type="hidden" th:field="*{noArticle}" id="noArticle">
-
-		<div>
-			<label for="nomArticle">Nom *: </label>
-			<input type="text" th:field="*{nomArticle}" id="nomArticle"
-				   th:attr="class=${#fields.hasErrors('nomArticle') ? 'input-error' : ''}">
-			<span style="color: red;" th:if="${#fields.hasErrors('nomArticle')}">
-                <ul>
-                    <li th:each="erreur : ${#fields.errors('nomArticle')}" th:text="${erreur}"></li>
-                </ul>
-            </span>
-		</div>
-
-		<div>
-			<label for="description">Description *: </label>
-			<input type="text" th:field="*{description}" id="description"
-				   th:attr="class=${#fields.hasErrors('description') ? 'input-error' : ''}">
-			<span style="color: red;" th:if="${#fields.hasErrors('description')}">
-                <ul>
-                    <li th:each="erreur : ${#fields.errors('description')}" th:text="${erreur}"></li>
-                </ul>
-            </span>
-		</div>
-
-		<div>
-			<label for="category">Catégorie *: </label>
-			<select id="category" name="category">
-				<option th:each="c : ${categories}"
-						th:value="${c.getNoCategorie()}"
-						th:text="${c.getLibelle()}"
-						th:selected="${vente.getCategorie() != null && vente.getCategorie().getNoCategorie() == c.getNoCategorie()}"></option>
-			</select>
-		</div>
-
-		<div>
-			<label for="miseAPrix">Mise à prix *: </label>
-			<input type="number" th:field="*{miseAPrix}" id="miseAPrix"
-				   th:attr="class=${#fields.hasErrors('miseAPrix') ? 'input-error' : ''}">
-			<span style="color: red;" th:if="${#fields.hasErrors('miseAPrix')}">
-                <ul>
-                    <li th:each="erreur : ${#fields.errors('miseAPrix')}" th:text="${erreur}"></li>
-                </ul>
-            </span>
-		</div>
-
-		<div>
-			<label for="dateDebutEncheres">Début de l'enchère *: </label>
-			<input type="datetime-local" th:field="*{dateDebutEncheres}" id="dateDebutEncheres"
-				   th:attr="class=${#fields.hasErrors('dateDebutEncheres') ? 'input-error' : ''}">
-			<span style="color: red;" th:if="${#fields.hasErrors('dateDebutEncheres')}">
-                <ul>
-                    <li th:each="erreur : ${#fields.errors('dateDebutEncheres')}" th:text="${erreur}"></li>
-                </ul>
-            </span>
-		</div>
-
-		<div>
-			<label for="dateFinEncheres">Fin de l'enchère *: </label>
-			<input type="datetime-local" th:field="*{dateFinEncheres}" id="dateFinEncheres"
-				   th:attr="class=${#fields.hasErrors('dateFinEncheres') ? 'input-error' : ''}">
-			<span style="color: red;" th:if="${#fields.hasErrors('dateFinEncheres')}">
-                <ul>
-                    <li th:each="erreur : ${#fields.errors('dateFinEncheres')}" th:text="${erreur}"></li>
-                </ul>
-            </span>
-		</div>
-
-		<div>
-			<span>Retrait</span>
-			<div>
-				<label for="rue">Rue *: </label>
-				<input type="text" name="rue" id="rue"
-					   th:value="${vente.getRetrait() != null ? vente.getRetrait().getRue() : ''}">
+			<div th:if="${erreur != null}" style="color: red;">
+				<p th:text="${erreur}"></p>
 			</div>
 
-			<div>
-				<label for="codePostal">Code Postal*: </label>
-				<input type="text" name="codePostal" id="codePostal"
-					   th:value="${vente.getRetrait() != null ? vente.getRetrait().getCodePostal() : ''}">
+			<input type="hidden" th:field="*{noArticle}" id="noArticle">
+
+			<div class="fields-row">
+				<div class="field-column">
+					<div class="form-group">
+						<label for="nomArticle">Nom <span class="compulsory-cross">*</span></label>
+						<input type="text" th:field="*{nomArticle}" id="nomArticle" placeholder="Nom de l'article"
+							   th:attr="class=${#fields.hasErrors('nomArticle') ? 'input-error' : ''}">
+						<span style="color: red;" th:if="${#fields.hasErrors('nomArticle')}">
+							<ul>
+								<li th:each="erreur : ${#fields.errors('nomArticle')}" th:text="${erreur}"></li>
+							</ul>
+						</span>
+					</div>
+
+					<div class="form-group">
+						<label for="description">Description <span class="compulsory-cross">*</span></label>
+						<textarea th:field="*{description}" id="description" placeholder="Description de l'article"
+								  th:attr="class=${#fields.hasErrors('description') ? 'input-error' : ''}"></textarea>
+						<span style="color: red;" th:if="${#fields.hasErrors('description')}">
+							<ul>
+								<li th:each="erreur : ${#fields.errors('description')}" th:text="${erreur}"></li>
+							</ul>
+						</span>
+					</div>
+
+					<div class="form-group">
+						<label for="category">Catégorie <span class="compulsory-cross">*</span></label>
+						<select id="category" name="category">
+							<option th:each="c : ${categories}"
+									th:value="${c.getNoCategorie()}"
+									th:text="${c.getLibelle()}"
+									th:selected="${vente.getCategorie() != null && vente.getCategorie().getNoCategorie() == c.getNoCategorie()}"></option>
+						</select>
+					</div>
+
+					<div class="form-group">
+						<label for="miseAPrix">Mise à prix <span class="compulsory-cross">*</span></label>
+						<input type="number" th:field="*{miseAPrix}" id="miseAPrix"
+							   th:attr="class=${#fields.hasErrors('miseAPrix') ? 'input-error' : ''}" >
+						<span style="color: red;" th:if="${#fields.hasErrors('miseAPrix')}">
+							<ul>
+								<li th:each="erreur : ${#fields.errors('miseAPrix')}" th:text="${erreur}"></li>
+							</ul>
+						</span>
+					</div>
+				</div>
+				<div class="field-column">
+					<div class="form-group">
+						<label for="dateDebutEncheres">Début de l'enchère <span class="compulsory-cross">*</span></label>
+						<input type="datetime-local" th:field="*{dateDebutEncheres}" id="dateDebutEncheres"
+							   th:attr="class=${#fields.hasErrors('dateDebutEncheres') ? 'input-error' : ''}">
+						<span style="color: red;" th:if="${#fields.hasErrors('dateDebutEncheres')}">
+							<ul>
+								<li th:each="erreur : ${#fields.errors('dateDebutEncheres')}" th:text="${erreur}"></li>
+							</ul>
+						</span>
+					</div>
+
+					<div class="form-group">
+						<label for="dateFinEncheres">Fin de l'enchère <span class="compulsory-cross">*</span></label>
+						<input type="datetime-local" th:field="*{dateFinEncheres}" id="dateFinEncheres"
+							   th:attr="class=${#fields.hasErrors('dateFinEncheres') ? 'input-error' : ''}">
+						<span style="color: red;" th:if="${#fields.hasErrors('dateFinEncheres')}">
+							<ul>
+								<li th:each="erreur : ${#fields.errors('dateFinEncheres')}" th:text="${erreur}"></li>
+							</ul>
+						</span>
+					</div>
+					<div class="retrait-section">
+						<p>Retrait</p>
+
+						<div class="retrait-inputs-container">
+							<div class="form-group">
+								<label for="rue">Rue <span class="compulsory-cross">*</span></label>
+								<input type="text" name="rue" id="rue" placeholder="Adresse du retrait"
+									   th:value="${vente.getRetrait() != null ? vente.getRetrait().getRue() : ''}">
+							</div>
+
+							<div class="form-group">
+								<label for="codePostal">Code Postal <span class="compulsory-cross">*</span></label>
+								<input type="text" name="codePostal" id="codePostal" placeholder="Code Postal du retrait"
+									   th:value="${vente.getRetrait() != null ? vente.getRetrait().getCodePostal() : ''}">
+							</div>
+
+							<div class="form-group">
+								<label for="ville">Ville <span class="compulsory-cross">*</span></label>
+								<input type="text" name="ville" id="ville" placeholder="Ville du retrait"
+									   th:value="${vente.getRetrait() != null ? vente.getRetrait().getVille() : ''}">
+							</div>
+						</div>
+					</div>
+
+				</div>
 			</div>
 
-			<div>
-				<label for="ville">Ville *: </label>
-				<input type="text" name="ville" id="ville"
-					   th:value="${vente.getRetrait() != null ? vente.getRetrait().getVille() : ''}">
-			</div>
-		</div>
 
-		<button type="submit" class="add-btn">Enregistrer</button>
-		<button type="reset">Réinitialiser</button>
-		<input type="hidden"
-			   th:name="${_csrf.parameterName}"
-			   th:value="${_csrf.token}"/>
-	</form>
-	<a th:href="@{/ventes}"><button>Annuler</button></a>
+			<div class="button-section">
+				<button type="submit" class="add-btn">Enregistrer</button>
+				<button type="reset">Réinitialiser</button>
+			</div>
+		</form>
+		<a th:href="@{/ventes}"><button>Annuler</button></a>
+	</main>
+
 </th:block>

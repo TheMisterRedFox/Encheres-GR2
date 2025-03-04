@@ -1,10 +1,12 @@
-<section class="main-section">
+<section class="main-section fit-content">
 
     <div th:if="${erreur != null}" style="color: red;">
         <p th:text="${erreur}"></p>
     </div>
 
     <h1 th:text="${categorie.getLibelle()}">Nom de la catégorie</h1>
-    <a th:href="@{/categories/{noCategorie}/supprimer(noCategorie=${categorie.getNoCategorie()})}"><button class="remove-btn">Supprimer</button></a>
-    <a th:href="@{/categories/{noCategorie}/modifier(noCategorie=${categorie.getNoCategorie()})}"><button>Modifier</button></a>
+    <div class="button-section">
+        <a th:href="@{/categories/{noCategorie}/supprimer(noCategorie=${categorie.getNoCategorie()})}"><button class="remove-btn">Supprimer</button></a>
+        <a th:href="@{/categories/{noCategorie}/modifier(noCategorie=${categorie.getNoCategorie()})}"><button>Modifier</button></a>
+    </div>
 </section>

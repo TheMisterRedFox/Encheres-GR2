@@ -1,38 +1,37 @@
+<main class="main-section fit-content">
+	 <span th:if="${vente.getPseudoMeilleurAcheteur()== utilisateur.getPseudo()}">
+		<h1>Vous avez remporté la vente</h1>
+	 </span>
 
- <span th:if="${vente.getPseudoMeilleurAcheteur()== utilisateur.getPseudo()}">
- 	<h1>Vous avez remporté la vente</h1>
- </span>
- 
- <span th:unless="${vente.getPseudoMeilleurAcheteur()== utilisateur.getPseudo()}">
- 	<h1><span th:text="${vente.getPseudoMeilleurAcheteur()}"></span> a remporté l'enchere </h1>
- </span>
- 	
-	<p><strong>Nom :</strong> <span th:text="${vente.getNomArticle()}"></span></p>
-	<p><strong>Description :</strong> <span th:text="${vente.getDescription()}"></span></p>
-	<p><strong>Meilleure offre :</strong>
-	    <span th:if="${vente.getMeilleureOffre() == vente.getMiseAPrix()}">Pas d'offre</span>
-	    <span th:unless="${vente.getMeilleureOffre() == vente.getMiseAPrix()}">
+		<span th:unless="${vente.getPseudoMeilleurAcheteur()== utilisateur.getPseudo()}">
+ 			<h1>
+			<span th:text="${vente.getPseudoMeilleurAcheteur()}"></span> a remporté l'enchere </h1>
+ 		</span>
+		<input type="hidden" name="noArticle" th:value="${vente.getNoArticle()}" />
+		<p><strong>Nom :</strong> <span th:text="${vente.getNomArticle()}"></span></p>
+		<p><strong>Description :</strong> <span th:text="${vente.getDescription()}"></span></p>
+		<p><strong>Meilleure offre :</strong>
+			<span th:if="${vente.getMeilleureOffre() == vente.getMiseAPrix()}">Pas d'offre</span>
+			<span th:unless="${vente.getMeilleureOffre() == vente.getMiseAPrix()}">
 	        <span th:text="${vente.getMeilleureOffre()}"></span>
 	        <span>pts par</span>
 	        <span th:text="${vente.getPseudoMeilleurAcheteur()}"></span>
 	    </span>
-	</p>
-	<p><strong>Mise à prix :</strong> <span th:text="${vente.getMiseAPrix()}"></span></p>
-	<p><strong>Fin de l'enchère :</strong> <span th:text="${vente.getDateFinEncheres()}"></span></p>
-	<p><strong>Retrait :</strong> <span th:text="${vente.getRetrait().toString()}"></span></p>
-	<p><strong>Nom vendeur: </strong> <span th:text="${vente.getVendeur().getPseudo()}"></span></p>
-	<span th:if="${vente.getPseudoMeilleurAcheteur()== utilisateur.getPseudo()}">
-		<p><strong>Tel : </strong> <span th:text="${vente.getVendeur().getTelephone()}"></span></p>
-	</span>
-	<span th:if="${vente.isArchivage() == true or vente.getVendeur().getNoUtilisateur() != utilisateur.getNoUtilisateur() }">
-		<a th:href="@{/ventes}"><button>Retour</button></a>
-	</span>
-	<form th:action="@{/ventes/archiver}" method="post">
-		<input type="hidden" name="noArticle" th:value="${vente.getNoArticle()}" />
-		<span th:if="${vente.isArchivage() == false and vente.getVendeur().getNoUtilisateur() == utilisateur.getNoUtilisateur()}">			
-	    	<button type="submit">Retrait effectué</button>
+		</p>
+		<p><strong>Mise à prix :</strong> <span th:text="${vente.getMiseAPrix()}"></span></p>
+		<p><strong>Fin de l'enchère :</strong> <span th:text="${vente.getDateFinEncheres()}"></span></p>
+		<p><strong>Retrait :</strong> <span th:text="${vente.getRetrait().toString()}"></span></p>
+		<p><strong>Nom vendeur: </strong> <span th:text="${vente.getVendeur().getPseudo()}"></span></p>
+		<span th:if="${vente.getPseudoMeilleurAcheteur()== utilisateur.getPseudo()}">
+			<p><strong>Tel : </strong> <span th:text="${vente.getVendeur().getTelephone()}"></span></p>
 		</span>
-	</form>
-
-
-
+		<span th:if="${vente.isArchivage() == true or vente.getVendeur().getNoUtilisateur() != utilisateur.getNoUtilisateur() }">
+			<a th:href="@{/ventes}"><button>Retour</button></a>
+		</span>
+		<form th:action="@{/ventes/archiver}" method="post">
+			<input type="hidden" name="noArticle" th:value="${vente.getNoArticle()}" />
+			<span th:if="${vente.isArchivage() == false and vente.getVendeur().getNoUtilisateur() == utilisateur.getNoUtilisateur()}">
+	    		<button type="submit">Retrait effectué</button>
+			</span>
+		</form>
+</main>

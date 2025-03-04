@@ -30,12 +30,9 @@ public class ArticleVendu {
 	private int meilleureOffre;
 	private String pseudoMeilleurAcheteur;
 	private boolean archivage;
-	@NotNull
 	private Utilisateur vendeur;
 	private Retrait retrait;
-	@NotNull
 	private Categorie categorie;
-	
 	
 	public ArticleVendu() {}
 	

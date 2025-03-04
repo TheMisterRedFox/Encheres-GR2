@@ -1,13 +1,11 @@
-<div class="container" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-    <h1>ENI-Enchères</h1>
-
-    <p><strong>Pseudo :</strong> <span th:text="${user.pseudo}"></span></p>
+<main class="main-section fit-content" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <h1 th:text="${user.pseudo}" class="title">Pseudo</h1>
     <p><strong>Nom :</strong> <span th:text="${user.nom}"></span></p>
     <p><strong>Prénom :</strong> <span th:text="${user.prenom}"></span></p>
     <p><strong>Email :</strong> <span th:text="${user.email}"></span></p>
 
     <!-- Cette div s'affiche uniquement si c'est le profil de l'utilisateur connecté ou si l'utilisateur est un administrateur -->
-    <div th:if="${session.user != null and (session.user.noUtilisateur == user.noUtilisateur or session.user.administrateur)}">
+    <th:block th:if="${session.user != null and (session.user.noUtilisateur == user.noUtilisateur or session.user.administrateur)}">
         <p><strong>Téléphone :</strong> <span th:text="${user.telephone}"></span></p>
         <p><strong>Rue :</strong> <span th:text="${user.rue}"></span></p>
         <p><strong>Code Postal :</strong> <span th:text="${user.codePostal}"></span></p>
@@ -17,4 +15,4 @@
         <a th:href="@{/utilisateurs/modifier/{id}(id=${user.noUtilisateur})}" class="btn"><button>Modifier</button></a>
     </div>
 
-</div>
+</main>

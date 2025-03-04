@@ -1,4 +1,4 @@
-input {
+input, textarea {
     border: 1px solid #C2C5CA;
     height: 2rem;
     background-color: #F9FAFB;
@@ -10,13 +10,20 @@ input {
     transition: 0.2s;
 }
 
+textarea {
+    resize: none;
+    height: 10rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+}
+
 input:focus {
     border: 1px solid #0B57D0;
     box-shadow: 0 1px 1px #0B57D0;
     outline: none;
 }
 
-input[type="text"]:read-only {
+input[type="text"]:read-only, textarea:read-only {
     background-color: #d3d3d3;
     border-color: #bababa;
     cursor: not-allowed;
@@ -44,12 +51,12 @@ select:focus {
     box-shadow: 0 1px 1px #0B57D0;
 }
 
-form input:not(:read-only):focus, input.input-error:focus {
+form input:not(:read-only):focus, input.input-error:focus, .encherir-section .input-section input:focus + button, textarea:focus {
     border-color: #3B4CE2;
     box-shadow: 0 1px 1px #3B4CE2;
 }
 
-form input.input-error {
+form input.input-error, textarea.input-error {
     border-color: #f40000;
     box-shadow: 0 1px 1px #f40000;
 }
@@ -68,6 +75,13 @@ form.form-centered {
     align-items: center;
 }
 
+form.form-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 form .form-group.row {
     flex-direction: row;
     align-items: center;
@@ -82,3 +96,74 @@ form ul {
     padding: 3px 0 0 0;
     margin: 0;
 }
+
+form .button-section {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+}
+
+form .encherir-section {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+form .encherir-section .input-section {
+    display: flex;
+    align-items: center;
+}
+
+form .encherir-section input {
+    border-right: none;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+form .encherir-section button {
+    margin-top: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    box-shadow: 0 1px 1px #C2C5CA;
+    border: 1px solid #c2c5ca;
+    border-left: none;
+    height:42px;
+}
+
+form .encherir-section label {
+    font-weight: bold;
+}
+
+form .retrait-section .retrait-inputs-container {
+    border: 1px solid #c2c5ca;
+    border-radius: 10px;
+    padding: 8.5px 1rem;
+    box-shadow: 0 1px 1px #C2C5CA;
+}
+
+form .retrait-section p {
+    font-weight: bold;
+    margin: 0 0 5px 0;
+}
+
+form .fields-row {
+    width: 100%;
+}
+
+@media (min-width: 1000px){
+    form .fields-row {
+        display: flex;
+        flex-direction: row;
+        gap: 2rem;
+    }
+
+    form .field-column {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+}
+
+
