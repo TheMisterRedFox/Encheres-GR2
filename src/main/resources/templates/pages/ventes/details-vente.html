@@ -1,4 +1,4 @@
-	<form action="/ventes/enchere" method="post">
+	<form th:action="@{/ventes/encherir}" method="post">
 		<input type="hidden" name="noArticle" th:value="${vente.getNoArticle()}" />
 		<h1>Détail vente</h1>
 			<p><strong>Nom :</strong> <span th:text="${vente.getNomArticle()}"></span></p>
@@ -15,11 +15,25 @@
 			    </span>
 			</p>
 
-			<p><strong>Fin de l'enchère :</strong> <span th:text="${vente.getDateFinEncheres()}"></span></p>
+			<p><strong>Fin de l'enchère :</strong> <span th:text="${vente.getDateFinEncheresToString()}"></span></p>
 			<p><strong>Retrait :</strong> <span th:text="${vente.getRetrait().toString()}"></span></p>
 			<p><strong>Nom vendeur: </strong> <span th:text="${vente.getVendeur().getPseudo()}"></span></p>
 			<!-- TODO - rajouter une div avec une condition pour vérifier si l'utilisateur connecté est le vendeur de l'article -->
 			<p><strong>Ma proposition :</strong> <input type="number" id="montantEnchere" name="montantEnchere"></p>
 		<button type="submit">Enchérir</button>
 	</form>
+
+		<!-- Bouton de modification d'une vente -->
+		<span th:if="${vente.getVendeur().getNoUtilisateur() == utilisateur.getNoUtilisateur()}">
+			<a th:href="@{/ventes/modifier/{noArticle}(noArticle=${vente.getNoArticle()})}">
+				<button>Modifier</button>
+			</a>
+		</span>
+	<!-- Condition pour afficher le bouton d'annulation si la date de début de l'enchère est dans le futur -->
+	<p th:if="${vente.getDateDebutEncheres() != null && vente.getDateDebutEncheres().isAfter(T(java.time.LocalDateTime).now())}">
+		<a th:href="@{/ventes/supprimer/{noArticle}(noArticle=${vente.getNoArticle()})}">
+			<button>Annuler la vente</button>
+		</a>
+	</p>
+
 

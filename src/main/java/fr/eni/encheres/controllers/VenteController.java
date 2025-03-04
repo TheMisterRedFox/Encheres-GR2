@@ -1,5 +1,7 @@
 package fr.eni.encheres.controllers;
 
+import fr.eni.encheres.bo.*;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 
 import java.time.LocalDateTime;
@@ -10,18 +12,11 @@ import java.util.Optional;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import fr.eni.encheres.bo.ArticleVendu;
-import fr.eni.encheres.bo.Categorie;
-import fr.eni.encheres.bo.Enchere;
-import fr.eni.encheres.bo.Retrait;
-import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.bll.vente.VenteService;
 import fr.eni.encheres.bll.categorie.CategorieService;
 import fr.eni.encheres.bll.utilisateur.UtilisateurService;
 
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 
 @Controller
 @RequestMapping("/ventes")
@@ -30,7 +25,7 @@ public class VenteController {
 	private final VenteService venteService;
 	private final CategorieService categorieService;
 	private final UtilisateurService utilisateurService;
-	
+
 	public VenteController(VenteService venteService, CategorieService categorieService, UtilisateurService utilisateurService) {
 		this.venteService = venteService;
 		this.categorieService = categorieService;
@@ -65,31 +60,51 @@ public class VenteController {
 		return "index";
 	}
 
+	@GetMapping("/modifier/{id}")
+	public String afficherFormulaireModification(@PathVariable int id, Model model) {
+		Optional<ArticleVendu> article = venteService.findById(id);
+
+		if (article.isEmpty()) {
+			return "redirect:/ventes";
+		}
+		model.addAttribute("vente", article.get());
+		model.addAttribute("categories", categorieService.findAll());
+		model.addAttribute("body", "pages/ventes/formulaire-ventes");
+		return "index";
+	}
+
 	// Affiche les details d'une vente
 	@GetMapping("/{noArticle}")
-	public String getVenteDetails(@PathVariable("noArticle") int noArticle, Model model) {
+	public String getVenteDetails(@PathVariable("noArticle") int noArticle, Model model,HttpSession session) {
 
 		Optional<ArticleVendu> optArticle = venteService.findById(noArticle);
-		Optional<Utilisateur> optUser = utilisateurService.findById(1);
-		
-		if(optArticle.isPresent()) {
+		Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+		if(optArticle.isPresent()&& utilisateur != null) {
 			if (optArticle.get().getDateFinEncheres().isBefore(LocalDateTime.now())||optArticle.get().getDateFinEncheres().isEqual(LocalDateTime.now())){
-				System.out.println(optArticle.get().getDateFinEncheres().isBefore(LocalDateTime.now()));
-				System.out.println(optArticle.get().getDateFinEncheres().isEqual(LocalDateTime.now()));
-				System.out.println(optArticle.get().getDateFinEncheres().isBefore(LocalDateTime.now())||optArticle.get().getDateFinEncheres().isEqual(LocalDateTime.now()));
-				System.out.println("utilisateur");
-				System.out.println(utilisateurService.findById(1));
-				System.out.println("return");
-				System.out.println(venteService.finEnchere(optArticle.get(),optUser.get()));
-				System.out.println("error");
-					model.addAttribute("body",venteService.finEnchere(optArticle.get(), optUser.get()));
+				
+				model.addAttribute("vente", optArticle.get());
+				model.addAttribute("utilisateur", utilisateur);
+				model.addAttribute("body",venteService.finEnchere(optArticle.get(), utilisateur));
+				return "index";
 			}else {
-			model.addAttribute("vente", optArticle.get());
-			model.addAttribute("body", "pages/ventes/details-vente");
-			return "index";
+				model.addAttribute("vente", optArticle.get());
+				model.addAttribute("utilisateur", utilisateur);
+				model.addAttribute("body", "pages/ventes/details-vente");
+				return "index";
 			}
 		}
-		
+
+		return "redirect:/ventes/";
+	}
+
+	// Gère la suppression d'un article
+	@GetMapping("/supprimer/{noArticle}")
+	public String supprimerVente(@PathVariable("noArticle") int noArticle) {
+		Optional<ArticleVendu> optArticle = venteService.findById(noArticle);
+
+		if(optArticle.isPresent()) {
+			venteService.delete(noArticle);
+		}
 		return "redirect:/ventes/";
 	}
 
@@ -99,13 +114,19 @@ public class VenteController {
 			@RequestParam("category") int noCategorie,
 			@RequestParam ("rue") String rue,
 			@RequestParam ("codePostal") String codePostal,
-			@RequestParam ("ville") String ville) {
+			@RequestParam ("ville") String ville, HttpSession session) {
 		Optional<Categorie> optCategorie = categorieService.findById(noCategorie);
 		
 		if(optCategorie.isPresent()) {
 			article.setCategorie(optCategorie.get());
 		}
-		
+
+		if(session.getAttribute("user") != null) {
+			Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+			if(utilisateur != null) {
+				article.setVendeur(utilisateur);
+			}
+		}
 		article.setRetrait(new Retrait(rue, codePostal, ville));
 		venteService.save(article);
 		return "redirect:/ventes";
@@ -122,16 +143,28 @@ public class VenteController {
 		return "redirect:/ventes/";
 	}
 
-    @PostMapping("/enchere")
-    public String Encherir(@ModelAttribute ArticleVendu article,@RequestParam("montantEnchere") int MontantEnchere){	
+    @PostMapping("/encherir")
+    public String Encherir(@ModelAttribute ArticleVendu article,@RequestParam("montantEnchere") int MontantEnchere, HttpSession session){
+    		Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
     		Optional<ArticleVendu> optArticle = venteService.findById(article.getNoArticle());
-    		if (optArticle.isPresent()) {
-
-				venteService.encherir(optArticle.get(),MontantEnchere);
+    		if (optArticle.isPresent() && utilisateur != null) {
+    			
+				venteService.encherir(optArticle.get(),utilisateur,MontantEnchere);
     		}
           
         return "redirect:/ventes/";
     }
     
+    @PostMapping("/archiver")
+    public String Archiver(@ModelAttribute ArticleVendu article,@RequestParam("noArticle") int no_article) {
+		Optional<ArticleVendu> optArticle = venteService.findById(article.getNoArticle());
+		System.out.println(optArticle.get());
+		if (optArticle.isPresent()) {
+			
+			venteService.archiver(optArticle.get());
+		}
+		return "redirect:/ventes/";
+    }
+
 
 }

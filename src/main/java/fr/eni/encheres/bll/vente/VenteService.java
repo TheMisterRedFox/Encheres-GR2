@@ -17,8 +17,10 @@ public interface VenteService extends ICrudService<ArticleVendu> {
 
     List<ArticleVendu> findBySearchTextAndCategory(String searchWordFilter, int noCategory);
 
-    void encherir(ArticleVendu article,  int Montant/*,Utilisateur utilisateur*/); // TODO USER 
+    void encherir(ArticleVendu article,Utilisateur user, int Montant);
     
     String finEnchere(ArticleVendu article, Utilisateur user);
+
+	void archiver(ArticleVendu articleVendu);
 
 }

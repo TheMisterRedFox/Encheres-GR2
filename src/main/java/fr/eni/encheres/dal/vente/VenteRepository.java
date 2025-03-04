@@ -10,12 +10,14 @@ public interface VenteRepository extends ICrudRepository<ArticleVendu> {
     List<ArticleVendu> findByCategory(int noCategory);
 
 
-    void encherir(ArticleVendu article, int Montant); // TODO USERS 
+    void encherir(ArticleVendu article, Utilisateur user, int Montant); 
     
     String finEnchere(ArticleVendu article, Utilisateur user); 
 
     List<ArticleVendu> findBySearchText(String searchWordFilter);
 
     List<ArticleVendu> findBySearchTextAndCategory(String searchWordFilter, int noCategory);
+    
+    void archiver(ArticleVendu article); 
 
 }

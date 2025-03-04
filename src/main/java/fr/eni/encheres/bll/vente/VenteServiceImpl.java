@@ -1,5 +1,6 @@
 package fr.eni.encheres.bll.vente;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,8 +21,8 @@ public class VenteServiceImpl implements VenteService {
     }
 	
 	@Override
-	public void update(ArticleVendu entity) {
-		venteRepo.update(entity);
+	public void update(ArticleVendu articleModifie) {
+		venteRepo.update(articleModifie);
 	}
 
 	@Override
@@ -36,8 +37,12 @@ public class VenteServiceImpl implements VenteService {
 	
 	@Override
 	public void save(ArticleVendu vente) {
-		//TODO condition sur l'ajout ou la modification
-		this.add(vente);
+
+		if(vente.getNoArticle() != 0){
+			this.update(vente);
+		} else {
+			this.add(vente);
+		}
 	}
 	
 	@Override
@@ -84,12 +89,18 @@ public class VenteServiceImpl implements VenteService {
 
 
 	@Override
-	public void encherir(ArticleVendu article, int Montant/*,Utilisateur utilisateur*/) { // TODO USER
-		venteRepo.encherir(article, Montant);
+	public void encherir(ArticleVendu article, Utilisateur user, int Montant) { 
+		venteRepo.encherir(article,user, Montant);
 	}
 	
 	@Override
-	public String finEnchere(ArticleVendu article,Utilisateur user) { // TODO USER
+	public String finEnchere(ArticleVendu article,Utilisateur user) {
 		return venteRepo.finEnchere(article,user);
+	}
+
+	@Override
+	public void archiver(ArticleVendu articleVendu) {
+		venteRepo.archiver(articleVendu);;
+		
 	}
 }
