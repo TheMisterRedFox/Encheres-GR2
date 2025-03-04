@@ -82,13 +82,19 @@ public class VenteController {
 
 		Optional<ArticleVendu> optArticle = venteService.findById(noArticle);
 		Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+
+		// Pour pouvoir afficher le template thymeleaf même si on est pas connecté on met un utilisateur vide
+		if(utilisateur == null) {
+			utilisateur = new Utilisateur();
+		}
+
 		if (optArticle.get().getDateFinEncheres().isBefore(LocalDateTime.now())||optArticle.get().getDateFinEncheres().isEqual(LocalDateTime.now())){
 
 			model.addAttribute("vente", optArticle.get());
 			model.addAttribute("utilisateur", utilisateur);
 			model.addAttribute("body",venteService.finEnchere(optArticle.get(), utilisateur));
 			return "index";
-		}else {
+		} else {
 			model.addAttribute("vente", optArticle.get());
 			model.addAttribute("utilisateur", utilisateur);
 			model.addAttribute("body", "pages/ventes/details-vente");

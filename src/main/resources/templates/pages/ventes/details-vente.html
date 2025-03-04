@@ -30,7 +30,7 @@
 	</form>
 	<!-- Bouton de modification d'une vente -->
 	<div class="button-section">
-		<a th:href="@{/ventes/modifier/{noArticle}(noArticle=${vente.getNoArticle()})}" th:if="${vente.getVendeur().getNoUtilisateur() == utilisateur.getNoUtilisateur()}">
+		<a th:href="@{/ventes/modifier/{noArticle}(noArticle=${vente.getNoArticle()})}" th:if="${utilisateur != null and (vente.getVendeur().getNoUtilisateur() == utilisateur.getNoUtilisateur())}">
 			<button class="primary-btn">Modifier</button>
 		</a>
 	</div>

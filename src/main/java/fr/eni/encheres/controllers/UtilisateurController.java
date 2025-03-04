@@ -64,6 +64,8 @@ public class UtilisateurController {
 		}
 
 		model.addAttribute("formRedirectPath", "/utilisateurs/enregistrer");
+		model.addAttribute("h1Title", "Modifier utilisateur");
+		model.addAttribute("submitButtonLabel", "Modifier");
 		model.addAttribute("body", "pages/utilisateurs/formulaire-utilisateur");
 		return "index";
 	}
