@@ -29,16 +29,18 @@ public class ArticleVendu {
 	private String etatVente;
 	private int meilleureOffre;
 	private String pseudoMeilleurAcheteur;
+	private boolean archivage;
 	@NotNull
 	private Utilisateur vendeur;
 	private Retrait retrait;
 	@NotNull
 	private Categorie categorie;
 	
+	
 	public ArticleVendu() {}
 	
 	public ArticleVendu(int noArticle, String nomArticle, String description, LocalDateTime dateDebutEncheres,
-			LocalDateTime dateFinEncheres, int miseAPrix, int prixVente, String etatVente, int meilleurOffre, String pseudoMeilleurAcheteur, Utilisateur vendeur,
+			LocalDateTime dateFinEncheres, int miseAPrix, int prixVente, String etatVente, int meilleurOffre, String pseudoMeilleurAcheteur,boolean archivage, Utilisateur vendeur,
 			Retrait retrait, Categorie categorie) {
 		this.noArticle = noArticle;
 		this.nomArticle = nomArticle;
@@ -50,6 +52,7 @@ public class ArticleVendu {
 		this.etatVente = etatVente;
 		this.meilleureOffre = meilleurOffre;
 		this.pseudoMeilleurAcheteur = pseudoMeilleurAcheteur;
+		this.archivage = archivage;
 		this.vendeur = vendeur;
 		this.retrait = retrait;
 		this.categorie = categorie;
@@ -139,6 +142,14 @@ public class ArticleVendu {
 		this.pseudoMeilleurAcheteur = pseudoMeilleurAcheteur;
 	}
 
+	public boolean isArchivage() {
+		return archivage;
+	}
+
+	public void setArchivage(boolean archivage) {
+		this.archivage = archivage;
+	}
+
 	public Utilisateur getVendeur() {
 		return vendeur;
 	}
@@ -185,7 +196,7 @@ public class ArticleVendu {
 		return "ArticleVendu [noArticle=" + noArticle + ", nomArticle=" + nomArticle + ", description=" + description
 				+ ", dateDebutEncheres=" + dateDebutEncheres + ", dateFinEncheres=" + dateFinEncheres + ", miseAPrix="
 				+ miseAPrix + ", prixVente=" + prixVente + ", etatVente=" + etatVente + ", meilleureOffre="
-				+ meilleureOffre + ", pseudoMeilleurAcheteur=" + pseudoMeilleurAcheteur + ", vendeur=" + vendeur
+				+ meilleureOffre + ", pseudoMeilleurAcheteur=" + pseudoMeilleurAcheteur + "archivage=" + archivage + ", vendeur=" + vendeur
 				+ ", retrait=" + retrait + ", categorie=" + categorie + "]";
 	}
 	

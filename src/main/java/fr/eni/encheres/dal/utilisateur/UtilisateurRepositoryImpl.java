@@ -4,13 +4,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
-
-import fr.eni.encheres.bo.ArticleVendu;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+
+import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Utilisateur;
+
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -27,7 +28,7 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 		this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
 		this.jdbcTemplate = jdbcTemplate;
 	}
-	
+
 	@Override
 	public List<Utilisateur> findAll() {
 
@@ -35,6 +36,7 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 
 		return utilisateurs;
 	}
+
 	@Override
 	public Optional<Utilisateur> findById(int noUtilisateur) {
 		String sql = SQL_SELECT + "where no_utilisateur = ?";
@@ -110,4 +112,5 @@ class UtilisateurRowMapper implements RowMapper<Utilisateur> {
 		return utilisateur;
 	}
 }
+
 
