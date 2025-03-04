@@ -1,4 +1,4 @@
-<main class="main-content">
+<main class="main-section fit-content">
 	<form th:action="@{/ventes/archiver}" method="post">
 	 <span th:if="${vente.getPseudoMeilleurAcheteur()== utilisateur.getPseudo()}">
 		<h1>Vous avez remporté la vente</h1>

@@ -82,22 +82,18 @@ public class VenteController {
 
 		Optional<ArticleVendu> optArticle = venteService.findById(noArticle);
 		Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
-		if(optArticle.isPresent() && utilisateur != null) {
-			if (optArticle.get().getDateFinEncheres().isBefore(LocalDateTime.now())||optArticle.get().getDateFinEncheres().isEqual(LocalDateTime.now())){
+		if (optArticle.get().getDateFinEncheres().isBefore(LocalDateTime.now())||optArticle.get().getDateFinEncheres().isEqual(LocalDateTime.now())){
 
-				model.addAttribute("vente", optArticle.get());
-				model.addAttribute("utilisateur", utilisateur);
-				model.addAttribute("body",venteService.finEnchere(optArticle.get(), utilisateur));
-				return "index";
-			}else {
-				model.addAttribute("vente", optArticle.get());
-				model.addAttribute("utilisateur", utilisateur);
-				model.addAttribute("body", "pages/ventes/details-vente");
-				return "index";
-			}
+			model.addAttribute("vente", optArticle.get());
+			model.addAttribute("utilisateur", utilisateur);
+			model.addAttribute("body",venteService.finEnchere(optArticle.get(), utilisateur));
+			return "index";
+		}else {
+			model.addAttribute("vente", optArticle.get());
+			model.addAttribute("utilisateur", utilisateur);
+			model.addAttribute("body", "pages/ventes/details-vente");
+			return "index";
 		}
-
-		return "redirect:/ventes/";
 	}
 
 	// Gère la suppression d'un article
