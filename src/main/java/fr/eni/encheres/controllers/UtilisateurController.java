@@ -29,7 +29,6 @@ public class UtilisateurController {
 
 		if(optUtilisateur.isPresent()) {
 			model.addAttribute("user", optUtilisateur.get());
-			model.addAttribute("sessionUser", session.getAttribute("user"));
 			model.addAttribute("body", "pages/utilisateurs/profil-utilisateur");
 			return "index";
 		}
