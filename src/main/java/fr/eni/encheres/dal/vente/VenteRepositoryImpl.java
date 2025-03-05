@@ -89,29 +89,26 @@ public class VenteRepositoryImpl implements VenteRepository {
 	}
 
 	@Override
-	@Transactional // TODO PROCEDURE STOCKÉ
+	@Transactional
 	public void add(ArticleVendu newArticle) {
 		logger.debug("avant insert articles_vendus");
-		KeyHolder keyHolder = new GeneratedKeyHolder();
-		String sql = "insert into articles_vendus (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial,"
-				+ "no_utilisateur, no_categorie, image) values (:nomArticle, :description, :dateDebutEncheres, :dateFinEncheres, :miseAPrix,"
-				+ ":noUtilisateur, :noCategorie, :image)";
-		
+		String sql = "SELECT ajouter_vente(:nomArticle, :description, :dateDebutEncheres, :dateFinEncheres, :miseAPrix, :noUtilisateur, :noCategorie, :image, :rue, :codePostal, :ville)";
+
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		params.addValue("nomArticle", newArticle.getNomArticle())
-		      .addValue("description", newArticle.getDescription())
-		      .addValue("dateDebutEncheres", newArticle.getDateDebutEncheres())
-		      .addValue("dateFinEncheres", newArticle.getDateFinEncheres())
-		      .addValue("miseAPrix", newArticle.getMiseAPrix())
-		      .addValue("noUtilisateur", newArticle.getVendeur().getNoUtilisateur())
-		      .addValue("noCategorie", newArticle.getCategorie().getNoCategorie())
-			  .addValue("image", newArticle.getImageUrl());
-		
-		namedParameterJdbcTemplate.update(sql, params, keyHolder, new String[]{"no_article"});
-		newArticle.setNoArticle(keyHolder.getKeyAs(Integer.class));
-		newArticle.getRetrait().setArticle(newArticle);
-		retraitRepo.add(newArticle.getRetrait());
+				.addValue("description", newArticle.getDescription())
+				.addValue("dateDebutEncheres", newArticle.getDateDebutEncheres())
+				.addValue("dateFinEncheres", newArticle.getDateFinEncheres())
+				.addValue("miseAPrix", newArticle.getMiseAPrix())
+				.addValue("noUtilisateur", newArticle.getVendeur().getNoUtilisateur())
+				.addValue("noCategorie", newArticle.getCategorie().getNoCategorie())
+				.addValue("image", newArticle.getImageUrl())
+				.addValue("rue", newArticle.getRetrait().getRue())
+				.addValue("codePostal", newArticle.getRetrait().getCodePostal())
+				.addValue("ville", newArticle.getRetrait().getVille());
 
+		// Exécute et stocke la clé
+		Integer articleKey = namedParameterJdbcTemplate.queryForObject(sql, params, Integer.class);
 		logger.debug("après insert articles_vendus");
 	}
 	

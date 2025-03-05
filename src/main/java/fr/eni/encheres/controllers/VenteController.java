@@ -107,7 +107,6 @@ public class VenteController {
 			model.addAttribute("body", venteService.finEnchere(article, utilisateur));
 		} else {
 			List<Enchere> encheres = venteService.displayEnchere(article);
-			System.out.println(encheres.get(0).getEncherisseur().toString());
 			model.addAttribute("encheres", encheres);
 			model.addAttribute("body", "pages/ventes/details-vente");
 		}
