@@ -10,6 +10,11 @@ input, textarea {
     transition: 0.2s;
 }
 
+input[type="file"]{
+    height: 100%;
+    padding: 8px;
+}
+
 textarea {
     resize: none;
     height: 10rem;

@@ -1,24 +1,26 @@
 package fr.eni.encheres.controllers;
 
 import fr.eni.encheres.bo.*;
+import fr.eni.encheres.utils.FileUploadUtil;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.ui.Model;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import fr.eni.encheres.bll.vente.VenteService;
 import fr.eni.encheres.bll.categorie.CategorieService;
 import fr.eni.encheres.bll.utilisateur.UtilisateurService;
-
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/ventes")
@@ -57,7 +59,9 @@ public class VenteController {
 	// Affiche le formulaire de création d'un article
 	@GetMapping("/ajouter")
 	private String afficherFormVente(Model model) {
-		model.addAttribute("vente", new ArticleVendu());
+		if(model.getAttribute("vente") == null){
+			model.addAttribute("vente", new ArticleVendu());
+		}
 		model.addAttribute("categories", categorieService.findAll());
 		model.addAttribute("body", "pages/ventes/formulaire-ventes");
 		return "index";
@@ -121,6 +125,7 @@ public class VenteController {
 			@RequestParam("rue") String rue,
 			@RequestParam("codePostal") String codePostal,
 			@RequestParam("ville") String ville,
+			@RequestParam("image") MultipartFile image,
 			HttpSession session,
 			RedirectAttributes redirectAttr,
 			Model model) {
@@ -130,6 +135,9 @@ public class VenteController {
 			model.addAttribute("body", "pages/ventes/formulaire-ventes");
 			return "index";
 		}
+
+		// Assurez-vous que le dossier upload-dir existe
+		FileUploadUtil.ensureUploadDirExists();
 
 		Optional<Categorie> optCategorie = categorieService.findById(noCategorie);
 		if (optCategorie.isPresent()) {
@@ -145,9 +153,20 @@ public class VenteController {
 
 		article.setRetrait(new Retrait(rue, codePostal, ville));
 
+		if (article.getNoArticle() != 0) {
+			if (image != null && !image.isEmpty()) {
+				String imageUrl = FileUploadUtil.saveImage(image);
+				article.setImageUrl(imageUrl);
+			}
+		} else if (image != null && !image.isEmpty()) {
+			String imageUrl = FileUploadUtil.saveImage(image);
+			article.setImageUrl(imageUrl);
+		}
+
 		try {
 			venteService.save(article);
 		} catch (Exception ex) {
+			redirectAttr.addFlashAttribute("vente", article);
 			redirectAttr.addFlashAttribute("erreur", "Une erreur est survenue lors de l'enregistrement.");
 			return "redirect:/ventes/ajouter";
 		}
@@ -188,5 +207,6 @@ public class VenteController {
 		}
 		return "redirect:/ventes/";
     }
+
 	// TODO faire des tests unitaire
 }

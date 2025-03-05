@@ -1,8 +1,10 @@
 <main class="main-section fit-content">
 	<form th:action="@{/ventes/encherir}" method="post">
 		<input type="hidden" name="noArticle" th:value="${vente.getNoArticle()}" />
-		<h1 class="title">Détail vente</h1>
-		<p><strong>Nom :</strong> <span th:text="${vente.getNomArticle()}"></span></p>
+		<div class="img-article-details" th:if="${vente.getImageUrl() != null}">
+			<img  th:src="${vente.getImageUrl()}" alt="Image de l'article"/>
+		</div>
+		<h1 th:text="${vente.getNomArticle()}">Détail vente</h1>
 		<p><strong>Description :</strong> <span th:text="${vente.getDescription()}"></span></p>
 		<p><strong>Catégorie :</strong> <span th:text="${vente.getCategorie().getLibelle()}"></span></p>
 		<p><strong>Mise à prix :</strong> <span th:text="${vente.getMiseAPrix()}"></span></p>

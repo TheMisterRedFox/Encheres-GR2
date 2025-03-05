@@ -2,7 +2,7 @@
 	<main class="main-section s">
 		<h1 class="title" th:if="${vente.getNoArticle() == 0}">Vendre un article</h1>
 		<h1 class="title" th:if="${vente.getNoArticle() != 0}">Modifier un article</h1>
-		<form th:action="@{/ventes/enregistrer}" method="post" class="form-section">
+		<form th:action="@{/ventes/enregistrer}" method="post" enctype="multipart/form-data" class="form-section">
 
 			<div th:if="${erreur != null}" style="color: red;">
 				<p th:text="${erreur}"></p>
@@ -53,6 +53,11 @@
 								<li th:each="erreur : ${#fields.errors('miseAPrix')}" th:text="${erreur}"></li>
 							</ul>
 						</span>
+					</div>
+
+					<div class="form-group">
+						<label for="image">Image de l'article</label>
+						<input type="file" id="image" name="image" accept="image/*">
 					</div>
 				</div>
 				<div class="field-column">
@@ -110,7 +115,7 @@
 				<button type="reset">Réinitialiser</button>
 			</div>
 		</form>
-		<a th:href="@{/ventes}"><button>Annuler</button></a>
+		<a th:href="@{/ventes}"><button class="remove-btn">Annuler</button></a>
 	</main>
 
 </th:block>

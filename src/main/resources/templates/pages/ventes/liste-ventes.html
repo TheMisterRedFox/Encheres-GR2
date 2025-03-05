@@ -26,21 +26,30 @@
            th:each="article : ${articles}" class="article-card"
            th:if="${article.isArchivage == false}">
 
-            <div class="article-header">
-                <p th:text="${article.getNomArticle()}" class="article-name">Nom de l'article</p>
-                <!-- Pastille d'état -->
-                <span class="status-badge"
-                      th:classappend="${article.getDateDebutEncheres().isAfter(T(java.time.LocalDateTime).now())} ? 'status-not-started'
-                                : (${article.getDateFinEncheres().isBefore(T(java.time.LocalDateTime).now())} ? 'status-ended' : 'status-active')"
-                      th:text="${article.getDateDebutEncheres().isAfter(T(java.time.LocalDateTime).now())} ? 'Non débuté'
-                         : (${article.getDateFinEncheres().isBefore(T(java.time.LocalDateTime).now())} ? 'Terminé' : 'En cours')">
-            </span>
+            <div class="article-image">
+                <img th:if="${article.getImageUrl() == null}" th:src="@{/images/img-placeholder.jpg}">
+                <img th:if="${article.getImageUrl() != null}" th:src="@{${article.getImageUrl()}}">
             </div>
 
-            <p><span class="section-name">Prix :</span> <span th:text="${article.getMiseAPrix()}">0</span> points</p>
-            <p><span class="section-name">Fin de l'enchère :</span> <span th:text="${article.getDateFinEncheresToString()}"></span></p>
-            <p><span class="section-name">Vendeur :</span> <span th:text="${article.getVendeur().getPseudo()}"></span></p>
-            <p th:text="${article.getDescription()}" class="article-description" th:title="${article.getDescription()}">Description de l'article</p>
+            <div class="article-content">
+                <div class="article-header">
+                    <p th:text="${article.getNomArticle()}" class="article-name">Nom de l'article</p>
+                    <!-- Pastille d'état -->
+                    <span class="status-badge"
+                          th:classappend="${article.getDateDebutEncheres().isAfter(T(java.time.LocalDateTime).now())} ? 'status-not-started'
+                                : (${article.getDateFinEncheres().isBefore(T(java.time.LocalDateTime).now())} ? 'status-ended' : 'status-active')"
+                          th:text="${article.getDateDebutEncheres().isAfter(T(java.time.LocalDateTime).now())} ? 'Non débuté'
+                         : (${article.getDateFinEncheres().isBefore(T(java.time.LocalDateTime).now())} ? 'Terminé' : 'En cours')">
+                    </span>
+                </div>
+
+                <p><span class="section-name">Prix :</span> <span th:text="${article.getMiseAPrix()}">0</span> points</p>
+                <p><span class="section-name">Fin de l'enchère :</span> <span th:text="${article.getDateFinEncheresToString()}"></span></p>
+                <p><span class="section-name">Vendeur :</span> <span th:text="${article.getVendeur().getPseudo()}"></span></p>
+                <p th:text="${article.getDescription()}" class="article-description" th:title="${article.getDescription()}">Description de l'article</p>
+            </div>
+
+
         </a>
     </div>
 </main>
