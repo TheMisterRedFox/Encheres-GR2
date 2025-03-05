@@ -27,13 +27,12 @@ public class VenteController {
 	private final VenteService venteService;
 	private final CategorieService categorieService;
 	private final UtilisateurService utilisateurService;
-	private final CustomUserDetailsService customUserDetailsService;
 
-	public VenteController(VenteService venteService, CategorieService categorieService, UtilisateurService utilisateurService, CustomUserDetailsService customUserDetailsService) {
+
+	public VenteController(VenteService venteService, CategorieService categorieService, UtilisateurService utilisateurService) {
 		this.venteService = venteService;
 		this.categorieService = categorieService;
 		this.utilisateurService = utilisateurService;
-		this.customUserDetailsService = customUserDetailsService;
 	}
 
 	// Affiche la listes des ventes en cours
