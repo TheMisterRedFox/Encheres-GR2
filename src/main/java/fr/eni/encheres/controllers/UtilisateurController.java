@@ -103,7 +103,7 @@ public class UtilisateurController {
 		if(optUtilisateur.isPresent()) {
 			utilisateurService.delete(noUtilisateur);
 		}
-		return "redirect:/utilisateurs/";
+		return "redirect:/ventes/";
 	}
 
 }
