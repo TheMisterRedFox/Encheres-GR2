@@ -35,9 +35,9 @@ INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, rue, code_posta
 VALUES ('jdoe', 'Doe', 'John', 'jdoe@example.com', '0123456789', '10 rue de Paris', '75001', 'Paris', '{bcrypt}$2a$10$rtqeU.ZF0V.1Cg.gpELOK.XWG3Bvtl409nfRhrUCFtiEJXR1f0tIe', 100,
         FALSE),
        ('asmith', 'Smith', 'Alice', 'asmith@example.com', '0987654321', '15 av. de Lyon', '69000', 'Lyon', '{bcrypt}$2a$10$TBc7gWbm0vVJaUY5Vn6PxePFoteuAekQFL65FqICsIij.3XjUi3Q.',
-        200, TRUE),
+        2000, TRUE),
        ('bmartin', 'Martin', 'Bob', 'bmartin@example.com', '0678901234', '20 bd de Lille', '59000', 'Lille', '{bcrypt}$2a$10$rtqeU.ZF0V.1Cg.gpELOK.XWG3Bvtl409nfRhrUCFtiEJXR1f0tIe',
-        50, FALSE),
+        5000, FALSE),
        ('cmiller', 'Miller', 'Chris', 'cmiller@example.com', '0612345678', '5 rue de Nantes', '44000', 'Nantes',
         '{bcrypt}$2a$10$/q.yk/7nNGbyIIFK3ZypJebWrQ8/2CFpFeSWdi4XMaCAP6Fb2Kw5m', 150, FALSE),
        ('lgarcia', 'Garcia', 'Laura', 'lgarcia@example.com', '0623456789', '25 place de Toulouse', '31000', 'Toulouse',
@@ -45,7 +45,7 @@ VALUES ('jdoe', 'Doe', 'John', 'jdoe@example.com', '0123456789', '10 rue de Pari
        ('ddupont', 'Dupont', 'David', 'ddupont@example.com', '0634567890', '12 rue de Bordeaux', '33000', 'Bordeaux',
         '{bcrypt}$2a$10$/q.yk/7nNGbyIIFK3ZypJebWrQ8/2CFpFeSWdi4XMaCAP6Fb2Kw5m', 250, TRUE),
        ('mleblanc', 'Leblanc', 'Marie', 'mleblanc@example.com', '0645678901', '8 rue de Marseille', '13000',
-        'Marseille', '{bcrypt}$2a$10$/q.yk/7nNGbyIIFK3ZypJebWrQ8/2CFpFeSWdi4XMaCAP6Fb2Kw5m', 180, FALSE);
+        'Marseille', '{bcrypt}$2a$10$/q.yk/7nNGbyIIFK3ZypJebWrQ8/2CFpFeSWdi4XMaCAP6Fb2Kw5m', 5000, FALSE);
 
 -- Insertion des articles (avec plus de données)
 INSERT INTO ARTICLES_VENDUS (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente,
@@ -66,7 +66,17 @@ VALUES ('Ordinateur', 'PC 15 pouces', '2025-02-01 10:00:00', '2025-02-07 18:00:0
        ('Smartphone Samsung', 'Galaxy S23 Ultra - 512Go', '2025-02-15 10:00:00', '2025-02-22 18:00:00', 900, NULL, 3,
         1),
        ('Table en bois massif', 'Chêne naturel - 6 places', '2025-02-09 11:30:00', '2025-02-16 21:00:00', 600, NULL, 4,
-        3);
+        3),
+       ('Casque Audio', 'Casque sans fil avec réduction de bruit', '2025-03-01 09:00:00', '2025-03-10 18:00:00', 150, NULL, 1, 1),
+       ('Montre Connectée', 'Smartwatch avec GPS et capteur cardiaque', '2025-03-02 10:00:00', '2025-03-11 20:00:00', 200, NULL, 2, 1),
+       ('Vélo Électrique', 'Vélo tout-terrain avec assistance électrique', '2025-03-03 08:00:00', '2025-03-12 19:00:00', 1200, NULL, 3, 8),
+       ('Télévision 4K', 'Écran OLED 55 pouces', '2025-03-04 12:00:00', '2025-03-13 21:00:00', 800, NULL, 4, 7),
+       ('Sac de Sport', 'Sac de sport en cuir', '2025-03-05 11:00:00', '2025-03-14 22:00:00', 100, NULL, 5, 9),
+       ('Lunettes de Soleil', 'Lunettes polarisées pour la conduite', '2025-03-06 09:00:00', '2025-03-15 20:00:00', 80, NULL, 6, 9),
+       ('Tapis de Yoga', 'Épaisseur 8mm avec antidérapant', '2025-03-07 10:00:00', '2025-03-16 18:00:00', 40, NULL, 7, 8),
+       ('Guitare Électrique', 'Modèle Fender Stratocaster', '2025-03-08 13:00:00', '2025-03-17 23:00:00', 700, NULL, 1, 6),
+       ('Drone', 'Drone caméra 4K avec stabilisation', '2025-03-09 14:00:00', '2025-03-18 21:00:00', 500, NULL, 2, 1),
+       ('Machine à pain', 'Cuisson programmable avec 12 modes', '2025-03-10 15:00:00', '2025-03-19 19:00:00', 120, NULL, 3, 7);
 
 -- Insertion des retraits
 INSERT INTO RETRAITS (no_article, rue, code_postal, ville)
@@ -79,7 +89,17 @@ VALUES (1, '10 rue de Paris', '75001', 'Paris'),
        (7, '8 rue de Marseille', '13000', 'Marseille'),
        (8, '50 av. des Champs-Élysées', '75008', 'Paris'),
        (9, '17 rue de Nice', '06000', 'Nice'),
-       (10, '6 impasse des Lilas', '57000', 'Metz');
+       (10, '6 impasse des Lilas', '57000', 'Metz'),
+       (11, '10 rue de Paris', '75001', 'Paris'),
+       (12, '15 av. de Lyon', '69000', 'Lyon'),
+       (13, '20 bd de Lille', '59000', 'Lille'),
+       (14, '5 rue de Nantes', '44000', 'Nantes'),
+       (15, '25 place de Toulouse', '31000', 'Toulouse'),
+       (16, '12 rue de Bordeaux', '33000', 'Bordeaux'),
+       (17, '8 rue de Marseille', '13000', 'Marseille'),
+       (18, '50 av. des Champs-Élysées', '75008', 'Paris'),
+       (19, '17 rue de Nice', '06000', 'Nice'),
+       (20, '6 impasse des Lilas', '57000', 'Metz');
 
 -- Insertion des enchères
 INSERT INTO ENCHERES (date_enchere, montant_enchere, no_article, no_utilisateur)
@@ -124,4 +144,27 @@ VALUES ('2025-02-02 14:30:00', 520, 1, 2),
 
        ('2025-02-18 09:00:00', 650, 10, 3),
        ('2025-02-19 12:30:00', 680, 10, 7),
-       ('2025-02-20 14:15:00', 700, 10, 2);
+       ('2025-02-20 14:15:00', 700, 10, 2),
+       ('2025-03-01 14:00:00', 160, 11, 2),
+       ('2025-03-02 15:30:00', 180, 11, 3),
+       ('2025-03-03 17:45:00', 190, 11, 4),
+       ('2025-03-04 10:00:00', 210, 12, 5),
+       ('2025-03-05 12:30:00', 230, 12, 6),
+       ('2025-03-06 14:45:00', 250, 12, 7),
+       ('2025-03-07 16:15:00', 1250, 13, 1),
+       ('2025-03-08 17:45:00', 1300, 13, 3),
+       ('2025-03-09 19:30:00', 1350, 13, 5),
+       ('2025-03-10 20:45:00', 850, 14, 2),
+       ('2025-03-11 22:00:00', 900, 14, 4),
+       ('2025-03-12 10:30:00', 100, 15, 6),
+       ('2025-03-13 11:45:00', 110, 15, 7),
+       ('2025-03-14 13:00:00', 130, 16, 1),
+       ('2025-03-15 14:15:00', 140, 16, 3),
+       ('2025-03-16 15:30:00', 300, 17, 5),
+       ('2025-03-17 17:45:00', 320, 17, 6),
+       ('2025-03-18 18:15:00', 520, 18, 7),
+       ('2025-03-19 19:30:00', 550, 18, 2),
+       ('2025-03-20 20:45:00', 500, 19, 3),
+       ('2025-03-21 22:00:00', 520, 19, 4),
+       ('2025-03-22 10:30:00', 150, 20, 5),
+       ('2025-03-23 11:45:00', 170, 20, 6);
