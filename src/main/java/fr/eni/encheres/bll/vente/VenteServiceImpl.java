@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import fr.eni.encheres.bo.Enchere;
 import org.springframework.stereotype.Service;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Utilisateur;
@@ -102,5 +103,10 @@ public class VenteServiceImpl implements VenteService {
 	public void archiver(ArticleVendu articleVendu) {
 		venteRepo.archiver(articleVendu);;
 		
+	}
+
+	@Override
+	public List<Enchere> displayEnchere(ArticleVendu articleVendu) {
+		return venteRepo.displayEnchere(articleVendu);
 	}
 }

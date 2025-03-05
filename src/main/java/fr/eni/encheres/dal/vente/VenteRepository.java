@@ -1,6 +1,7 @@
 package fr.eni.encheres.dal.vente;
 
 import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.ICrudRepository;
 
@@ -18,6 +19,7 @@ public interface VenteRepository extends ICrudRepository<ArticleVendu> {
 
     List<ArticleVendu> findBySearchTextAndCategory(String searchWordFilter, int noCategory);
     
-    void archiver(ArticleVendu article); 
+    void archiver(ArticleVendu article);
 
+    List<Enchere> displayEnchere(ArticleVendu articleVendu);
 }
