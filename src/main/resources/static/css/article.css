@@ -32,6 +32,10 @@
 .article-card .article-name {
     font-weight: bold;
     font-size: 1.5rem;
+    max-width: 200px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .article-card .section-name {
@@ -75,6 +79,32 @@
     flex: 1;
     margin-top: 0;
     height: 42px;
+}
+
+.article-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: white;
+}
+
+.status-active {
+    background-color: green;
+}
+
+.status-not-started {
+    background-color: orange;
+}
+
+.status-ended {
+    background-color: red;
 }
 
 /**
