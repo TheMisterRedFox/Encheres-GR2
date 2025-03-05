@@ -30,6 +30,7 @@ public class VenteController {
 	private final CategorieService categorieService;
 	private final UtilisateurService utilisateurService;
 
+
 	public VenteController(VenteService venteService, CategorieService categorieService, UtilisateurService utilisateurService) {
 		this.venteService = venteService;
 		this.categorieService = categorieService;
@@ -189,9 +190,10 @@ public class VenteController {
     public String Encherir(@ModelAttribute ArticleVendu article,@RequestParam("montantEnchere") int MontantEnchere, HttpSession session){
     		Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
     		Optional<ArticleVendu> optArticle = venteService.findById(article.getNoArticle());
-    		if (optArticle.isPresent() && utilisateur != null) {
+			Optional<Utilisateur> optUser = utilisateurService.findById(utilisateur.getNoUtilisateur());
+    		if (optArticle.isPresent() && optUser.isPresent()) {
 
-				venteService.encherir(optArticle.get(),utilisateur,MontantEnchere);
+				venteService.encherir(optArticle.get(),optUser.get(),MontantEnchere);
     		}
 
         return "redirect:/ventes/";
@@ -209,4 +211,5 @@ public class VenteController {
     }
 
 	// TODO faire des tests unitaire
+
 }
