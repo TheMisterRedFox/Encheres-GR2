@@ -59,7 +59,9 @@ public class VenteController {
 	// Affiche le formulaire de création d'un article
 	@GetMapping("/ajouter")
 	private String afficherFormVente(Model model) {
-		model.addAttribute("vente", new ArticleVendu());
+		if(model.getAttribute("vente") == null){
+			model.addAttribute("vente", new ArticleVendu());
+		}
 		model.addAttribute("categories", categorieService.findAll());
 		model.addAttribute("body", "pages/ventes/formulaire-ventes");
 		return "index";
@@ -151,13 +153,20 @@ public class VenteController {
 
 		article.setRetrait(new Retrait(rue, codePostal, ville));
 
-		// Sauvegarder l'image et obtenir l'URL
-		String imageUrl = FileUploadUtil.saveImage(image);
-		article.setImageUrl(imageUrl); // Assurez-vous d'avoir un champ imageUrl dans ArticleVendu
+		if (article.getNoArticle() != 0) {
+			if (image != null && !image.isEmpty()) {
+				String imageUrl = FileUploadUtil.saveImage(image);
+				article.setImageUrl(imageUrl);
+			}
+		} else if (image != null && !image.isEmpty()) {
+			String imageUrl = FileUploadUtil.saveImage(image);
+			article.setImageUrl(imageUrl);
+		}
 
 		try {
 			venteService.save(article);
 		} catch (Exception ex) {
+			redirectAttr.addFlashAttribute("vente", article);
 			redirectAttr.addFlashAttribute("erreur", "Une erreur est survenue lors de l'enregistrement.");
 			return "redirect:/ventes/ajouter";
 		}

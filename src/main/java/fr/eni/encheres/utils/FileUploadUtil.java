@@ -2,9 +2,11 @@ package fr.eni.encheres.utils;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
 public class FileUploadUtil {
@@ -16,20 +18,18 @@ public class FileUploadUtil {
             try {
                 Files.createDirectories(UPLOAD_DIR);
             } catch (Exception e) {
-                // Gérer l'exception (par exemple, loguer l'erreur)
                 e.printStackTrace();
             }
         }
     }
 
     public static String saveImage(MultipartFile file) {
-        // Assurez-vous que le dossier upload-dir/images existe
         ensureUploadDirExists();
-        try {
-            // Générer un nom de fichier unique
+
+        try (InputStream inputStream = file.getInputStream()) {
             String uniqueFilename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
             Path targetLocation = UPLOAD_DIR.resolve(uniqueFilename);
-            Files.copy(file.getInputStream(), targetLocation);
+            Files.copy(inputStream, targetLocation, StandardCopyOption.REPLACE_EXISTING);
             return "/images/" + uniqueFilename;
         } catch (Exception e) {
             e.printStackTrace();

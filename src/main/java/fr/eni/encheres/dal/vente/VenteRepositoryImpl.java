@@ -117,11 +117,11 @@ public class VenteRepositoryImpl implements VenteRepository {
 	@Override
 	public void update(ArticleVendu articleModifie) {
 		String sql = "UPDATE articles_vendus SET nom_article = ?, description = ?, date_debut_encheres = ?, date_fin_encheres = ?, " +
-				"prix_initial = ?, prix_vente = ?, no_categorie = ? WHERE no_article = ?";
+				"prix_initial = ?, prix_vente = ?, no_categorie = ?, image = ? WHERE no_article = ?";
 
 		jdbcTemplate.update(sql, articleModifie.getNomArticle(), articleModifie.getDescription(),
 			articleModifie.getDateDebutEncheres(), articleModifie.getDateFinEncheres(), articleModifie.getMiseAPrix(),
-			articleModifie.getPrixVente(), articleModifie.getCategorie().getNoCategorie(), articleModifie.getNoArticle()
+			articleModifie.getPrixVente(), articleModifie.getCategorie().getNoCategorie(), articleModifie.getImageUrl(), articleModifie.getNoArticle()
 		);
 	}
 
