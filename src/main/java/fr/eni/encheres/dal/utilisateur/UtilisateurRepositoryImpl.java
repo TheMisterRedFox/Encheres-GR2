@@ -79,9 +79,13 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 				utilisateurModifie.getCredit(), utilisateurModifie.getNoUtilisateur());
 	}
 	@Override
-	public void delete(int id) {
-		// TODO Auto-generated method stub
-		
+	public void delete(int noUtilisateurToDelete) {
+		String sql = "DELETE FROM encheres WHERE no_utilisateur =  ?; " +
+				"DELETE FROM encheres WHERE no_article IN (SELECT no_article FROM articles_vendus WHERE no_utilisateur = ?); " +
+				"DELETE FROM retraits WHERE no_article IN (SELECT no_article FROM articles_vendus WHERE no_utilisateur = ?); " +
+				"DELETE FROM articles_vendus WHERE no_utilisateur = ?; " +
+				"DELETE FROM utilisateurs WHERE no_utilisateur = ?;";
+		jdbcTemplate.update(sql, noUtilisateurToDelete, noUtilisateurToDelete, noUtilisateurToDelete, noUtilisateurToDelete, noUtilisateurToDelete);
 	}
 
 	@Override

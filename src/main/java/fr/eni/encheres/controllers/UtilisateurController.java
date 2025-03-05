@@ -95,4 +95,15 @@ public class UtilisateurController {
 		return "redirect:/ventes";
 	}
 
+	// Gère la suppresion d'utilisateurs
+	@GetMapping("/supprimer/{noUtilisateur}")
+	public String supprimerUtilisateur(@PathVariable int noUtilisateur) {
+		Optional<Utilisateur> optUtilisateur = utilisateurService.findById(noUtilisateur);
+
+		if(optUtilisateur.isPresent()) {
+			utilisateurService.delete(noUtilisateur);
+		}
+		return "redirect:/utilisateurs/";
+	}
+
 }

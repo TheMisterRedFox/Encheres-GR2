@@ -10,9 +10,11 @@
         <p><strong>Rue :</strong> <span th:text="${user.rue}"></span></p>
         <p><strong>Code Postal :</strong> <span th:text="${user.codePostal}"></span></p>
         <p><strong>Ville :</strong> <span th:text="${user.ville}"></span></p>
+        <p><strong>Credit :</strong><span th:text="${user.credit}"></span>pts</p>
 
-        <!-- Bouton de modification d'un utilisteur -->
+        <!-- Bouton de modification et de suppression d'un utilisteur -->
         <a th:href="@{/utilisateurs/modifier/{id}(id=${user.noUtilisateur})}" class="btn"><button>Modifier</button></a>
+        <a th:href="@{/utilisateurs/supprimer/{id}(id=${user.noUtilisateur})}"><button class="remove-btn">Supprimer</button></a>
     </div>
 
 </main>
