@@ -76,3 +76,21 @@
     margin-top: 0;
     height: 42px;
 }
+
+/**
+    Images détail article
+ */
+
+.img-article-details {
+    display: flex;
+    justify-content: center;
+    background-color: #f5f5f5;
+    border-radius: 20px;
+    border: 1px solid #C2C5CA;
+}
+
+.img-article-details img {
+    max-height: 200px;
+    margin: auto;
+    border-radius: 20px;
+}

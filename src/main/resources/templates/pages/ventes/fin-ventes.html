@@ -1,4 +1,7 @@
 <main class="main-section fit-content">
+	<div class="img-article-details" th:if="${vente.getImageUrl() != null}">
+		<img  th:src="${vente.getImageUrl()}" alt="Image de l'article"/>
+	</div>
 	 <span th:if="${vente.getPseudoMeilleurAcheteur()== utilisateur.getPseudo()}">
 		<h1>Vous avez remporté la vente</h1>
 	 </span>
@@ -8,7 +11,7 @@
 			<span th:text="${vente.getPseudoMeilleurAcheteur()}"></span> a remporté l'enchere </h1>
  		</span>
 		<input type="hidden" name="noArticle" th:value="${vente.getNoArticle()}" />
-		<p><strong>Nom :</strong> <span th:text="${vente.getNomArticle()}"></span></p>
+		<p><strong>Article :</strong> <span th:text="${vente.getNomArticle()}"></span></p>
 		<p><strong>Description :</strong> <span th:text="${vente.getDescription()}"></span></p>
 		<p><strong>Meilleure offre :</strong>
 			<span th:if="${vente.getMeilleureOffre() == vente.getMiseAPrix()}">Pas d'offre</span>

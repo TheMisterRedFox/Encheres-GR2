@@ -33,12 +33,13 @@ public class ArticleVendu {
 	private Utilisateur vendeur;
 	private Retrait retrait;
 	private Categorie categorie;
+	private String imageUrl;
 	
 	public ArticleVendu() {}
 	
 	public ArticleVendu(int noArticle, String nomArticle, String description, LocalDateTime dateDebutEncheres,
 			LocalDateTime dateFinEncheres, int miseAPrix, int prixVente, String etatVente, int meilleurOffre, String pseudoMeilleurAcheteur,boolean archivage, Utilisateur vendeur,
-			Retrait retrait, Categorie categorie) {
+			Retrait retrait, Categorie categorie, String imageUrl) {
 		this.noArticle = noArticle;
 		this.nomArticle = nomArticle;
 		this.description = description;
@@ -53,6 +54,7 @@ public class ArticleVendu {
 		this.vendeur = vendeur;
 		this.retrait = retrait;
 		this.categorie = categorie;
+		this.imageUrl = imageUrl;
 	}
 
 	public int getNoArticle() {
@@ -171,6 +173,14 @@ public class ArticleVendu {
 		this.categorie = categorie;
 	}
 
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(noArticle);
@@ -194,7 +204,7 @@ public class ArticleVendu {
 				+ ", dateDebutEncheres=" + dateDebutEncheres + ", dateFinEncheres=" + dateFinEncheres + ", miseAPrix="
 				+ miseAPrix + ", prixVente=" + prixVente + ", etatVente=" + etatVente + ", meilleureOffre="
 				+ meilleureOffre + ", pseudoMeilleurAcheteur=" + pseudoMeilleurAcheteur + "archivage=" + archivage + ", vendeur=" + vendeur
-				+ ", retrait=" + retrait + ", categorie=" + categorie + "]";
+				+ ", retrait=" + retrait + ", categorie=" + categorie + ", imageUrl= " + imageUrl + "]";
 	}
 	
 	

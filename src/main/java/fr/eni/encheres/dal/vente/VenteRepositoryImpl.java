@@ -93,8 +93,8 @@ public class VenteRepositoryImpl implements VenteRepository {
 		logger.debug("avant insert articles_vendus");
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		String sql = "insert into articles_vendus (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial,"
-				+ "no_utilisateur, no_categorie) values (:nomArticle, :description, :dateDebutEncheres, :dateFinEncheres, :miseAPrix,"
-				+ ":noUtilisateur, :noCategorie)"; 
+				+ "no_utilisateur, no_categorie, image) values (:nomArticle, :description, :dateDebutEncheres, :dateFinEncheres, :miseAPrix,"
+				+ ":noUtilisateur, :noCategorie, :image)";
 		
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		params.addValue("nomArticle", newArticle.getNomArticle())
@@ -103,7 +103,8 @@ public class VenteRepositoryImpl implements VenteRepository {
 		      .addValue("dateFinEncheres", newArticle.getDateFinEncheres())
 		      .addValue("miseAPrix", newArticle.getMiseAPrix())
 		      .addValue("noUtilisateur", newArticle.getVendeur().getNoUtilisateur())
-		      .addValue("noCategorie", newArticle.getCategorie().getNoCategorie());
+		      .addValue("noCategorie", newArticle.getCategorie().getNoCategorie())
+			  .addValue("image", newArticle.getImageUrl());
 		
 		namedParameterJdbcTemplate.update(sql, params, keyHolder, new String[]{"no_article"});
 		newArticle.setNoArticle(keyHolder.getKeyAs(Integer.class));
@@ -242,6 +243,7 @@ class VenteRowMapper implements RowMapper<ArticleVendu> {
 		article.setMeilleureOffre(rs.getInt("meilleure_offre"));
 		article.setPseudoMeilleurAcheteur(rs.getString("acheteur_pseudo"));
 		article.setArchivage(rs.getBoolean("archivage"));
+		article.setImageUrl(rs.getString("image"));
 
 		Utilisateur vendeur = new Utilisateur();
 		vendeur.setNoUtilisateur(rs.getInt("no_utilisateur"));

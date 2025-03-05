@@ -11,7 +11,7 @@ WITH MeilleureEnchere AS (
     )
 )
 SELECT
-    AV.no_article, AV.nom_article, AV.description, AV.date_debut_encheres, AV.date_fin_encheres, AV.prix_initial, AV.prix_vente,AV.archivage,
+    AV.no_article, AV.nom_article, AV.description, AV.date_debut_encheres, AV.date_fin_encheres, AV.prix_initial, AV.prix_vente, AV.archivage, AV.image,
     U.no_utilisateur, U.pseudo, U.nom, U.prenom, U.email, U.telephone, U.rue, U.code_postal, U.ville, U.mot_de_passe, U.credit, U.administrateur,
     C.no_categorie, C.libelle,
     R.rue AS retrait_rue, R.code_postal AS retrait_code_postal, R.ville AS retrait_ville,

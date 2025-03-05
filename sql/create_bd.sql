@@ -36,6 +36,7 @@ CREATE TABLE ARTICLES_VENDUS (
     prix_initial INTEGER,
     prix_vente INTEGER,
     archivage BOOLEAN DEFAULT FALSE,
+    image VARCHAR(200),
     no_utilisateur INTEGER NOT NULL,
     no_categorie INTEGER NOT NULL,
     CONSTRAINT articles_vendus_categories_fk FOREIGN KEY (no_categorie) REFERENCES CATEGORIES (no_categorie) ON DELETE NO ACTION ON UPDATE NO ACTION,
