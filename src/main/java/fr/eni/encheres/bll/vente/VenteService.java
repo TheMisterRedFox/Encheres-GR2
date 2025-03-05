@@ -23,4 +23,6 @@ public interface VenteService extends ICrudService<ArticleVendu> {
 
 	void archiver(ArticleVendu articleVendu);
 
+    List<Enchere> displayEnchere(ArticleVendu articleVendu);
+
 }

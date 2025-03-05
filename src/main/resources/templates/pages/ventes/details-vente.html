@@ -30,17 +30,40 @@
 				</div>
 			</div>
 	</form>
-	<!-- Bouton de modification d'une vente -->
-	<div class="button-section">
-		<a th:href="@{/ventes/modifier/{noArticle}(noArticle=${vente.getNoArticle()})}" th:if="${utilisateur != null and (vente.getVendeur().getNoUtilisateur() == utilisateur.getNoUtilisateur())}">
-			<button class="primary-btn">Modifier</button>
-		</a>
-	</div>
-	<!-- Condition pour afficher le bouton d'annulation si la date de début de l'enchère est dans le futur -->
-	<p th:if="${vente.getDateDebutEncheres() != null && vente.getDateDebutEncheres().isAfter(T(java.time.LocalDateTime).now())}">
+
+	<!-- Si l'utilisateur connecté est le vendeur de l'article -->
+	<div class="button-section" th:if="${utilisateur != null and (vente.getVendeur().getNoUtilisateur() == utilisateur.getNoUtilisateur())}">
+
 		<a th:href="@{/ventes/supprimer/{noArticle}(noArticle=${vente.getNoArticle()})}">
 			<button>Annuler la vente</button>
 		</a>
-	</p>
+
+		<!-- Affiche les enchères de cette vente -->
+		<div th:if="${encheres != null and !encheres.isEmpty()}">
+				<h3 class="title">Enchères sur cet article</h3>
+				<table>
+					<tr>
+						<th scope="col">Enchérisseur</th>
+						<th scope="col">Montant</th>
+						<th scope="col">Date</th>
+					</tr>
+					<tr th:each="enchere : ${encheres}">
+						<td th:text="${enchere.getEncherisseur().getPseudo()}"></td>
+						<td th:text="${enchere.getMontantEnchere()}"></td>
+						<td th:text="${enchere.getDateEnchereToString()}"></td>
+					</tr>
+				</table>
+
+		</div>
+
+		<!-- Si la date de début de l'enchère est dans le futur -->
+		<div th:if="${vente.getDateDebutEncheres() != null && vente.getDateDebutEncheres().isAfter(T(java.time.LocalDateTime).now())}" >
+			<a th:href="@{/ventes/modifier/{noArticle}(noArticle=${vente.getNoArticle()})}">
+				<button class="primary-btn">Modifier</button>
+			</a>
+		</div>
+	</div>
+
+	</div>
 </main>
 

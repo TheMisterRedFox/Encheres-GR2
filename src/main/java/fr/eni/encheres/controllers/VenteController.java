@@ -80,31 +80,40 @@ public class VenteController {
 		return "index";
 	}
 
-	// Affiche les details d'une vente
+	// Affiche les détails d'une vente
 	@GetMapping("/{noArticle}")
-	public String getVenteDetails(@PathVariable("noArticle") int noArticle, Model model,HttpSession session) {
+	public String getVenteDetails(@PathVariable("noArticle") int noArticle, Model model, HttpSession session) {
 
 		Optional<ArticleVendu> optArticle = venteService.findById(noArticle);
 		Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
 
-		// Pour pouvoir afficher le template thymeleaf même si on est pas connecté on met un utilisateur vide
-		if(utilisateur == null) {
+		// Assigner un utilisateur vide si aucun utilisateur n'est connecté
+		if (utilisateur == null) {
 			utilisateur = new Utilisateur();
 		}
 
-		if (optArticle.get().getDateFinEncheres().isBefore(LocalDateTime.now())||optArticle.get().getDateFinEncheres().isEqual(LocalDateTime.now())){
-
-			model.addAttribute("vente", optArticle.get());
-			model.addAttribute("utilisateur", utilisateur);
-			model.addAttribute("body",venteService.finEnchere(optArticle.get(), utilisateur));
-			return "index";
-		} else {
-			model.addAttribute("vente", optArticle.get());
-			model.addAttribute("utilisateur", utilisateur);
-			model.addAttribute("body", "pages/ventes/details-vente");
-			return "index";
+		// Vérifie si l'article existe
+		if (optArticle.isEmpty()) {
+			return "redirect:/ventes";
 		}
+
+		ArticleVendu article = optArticle.get();
+		model.addAttribute("vente", article);
+		model.addAttribute("utilisateur", utilisateur);
+
+		// Vérifier si la vente est terminée
+		if (article.getDateFinEncheres().isBefore(LocalDateTime.now()) || article.getDateFinEncheres().isEqual(LocalDateTime.now())) {
+			model.addAttribute("body", venteService.finEnchere(article, utilisateur));
+		} else {
+			List<Enchere> encheres = venteService.displayEnchere(article);
+			System.out.println(encheres.get(0).getEncherisseur().toString());
+			model.addAttribute("encheres", encheres);
+			model.addAttribute("body", "pages/ventes/details-vente");
+		}
+
+		return "index";
 	}
+
 
 	// Gère la suppression d'un article
 	@GetMapping("/supprimer/{noArticle}")

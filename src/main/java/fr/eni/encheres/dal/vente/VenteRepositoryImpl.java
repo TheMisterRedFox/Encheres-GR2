@@ -10,6 +10,7 @@ import fr.eni.encheres.bo.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -225,8 +226,37 @@ public class VenteRepositoryImpl implements VenteRepository {
         namedParameterJdbcTemplate.update(sqlVente, paramsVentes);
 		logger.debug("après ventes");
 	}
+
+	@Override
+	public List<Enchere> displayEnchere(ArticleVendu articleVendu) {
+		String sql = "select E.*, U.pseudo from encheres E INNER JOIN utilisateurs U\n" +
+				"ON U.no_utilisateur = E.no_utilisateur WHERE no_article = :noArticle ORDER BY E.montant_enchere DESC";
+
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		params.addValue("noArticle", articleVendu.getNoArticle());
+
+		return namedParameterJdbcTemplate.query(sql, params, new EnchereRowMapper());
+	}
+
 }
 
+class EnchereRowMapper implements RowMapper<Enchere> {
+	@Override
+	public Enchere mapRow(ResultSet rs, int rowNum) throws SQLException {
+		Enchere enchere = new Enchere();
+
+		enchere.setMontantEnchere(rs.getInt("montant_enchere"));
+		enchere.setDateEnchere(rs.getObject("date_enchere", LocalDateTime.class));
+
+		Utilisateur encherisseur = new Utilisateur();
+		encherisseur.setPseudo(rs.getString("pseudo"));
+		encherisseur.setNoUtilisateur(rs.getInt("no_utilisateur"));
+
+		enchere.setEncherisseur(encherisseur);
+
+		return enchere;
+	}
+}
 
 class VenteRowMapper implements RowMapper<ArticleVendu> {
 	@Override

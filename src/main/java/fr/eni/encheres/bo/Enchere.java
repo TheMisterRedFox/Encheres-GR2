@@ -3,6 +3,8 @@ package fr.eni.encheres.bo;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class Enchere {
 
@@ -15,7 +17,7 @@ public class Enchere {
 	@NotNull
 	private Utilisateur encherisseur;
 	
-	private Enchere() {}
+	public Enchere() {}
 
 	public Enchere(LocalDateTime dateEnchere, int montantEnchere, ArticleVendu article, Utilisateur encherisseur) {
 		this.dateEnchere = dateEnchere;
@@ -30,6 +32,10 @@ public class Enchere {
 
 	public void setDateEnchere(LocalDateTime dateEnchere) {
 		this.dateEnchere = dateEnchere;
+	}
+
+	public String getDateEnchereToString() {
+		return dateEnchere.format(DateTimeFormatter.ofPattern("'le' dd/MM/yyyy 'à' HH:mm", Locale.FRENCH));
 	}
 
 	public int getMontantEnchere() {

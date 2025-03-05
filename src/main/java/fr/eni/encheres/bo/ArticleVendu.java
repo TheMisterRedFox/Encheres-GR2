@@ -34,7 +34,7 @@ public class ArticleVendu {
 	private Retrait retrait;
 	private Categorie categorie;
 	private String imageUrl;
-	
+
 	public ArticleVendu() {}
 	
 	public ArticleVendu(int noArticle, String nomArticle, String description, LocalDateTime dateDebutEncheres,
@@ -204,7 +204,7 @@ public class ArticleVendu {
 				+ ", dateDebutEncheres=" + dateDebutEncheres + ", dateFinEncheres=" + dateFinEncheres + ", miseAPrix="
 				+ miseAPrix + ", prixVente=" + prixVente + ", etatVente=" + etatVente + ", meilleureOffre="
 				+ meilleureOffre + ", pseudoMeilleurAcheteur=" + pseudoMeilleurAcheteur + "archivage=" + archivage + ", vendeur=" + vendeur
-				+ ", retrait=" + retrait + ", categorie=" + categorie + ", imageUrl= " + imageUrl + "]";
+				+ ", retrait=" + retrait + ", categorie=" + categorie + "]";
 	}
 	
 	
