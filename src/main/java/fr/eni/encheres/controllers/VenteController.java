@@ -27,11 +27,13 @@ public class VenteController {
 	private final VenteService venteService;
 	private final CategorieService categorieService;
 	private final UtilisateurService utilisateurService;
+	private final CustomUserDetailsService customUserDetailsService;
 
-	public VenteController(VenteService venteService, CategorieService categorieService, UtilisateurService utilisateurService) {
+	public VenteController(VenteService venteService, CategorieService categorieService, UtilisateurService utilisateurService, CustomUserDetailsService customUserDetailsService) {
 		this.venteService = venteService;
 		this.categorieService = categorieService;
 		this.utilisateurService = utilisateurService;
+		this.customUserDetailsService = customUserDetailsService;
 	}
 
 	// Affiche la listes des ventes en cours
@@ -170,9 +172,10 @@ public class VenteController {
     public String Encherir(@ModelAttribute ArticleVendu article,@RequestParam("montantEnchere") int MontantEnchere, HttpSession session){
     		Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
     		Optional<ArticleVendu> optArticle = venteService.findById(article.getNoArticle());
-    		if (optArticle.isPresent() && utilisateur != null) {
+			Optional<Utilisateur> optUser = utilisateurService.findById(utilisateur.getNoUtilisateur());
+    		if (optArticle.isPresent() && optUser.isPresent()) {
 
-				venteService.encherir(optArticle.get(),utilisateur,MontantEnchere);
+				venteService.encherir(optArticle.get(),optUser.get(),MontantEnchere);
     		}
 
         return "redirect:/ventes/";
@@ -189,4 +192,5 @@ public class VenteController {
 		return "redirect:/ventes/";
     }
 	// TODO faire des tests unitaire
+
 }

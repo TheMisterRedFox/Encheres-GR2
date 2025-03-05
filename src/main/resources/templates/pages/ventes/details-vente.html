@@ -29,16 +29,17 @@
 			</div>
 	</form>
 	<!-- Bouton de modification d'une vente -->
-	<div class="button-section">
-		<a th:href="@{/ventes/modifier/{noArticle}(noArticle=${vente.getNoArticle()})}" th:if="${utilisateur != null and (vente.getVendeur().getNoUtilisateur() == utilisateur.getNoUtilisateur())}">
+	<div class="button-section" th:if="${utilisateur != null and (vente.getVendeur().getNoUtilisateur() == utilisateur.getNoUtilisateur())}">
+		<a th:href="@{/ventes/modifier/{noArticle}(noArticle=${vente.getNoArticle()})}">
 			<button class="primary-btn">Modifier</button>
 		</a>
+		
+		<!-- Condition pour afficher le bouton d'annulation si la date de début de l'enchère est dans le futur -->
+		<p th:if="${vente.getDateDebutEncheres() != null && vente.getDateDebutEncheres().isAfter(T(java.time.LocalDateTime).now())}">
+			<a th:href="@{/ventes/supprimer/{noArticle}(noArticle=${vente.getNoArticle()})}">
+				<button>Annuler la vente</button>
+			</a>
+		</p>
 	</div>
-	<!-- Condition pour afficher le bouton d'annulation si la date de début de l'enchère est dans le futur -->
-	<p th:if="${vente.getDateDebutEncheres() != null && vente.getDateDebutEncheres().isAfter(T(java.time.LocalDateTime).now())}">
-		<a th:href="@{/ventes/supprimer/{noArticle}(noArticle=${vente.getNoArticle()})}">
-			<button>Annuler la vente</button>
-		</a>
-	</p>
 </main>
 

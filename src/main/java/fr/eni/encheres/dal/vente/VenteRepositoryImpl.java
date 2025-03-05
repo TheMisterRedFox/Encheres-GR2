@@ -131,10 +131,11 @@ public class VenteRepositoryImpl implements VenteRepository {
 	}
 
     @Override
-    public void encherir(ArticleVendu article, Utilisateur user, int Montant) {
+    public void encherir(ArticleVendu article, Utilisateur user, int Montant) {    	
 
     	// Récupération ancien acheteur
     	Optional<Utilisateur> AncienUser = userRepo.findByPseudo(article.getPseudoMeilleurAcheteur());
+       	logger.info("Création d'une enchère : {}", article);
     	logger.debug("Ancien acheteur");
     	logger.debug(AncienUser.toString());
     	logger.debug("nouveau acheteur");
@@ -167,15 +168,15 @@ public class VenteRepositoryImpl implements VenteRepository {
         
         if ( (user.getCredit()-Montant) >0 && (Montant > article.getMiseAPrix())&&(Montant > article.getMeilleureOffre()))
         {
-        	logger.debug("avant insert encheres");
+        	logger.debug("avant insert/update encheres");
             namedParameterJdbcTemplate.update(sql, params);
-    		logger.debug("après insert encheres");
-    		logger.debug("avant update Utilisateur (ancien acheteur)");
             namedParameterJdbcTemplate.update(sqlReCredit, paramsReCredit);
-    		logger.debug("après update Utilisateur (ancien acheteur)");
-    		logger.debug("avant update Utilisateur (acheteur)");
             namedParameterJdbcTemplate.update(sqlDebit, paramsDebit);
-    		logger.debug("après update Utilisateur (acheteur)");
+    		logger.debug("après insert/update encheres");
+        	logger.debug("Ancien acheteur");
+        	logger.debug(AncienUser.toString());
+        	logger.debug("nouveau acheteur");
+        	logger.debug(user.toString());
         }
     }
 
